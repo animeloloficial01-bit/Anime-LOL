@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#000000">
+    <title>Anime LOL | IA & Match System</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="manifest" href="manifest.json">
+
+    <style>
+        :root {
+            --primary: #47d1e0;
+            --primary-glow: rgba(71, 209, 224, 0.4);
+            --bg: #000000;
+            --surface: rgba(20, 20, 20, 0.9);
+            --glass: rgba(255, 255, 255, 0.05);
+            --text: #ffffff;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            background-image: radial-gradient(circle at 50% -20%, #1a3a3d 0%, transparent 50%);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- UI COMPONENTS --- */
+        header {
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(71, 209, 224, 0.2);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .logo img { height: 45px; filter: drop-shadow(0 0 8px var(--primary-glow)); }
+
+        .user-panel {
+            background: var(--glass);
+            margin: 20px 5%;
+            padding: 15px 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,
+                
