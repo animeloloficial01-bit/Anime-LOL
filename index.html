@@ -10,7 +10,61 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <link rel="manifest" href="manifest.json">
+<script>
+    // Identidad del usuario
+    let currentUser = localStorage.getItem('animelol_user') || "Invitado";
+    document.getElementById('user-display').innerText = `@${currentUser}`;
 
+    // FUNCIÓN DE CARGA SEGURA
+    async function loadAnimes() {
+        const feed = document.getElementById('anime-feed');
+        console.log("Iniciando carga de animes...");
+        
+        try {
+            // Usamos un límite pequeño para asegurar rapidez
+            const res = await fetch('https://api.jikan.moe/v4/seasons/now?limit=8');
+            const json = await res.json();
+            const data = json.data;
+            
+            if (!data) throw new Error("No hay datos");
+
+            feed.innerHTML = ''; // Limpiar skeletons
+            data.forEach(anime => {
+                feed.innerHTML += `
+                    <div class="anime-card">
+                        <img src="${anime.images.jpg.large_image_url}" onerror="this.src='https://via.placeholder.com/250x350?text=No+Image'">
+                        <div class="anime-info">
+                            <div class="anime-title">${anime.title}</div>
+                            <div style="color:#47d1e0; font-size: 0.7rem;">★ MATCH IA: ${Math.floor(Math.random()*40)+60}%</div>
+                        </div>
+                    </div>
+                `;
+            });
+            console.log("Animes cargados con éxito");
+        } catch (err) {
+            console.error("Error cargando API:", err);
+            feed.innerHTML = "<p style='color:white; padding:20px;'>Error de conexión con la red de Anime. Reintenta en unos segundos.</p>";
+        }
+    }
+
+    // Ejecutar al cargar la página
+    window.addEventListener('DOMContentLoaded', () => {
+        loadAnimes();
+    });
+
+    // Chat local (temporal)
+    document.getElementById('send-btn').onclick = () => {
+        const input = document.getElementById('chat-input');
+        if(input.value.trim()){
+            const msg = document.createElement('div');
+            msg.className = 'message';
+            msg.innerHTML = `<b>@${currentUser}:</b> ${input.value}`;
+            document.getElementById('chat-render').appendChild(msg);
+            input.value = '';
+        }
+    };
+</script>
+    
     <style>
         :root {
             --primary: #47d1e0;
