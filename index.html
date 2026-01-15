@@ -3,236 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#000000">
-    <title>Anime LOL | Pro Edition</title>
-
+    <title>Anime LOL | Buscador Inteligente</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
     <style>
-        :root {
-            --primary: #47d1e0;
-            --primary-glow: rgba(71, 209, 224, 0.4);
-            --bg: #000000;
-            --surface: #121212;
-            --text: #ffffff;
-        }
-
+        :root { --primary: #47d1e0; --bg: #000; --surface: #121212; --text: #fff; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
-
-        /* --- CONFIGURACIÓN IDIOMA --- */
-        .settings-bar {
-            display: flex; justify-content: flex-end; gap: 10px; padding: 10px 5%;
-            background: #0a0a0a; border-bottom: 1px solid #222;
-        }
-        .lang-btn {
-            background: #1a1a1a; border: 1px solid #333; color: white;
-            padding: 4px 10px; border-radius: 5px; font-size: 0.7rem; cursor: pointer;
-        }
-        .lang-btn.active { border-color: var(--primary); color: var(--primary); }
-
-        header {
-            padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center;
-            backdrop-filter: blur(15px); border-bottom: 1px solid rgba(71, 209, 224, 0.2);
-            position: sticky; top: 0; z-index: 1000; background: rgba(0,0,0,0.9);
-        }
-
+        body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+        
+        header { padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; position: sticky; top: 0; background: rgba(0,0,0,0.95); z-index: 1000; }
         .logo img { height: 35px; filter: drop-shadow(0 0 5px var(--primary)); }
 
-        /* --- TABS --- */
-        .tabs-container {
-            display: flex; overflow-x: auto; gap: 15px; padding: 15px 5%;
-            scrollbar-width: none; background: #000; border-bottom: 1px solid #111;
-        }
-        .tabs-container::-webkit-scrollbar { display: none; }
-        .tab {
-            padding: 8px 16px; border-radius: 20px; background: #1a1a1a;
-            white-space: nowrap; font-size: 0.75rem; font-weight: 700; cursor: pointer;
-            border: 1px solid #333; transition: 0.3s;
-        }
-        .tab.active { background: var(--primary); color: black; border-color: var(--primary); }
+        /* PANEL DE FILTROS */
+        .filter-panel { padding: 15px 5%; background: #080808; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; border-bottom: 1px solid #222; }
+        select, input[type="number"] { background: #1a1a1a; border: 1px solid #333; color: white; padding: 8px; border-radius: 8px; font-size: 0.75rem; width: 100%; outline: none; }
+        select:focus { border-color: var(--primary); }
 
-        /* --- BUSCADOR --- */
-        .search-container { padding: 15px 5%; }
-        .search-bar {
-            display: flex; background: #1a1a1a; border-radius: 12px; padding: 5px 15px;
-            border: 1px solid #333; align-items: center;
-        }
+        .search-box { padding: 15px 5%; display: flex; gap: 10px; }
+        .search-bar { flex: 1; display: flex; background: #1a1a1a; border-radius: 10px; padding: 5px 15px; border: 1px solid #333; }
         .search-bar input { flex: 1; background: transparent; border: none; color: white; padding: 10px; outline: none; }
+        .btn-search { background: var(--primary); color: #000; border: none; padding: 0 20px; border-radius: 10px; font-weight: 900; cursor: pointer; }
 
-        /* --- LAYOUT --- */
-        .main-content { display: grid; grid-template-columns: 1fr 350px; gap: 20px; padding: 0 5% 40px; }
-        .anime-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
-
-        .anime-card { background: #111; border-radius: 12px; overflow: hidden; border: 1px solid #222; position: relative; cursor: pointer; transition: 0.3s; }
+        /* GRID */
+        .main-content { padding: 15px 5%; }
+        .anime-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px; }
+        .anime-card { background: var(--surface); border-radius: 12px; overflow: hidden; border: 1px solid #222; position: relative; transition: 0.3s; cursor: pointer; }
         .anime-card:hover { border-color: var(--primary); transform: translateY(-5px); }
-        .anime-card img { width: 100%; height: 200px; object-fit: cover; }
+        .anime-card img { width: 100%; height: 220px; object-fit: cover; }
+        
+        .badge { position: absolute; top: 8px; left: 8px; padding: 4px 8px; border-radius: 5px; font-size: 0.6rem; font-weight: 900; z-index: 10; }
+        .badge-censura { background: #ff4757; color: white; right: 8px; left: auto; }
+        .badge-match { background: rgba(0,0,0,0.8); color: var(--primary); border: 1px solid var(--primary); top: 185px; width: 90%; left: 5%; text-align: center; }
 
-        /* --- MATCH IA --- */
-        .match-label {
-            position: absolute; bottom: 45px; left: 0; width: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,1), transparent);
-            padding: 10px; font-size: 0.7rem; font-weight: 900; color: var(--primary);
-        }
+        .anime-info { padding: 12px; }
+        .anime-title { font-size: 0.8rem; font-weight: 700; height: 38px; overflow: hidden; margin-bottom: 5px; }
+        .anime-meta { font-size: 0.65rem; color: #888; display: flex; justify-content: space-between; }
 
-        .anime-info { padding: 8px; }
-        .anime-title { font-size: 0.75rem; font-weight: 700; height: 34px; overflow: hidden; margin-bottom: 5px; }
-
-        /* --- MODAL --- */
-        #modal-detalles {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.98); z-index: 2000; padding: 30px 20px; overflow-y: auto;
-        }
-        .btn-cerrar { background: var(--primary); color: black; border: none; padding: 10px 15px; border-radius: 8px; font-weight: 900; margin-bottom: 20px; }
-
-        /* --- CHAT --- */
-        .chat-box { background: var(--surface); border-radius: 20px; border: 1px solid #222; height: 400px; display: flex; flex-direction: column; }
-        .chat-msgs { flex: 1; padding: 15px; overflow-y: auto; font-size: 0.8rem; }
-        .message { background: #1a1a1a; padding: 10px; border-radius: 10px; margin-bottom: 8px; border-left: 3px solid var(--primary); }
-
-        @media (max-width: 900px) { .main-content { grid-template-columns: 1fr; } }
+        /* MODAL */
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2000; padding: 20px; overflow-y: auto; }
+        .modal-body { max-width: 600px; margin: auto; }
+        .btn-close { background: var(--primary); padding: 10px 20px; border: none; border-radius: 8px; font-weight: 900; margin-bottom: 20px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div class="settings-bar">
-        <button class="lang-btn active" onclick="setLang('es')">ESP</button>
-        <button class="lang-btn" onclick="setLang('en')">ENG</button>
-    </div>
-
     <header>
-        <div class="logo">
-            <img src="1000371388.png" alt="Logo" onerror="this.style.display='none'">
-            <span style="color:var(--primary); font-weight:900; margin-left:8px;">ANIME LOL</span>
-        </div>
-        <div id="status-ia" style="font-size: 0.6rem; color: var(--primary); border: 1px solid var(--primary); padding: 2px 6px; border-radius: 4px;">IA ONLINE</div>
+        <div class="logo"><img src="1000371388.png" alt="Logo"> <span style="color:var(--primary); font-weight:900; margin-left:10px;">ANIME LOL</span></div>
+        <div style="color:var(--primary); font-size:1.2rem;"><i class="fas fa-robot"></i></div>
     </header>
 
-    <div class="tabs-container" id="tabs-trend">
-        </div>
+    <div class="filter-panel">
+        <select id="f-genre">
+            <option value="">Todos los Géneros</option>
+            <option value="1">Acción</option><option value="2">Aventura</option>
+            <option value="4">Comedia</option><option value="10">Fantasía</option>
+            <option value="22">Romance</option><option value="37">Sobrenatural</option>
+        </select>
+        <select id="f-type">
+            <option value="">Origen (Todos)</option>
+            <option value="tv">Japón (TV)</option>
+            <option value="movie">Películas</option>
+            <option value="ona">ONA (Web/Chino/Coreano)</option>
+        </select>
+        <select id="f-status">
+            <option value="">Estado</option>
+            <option value="airing">En Emisión</option>
+            <option value="complete">Finalizado</option>
+        </select>
+        <input type="number" id="f-year" placeholder="Año (Ej: 2024)" min="1990" max="2026">
+    </div>
 
-    <div class="search-container">
+    <div class="search-box">
         <div class="search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" id="input-busqueda" placeholder="Buscar cualquier anime...">
+            <input type="text" id="in-search" placeholder="Escribe el nombre del anime...">
         </div>
+        <button class="btn-search" onclick="aplicarFiltros()">BUSCAR</button>
     </div>
 
     <main class="main-content">
-        <section>
-            <h3 id="txt-seccion" style="margin-bottom:15px; font-size:0.8rem; color:var(--primary); text-transform:uppercase;">Top Tendencias</h3>
-            <div class="anime-grid" id="anime-feed"></div>
-        </section>
-
-        <aside>
-            <div class="chat-box">
-                <div style="padding:12px; text-align:center; border-bottom:1px solid #222; font-weight:900; color:var(--primary); font-size:0.7rem;" id="txt-chat">CHAT GLOBAL</div>
-                <div class="chat-msgs" id="chat-render"></div>
-                <div style="padding:10px; display:flex; gap:5px;">
-                    <input type="text" id="chat-in" style="flex:1; background:#1a1a1a; border:1px solid #333; color:white; padding:8px; border-radius:8px;">
-                    <button id="chat-btn" style="background:var(--primary); border:none; padding:10px; border-radius:8px;"><i class="fas fa-paper-plane"></i></button>
-                </div>
-            </div>
-        </aside>
+        <h3 id="result-label" style="margin-bottom:20px; font-size:0.9rem; color:var(--primary);">EXPLORAR RECOMENDACIONES</h3>
+        <div class="anime-grid" id="grid"></div>
     </main>
 
-    <div id="modal-detalles">
-        <div style="max-width:500px; margin:auto;">
-            <button class="btn-cerrar" onclick="cerrarModal()">✕ <span id="txt-volver">VOLVER</span></button>
-            <img id="m-img" style="width:100%; border-radius:15px; box-shadow: 0 0 20px var(--primary-glow);">
-            <h2 id="m-titulo" style="color:var(--primary); margin: 15px 0;"></h2>
-            <p id="m-sinopsis" style="font-size:0.85rem; line-height:1.6; opacity:0.8; margin-bottom:20px;"></p>
-            <button onclick="marcarCap()" style="width:100%; padding:12px; background:none; border:1px solid var(--primary); color:var(--primary); font-weight:700; border-radius:10px;" id="txt-cap-btn">MARCAR CAPÍTULO</button>
+    <div id="modal">
+        <div class="modal-body">
+            <button class="btn-close" onclick="closeM()"> <i class="fas fa-arrow-left"></i> VOLVER</button>
+            <img id="m-img" style="width:100%; border-radius:15px; margin-bottom:20px; border: 1px solid #333;">
+            <h2 id="m-title" style="color:var(--primary); margin-bottom:10px;"></h2>
+            <div id="m-tags" style="margin-bottom:15px; display:flex; gap:10px; flex-wrap:wrap;"></div>
+            <p id="m-desc" style="font-size:0.9rem; line-height:1.6; color:#ddd; background:#111; padding:15px; border-radius:10px;"></p>
         </div>
     </div>
 
     <script>
-        let currentLang = 'es';
-        const translations = {
-            es: { search: "Buscar cualquier anime...", section: "Top Tendencias", chat: "CHAT GLOBAL", back: "VOLVER", cap: "MARCAR CAPÍTULO", ia: "IA ONLINE" },
-            en: { search: "Search any anime...", section: "Top Trending", chat: "GLOBAL CHAT", back: "BACK", cap: "MARK CHAPTER", ia: "AI ONLINE" }
-        };
+        const grid = document.getElementById('grid');
 
-        // 1. GENERAR TABS 1-30
-        const tabsBox = document.getElementById('tabs-trend');
-        for(let i=1; i<=30; i++) {
-            const t = document.createElement('div');
-            t.className = `tab ${i===1?'active':''}`;
-            t.innerText = `Top ${i}`;
-            t.onclick = () => {
-                document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
-                t.classList.add('active');
-                loadTopAnime(i);
-            };
-            tabsBox.appendChild(t);
-        }
+        async function aplicarFiltros() {
+            const query = document.getElementById('in-search').value;
+            const genre = document.getElementById('f-genre').value;
+            const type = document.getElementById('f-type').value;
+            const status = document.getElementById('f-status').value;
+            const year = document.getElementById('f-year').value;
 
-        // 2. IDIOMA
-        function setLang(l) {
-            currentLang = l;
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById('input-busqueda').placeholder = translations[l].search;
-            document.getElementById('txt-seccion').innerText = translations[l].section;
-            document.getElementById('txt-chat').innerText = translations[l].chat;
-            document.getElementById('txt-volver').innerText = translations[l].back;
-            document.getElementById('txt-cap-btn').innerText = translations[l].cap;
-            document.getElementById('status-ia').innerText = translations[l].ia;
-        }
+            grid.innerHTML = "<p>Buscando en la base de datos...</p>";
+            
+            let url = `https://api.jikan.moe/v4/anime?q=${query}&limit=24&order_by=score&sort=desc`;
+            if (genre) url += `&genres=${genre}`;
+            if (type) url += `&type=${type}`;
+            if (status) url += `&status=${status}`;
+            if (year) url += `&start_date=${year}-01-01`;
 
-        // 3. CARGA DE DATOS
-        async function loadTopAnime(index = 1) {
-            const feed = document.getElementById('anime-feed');
-            feed.innerHTML = '<p>Sincronizando IA...</p>';
             try {
-                // Jikan API permite paginación y límites
-                const res = await fetch(`https://api.jikan.moe/v4/top/anime?limit=1&page=${index}`);
+                const res = await fetch(url);
                 const { data } = await res.json();
-                renderAnime(data);
-            } catch (e) { feed.innerHTML = "Error."; }
+                render(data);
+            } catch (e) { grid.innerHTML = "Error de conexión."; }
         }
 
-        async function buscar(q) {
-            const feed = document.getElementById('anime-feed');
-            const res = await fetch(`https://api.jikan.moe/v4/anime?q=${q}&limit=20`);
-            const { data } = await res.json();
-            renderAnime(data);
-        }
+        function render(data) {
+            grid.innerHTML = '';
+            if(!data || data.length === 0) { grid.innerHTML = "No se encontraron resultados."; return; }
 
-        function renderAnime(data) {
-            const feed = document.getElementById('anime-feed');
-            feed.innerHTML = '';
-            data.forEach(anime => {
+            data.forEach(a => {
+                const isCensored = a.rating && (a.rating.includes('R') || a.rating.includes('Rx'));
                 const match = Math.floor(Math.random() * 15) + 85;
-                feed.innerHTML += `
-                    <div class="anime-card" onclick='abrirDetalles(${JSON.stringify(anime).replace(/'/g, "&apos;")})'>
-                        <div class="match-label">★ ${match}% MATCH IA</div>
-                        <img src="${anime.images.jpg.large_image_url}">
+                
+                grid.innerHTML += `
+                    <div class="anime-card" onclick='showM(${JSON.stringify(a).replace(/'/g, "&apos;")})'>
+                        <div class="badge badge-match">${match}% MATCH IA</div>
+                        ${isCensored ? '<div class="badge badge-censura">+18</div>' : '<div class="badge" style="background:green">S/C</div>'}
+                        <img src="${a.images.jpg.large_image_url}">
                         <div class="anime-info">
-                            <div class="anime-title">${anime.title}</div>
+                            <div class="anime-title">${a.title}</div>
+                            <div class="anime-meta">
+                                <span>${a.type || 'TV'}</span>
+                                <span style="color:var(--primary)">★ ${a.score || 'N/A'}</span>
+                            </div>
                         </div>
                     </div>
                 `;
             });
         }
 
-        function abrirDetalles(anime) {
-            document.getElementById('m-img').src = anime.images.jpg.large_image_url;
-            document.getElementById('m-titulo').innerText = anime.title;
-            document.getElementById('m-sinopsis').innerText = anime.synopsis || "...";
-            document.getElementById('modal-detalles').style.display = 'block';
+        async function showM(a) {
+            document.getElementById('m-img').src = a.images.jpg.large_image_url;
+            document.getElementById('m-title').innerText = a.title;
+            
+            // Simulación de traducción de sinopsis
+            let sinopsis = a.synopsis || "No hay descripción disponible.";
+            document.getElementById('m-desc').innerText = sinopsis
+                .replace(/is a/g, "es un").replace(/The story/g, "La historia").replace(/High school/g, "Preparatoria")
+                .replace(/years old/g, "años de edad").replace(/follows/g, "sigue a");
+
+            document.getElementById('m-tags').innerHTML = `
+                <span style="background:#333; padding:5px 10px; border-radius:5px; font-size:0.7rem;">Año: ${a.year || 'N/A'}</span>
+                <span style="background:#333; padding:5px 10px; border-radius:5px; font-size:0.7rem;">Estado: ${a.status}</span>
+                <span style="background:#333; padding:5px 10px; border-radius:5px; font-size:0.7rem;">Rating: ${a.rating}</span>
+            `;
+
+            document.getElementById('modal').style.display = 'block';
         }
-        function cerrarModal() { document.getElementById('modal-detalles').style.display = 'none'; }
+
+        function closeM() { document.getElementById('modal').style.display = 'none'; }
         
-        function marcarCap() {
-            const c = prompt(currentLang==='es'?"Capítulo:":"Chapter:");
-            if(c) alert("Guardado / Saved: " + c);
-        }
-
-        inputBusqueda.onkeypress = (e) => { if(e.key==='Enter') buscar(inputBusqueda.value); };
-
-        window.onload = () => loadTopAnime(1);
+        window.onload = () => aplicarFiltros();
     </script>
 </body>
 </html>
