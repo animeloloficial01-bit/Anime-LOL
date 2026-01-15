@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#000000">
-    <title>Anime LOL | IA & Oráculo</title>
+    <title>Anime LOL | Buscador & IA</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -14,127 +14,66 @@
             --primary: #47d1e0;
             --primary-glow: rgba(71, 209, 224, 0.4);
             --bg: #000000;
-            --surface: rgba(20, 20, 20, 0.95);
-            --glass: rgba(255, 255, 255, 0.05);
+            --surface: #121212;
             --text: #ffffff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg); color: var(--text); min-height: 100vh; }
 
-        body {
-            background-color: var(--bg);
-            background-image: radial-gradient(circle at 50% -20%, #1a3a3d 0%, transparent 50%);
-            color: var(--text);
-            min-height: 100vh;
-        }
-
-        /* --- HEADER --- */
         header {
             padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(71, 209, 224, 0.2);
-            position: sticky; top: 0; z-index: 1000;
-        }
-        .logo img { height: 40px; filter: drop-shadow(0 0 5px var(--primary)); }
-
-        /* --- USER PANEL --- */
-        .user-panel {
-            background: var(--glass);
-            margin: 15px 5% 5px;
-            padding: 15px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
+            backdrop-filter: blur(15px); border-bottom: 1px solid rgba(71, 209, 224, 0.2);
+            position: sticky; top: 0; z-index: 1000; background: rgba(0,0,0,0.8);
         }
 
-        /* --- BOTÓN ORÁCULO IA --- */
-        .oracle-container { padding: 10px 5% 20px; }
-        #ia-oracle {
-            width: 100%;
-            background: linear-gradient(45deg, #47d1e0, #9b59b6);
-            color: white;
-            padding: 15px;
-            border-radius: 15px;
-            font-weight: 900;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 0 15px var(--primary-glow);
-            transition: 0.3s;
+        .logo img { height: 35px; filter: drop-shadow(0 0 5px var(--primary)); }
+
+        /* --- BUSCADOR --- */
+        .search-container { padding: 15px 5%; background: linear-gradient(to bottom, rgba(71,209,224,0.1), transparent); }
+        .search-bar {
+            display: flex; background: #1a1a1a; border-radius: 12px; padding: 5px 15px;
+            border: 1px solid #333; align-items: center;
         }
-        #ia-oracle:active { transform: scale(0.98); }
-
-        #ia-result {
-            display: none;
-            margin-top: 15px;
-            padding: 20px;
-            background: rgba(71, 209, 224, 0.1);
-            border: 1px dashed var(--primary);
-            border-radius: 15px;
-            animation: glow 2s infinite alternate;
+        .search-bar input {
+            flex: 1; background: transparent; border: none; color: white; padding: 10px; outline: none;
         }
+        .search-bar i { color: var(--primary); }
 
-        @keyframes glow { from { box-shadow: 0 0 5px var(--primary-glow); } to { box-shadow: 0 0 20px var(--primary-glow); } }
+        .user-panel { background: rgba(255,255,255,0.05); margin: 10px 5%; padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
 
-        /* --- MAIN LAYOUT --- */
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 350px;
-            gap: 20px;
-            padding: 0 5% 40px;
+        /* --- LAYOUT --- */
+        .main-content { display: grid; grid-template-columns: 1fr 350px; gap: 20px; padding: 0 5% 40px; }
+        .anime-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+
+        .anime-card { background: #111; border-radius: 12px; overflow: hidden; border: 1px solid #222; position: relative; cursor: pointer; transition: 0.3s; }
+        .anime-card:hover { border-color: var(--primary); transform: scale(1.03); }
+        .anime-card img { width: 100%; height: 210px; object-fit: cover; }
+
+        .match-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.8); color: var(--primary); padding: 3px 6px; border-radius: 5px; font-size: 0.6rem; font-weight: 900; border: 1px solid var(--primary); }
+
+        .anime-info { padding: 10px; }
+        .anime-title { font-size: 0.75rem; font-weight: 700; height: 34px; overflow: hidden; margin-bottom: 5px; }
+
+        /* --- MODAL DE DETALLES --- */
+        #modal-detalles {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 2000; padding: 40px 20px; overflow-y: auto;
         }
-
-        .anime-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-        }
-
-        .anime-card {
-            background: #111;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            position: relative;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .anime-card:hover { border-color: var(--primary); transform: translateY(-5px); }
-        .anime-card img { width: 100%; height: 220px; object-fit: cover; }
-
-        .match-badge {
-            position: absolute; top: 8px; right: 8px;
-            background: rgba(0,0,0,0.8); color: var(--primary);
-            padding: 3px 7px; border-radius: 6px;
-            font-size: 0.65rem; font-weight: 900; border: 1px solid var(--primary);
-            z-index: 10;
-        }
-
-        .anime-info { padding: 10px; background: rgba(0,0,0,0.8); }
-        .anime-title { font-size: 0.8rem; font-weight: 700; height: 35px; overflow: hidden; margin-bottom: 5px; }
-        .cap-tag { font-size: 0.7rem; color: var(--primary); opacity: 0.8; }
+        .modal-content { max-width: 500px; margin: auto; }
+        .modal-content img { width: 100%; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 0 20px var(--primary-glow); }
+        .btn-cerrar { background: var(--primary); color: black; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 900; margin-bottom: 20px; cursor: pointer; }
 
         /* --- CHAT --- */
-        .chat-box {
-            background: var(--surface);
-            border-radius: 20px;
-            border: 1px solid rgba(71, 209, 224, 0.2);
-            height: 500px;
-            display: flex; flex-direction: column; overflow: hidden;
-        }
-        .chat-msgs { flex-grow: 1; padding: 15px; overflow-y: auto; font-size: 0.85rem; }
-        .message { background: rgba(255,255,255,0.03); padding: 10px; border-radius: 10px; margin-bottom: 8px; border-left: 3px solid var(--primary); }
-        .chat-input-area { padding: 15px; display: flex; gap: 8px; background: #000; }
-        input { flex-grow: 1; background: #1a1a1a; border: 1px solid #333; color: white; padding: 10px; border-radius: 10px; }
-        button#send-btn { background: var(--primary); border: none; padding: 0 15px; border-radius: 10px; font-weight: 900; }
+        .chat-box { background: var(--surface); border-radius: 20px; border: 1px solid #222; height: 450px; display: flex; flex-direction: column; overflow: hidden; }
+        .chat-msgs { flex: 1; padding: 15px; overflow-y: auto; font-size: 0.8rem; }
+        .message { background: #1a1a1a; padding: 10px; border-radius: 10px; margin-bottom: 8px; border-left: 3px solid var(--primary); }
+        .chat-input { padding: 10px; display: flex; gap: 8px; background: #000; }
+        .chat-input input { flex: 1; background: #1a1a1a; border: 1px solid #333; color: white; padding: 8px; border-radius: 8px; }
+        .chat-input button { background: var(--primary); border: none; padding: 0 12px; border-radius: 8px; }
 
-        @media (max-width: 900px) {
-            .main-content { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 900px) { .main-content { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -142,137 +81,132 @@
     <header>
         <div class="logo">
             <img src="1000371388.png" alt="Logo" onerror="this.style.display='none'">
-            <span style="color:var(--primary); font-weight:900; margin-left:10px;">ANIME LOL</span>
+            <span style="color:var(--primary); font-weight:900; margin-left:8px; letter-spacing:1px;">ANIME LOL</span>
         </div>
-        <div style="font-size: 0.7rem; color: var(--primary);">● IA CORE ACTIVE</div>
+        <i class="fas fa-bars" style="color:var(--primary)"></i>
     </header>
 
-    <div class="user-panel">
-        <div>
-            <span style="color:var(--primary); font-weight:700;" id="user-display">@Cargando...</span><br>
-            <small style="opacity:0.5">Nivel: Explorador IA</small>
+    <div class="search-container">
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" id="input-busqueda" placeholder="Buscar anime por nombre...">
         </div>
-        <i class="fas fa-brain" style="color:var(--primary); font-size:1.5rem;"></i>
     </div>
 
-    <div class="oracle-container">
-        <button id="ia-oracle">
-            <i class="fas fa-magic"></i> CONSULTAR ORÁCULO IA: ¿QUÉ VER HOY?
-        </button>
-        <div id="ia-result">
-            <h4 style="color: var(--primary); font-size: 0.9rem; margin-bottom: 5px;">✨ RECOMENDACIÓN DE LA IA:</h4>
-            <p id="ia-text" style="font-size: 0.85rem; line-height: 1.4;"></p>
-        </div>
+    <div class="user-panel">
+        <div><span style="color:var(--primary); font-weight:700;" id="user-display">@Cargando...</span></div>
+        <div style="font-size: 0.6rem; background: var(--primary); color: black; padding: 3px 8px; border-radius: 20px; font-weight: 900;">PRO USER</div>
     </div>
 
     <main class="main-content">
         <section>
-            <h3 style="margin-bottom:15px; font-size:0.9rem; letter-spacing: 1px;"> <i class="fas fa-bolt"></i> TENDENCIAS DE TEMPORADA</h3>
+            <h3 id="titulo-seccion" style="margin-bottom:15px; font-size:0.8rem; text-transform:uppercase; color:var(--primary);">Tendencias IA</h3>
             <div class="anime-grid" id="anime-feed">
                 </div>
         </section>
 
         <aside>
             <div class="chat-box">
-                <div style="padding:15px; text-align:center; border-bottom:1px solid #222; font-weight:900; color:var(--primary); font-size:0.8rem;">RED COMUNITARIA</div>
+                <div style="padding:12px; text-align:center; border-bottom:1px solid #222; font-weight:900; color:var(--primary); font-size:0.7rem;">CHAT GLOBAL</div>
                 <div class="chat-msgs" id="chat-render">
-                    <div class="message"><b>SISTEMA:</b> Bienvenido a la red. El Oráculo IA está listo para tus consultas.</div>
+                    <div class="message"><b>IA:</b> Hola. Busca un anime arriba para analizar su compatibilidad.</div>
                 </div>
-                <div class="chat-input-area">
-                    <input type="text" id="chat-input" placeholder="Comenta un anime...">
-                    <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+                <div class="chat-input">
+                    <input type="text" id="chat-in" placeholder="Escribe...">
+                    <button id="chat-btn"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
         </aside>
     </main>
 
+    <div id="modal-detalles">
+        <div class="modal-content">
+            <button class="btn-cerrar" onclick="cerrarModal()"> <i class="fas fa-arrow-left"></i> VOLVER</button>
+            <img id="m-img" src="">
+            <h2 id="m-titulo" style="color:var(--primary); margin-bottom:10px;"></h2>
+            <p id="m-sinopsis" style="font-size:0.9rem; line-height:1.6; opacity:0.8; margin-bottom:20px;"></p>
+            <div id="m-info-extra" style="background:#1a1a1a; padding:15px; border-radius:10px; font-size:0.8rem;"></div>
+            <br>
+            <button id="btn-recordar" style="width:100%; background:none; border:1px solid var(--primary); color:var(--primary); padding:10px; border-radius:10px; font-weight:700;">MARCAR CAPÍTULO</button>
+        </div>
+    </div>
+
     <script>
-        // 1. GESTIÓN DE USUARIO
-        const user = localStorage.getItem('animelol_user') || "User_" + Math.floor(Math.random()*999);
-        if(!localStorage.getItem('animelol_user')) localStorage.setItem('animelol_user', user);
+        const feed = document.getElementById('anime-feed');
+        const inputBusqueda = document.getElementById('input-busqueda');
+
+        // 1. CARGAR ANIMES (TENDENCIA O BÚSQUEDA)
+        async function buscarAnimes(query = '') {
+            feed.innerHTML = '<p style="padding:20px;">Sincronizando...</p>';
+            let url = query 
+                ? `https://api.jikan.moe/v4/anime?q=${query}&limit=12` 
+                : 'https://api.jikan.moe/v4/top/anime?filter=airing&limit=12';
+            
+            try {
+                const res = await fetch(url);
+                const { data } = await res.json();
+                feed.innerHTML = '';
+                data.forEach(anime => {
+                    const match = Math.floor(Math.random() * 20) + 80;
+                    feed.innerHTML += `
+                        <div class="anime-card" onclick='abrirDetalles(${JSON.stringify(anime).replace(/'/g, "&apos;")})'>
+                            <div class="match-badge">${match}% IA</div>
+                            <img src="${anime.images.jpg.large_image_url}">
+                            <div class="anime-info">
+                                <div class="anime-title">${anime.title}</div>
+                                <div style="font-size:0.6rem; color:var(--primary)">★ ${anime.score || 'N/A'}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch (e) { feed.innerHTML = "<p>Error de conexión.</p>"; }
+        }
+
+        // 2. BUSCADOR EN TIEMPO REAL
+        inputBusqueda.addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') {
+                document.getElementById('titulo-seccion').innerText = "Resultados de Búsqueda";
+                buscarAnimes(inputBusqueda.value);
+            }
+        });
+
+        // 3. VENTANA DE DETALLES
+        function abrirDetalles(anime) {
+            document.getElementById('m-img').src = anime.images.jpg.large_image_url;
+            document.getElementById('m-titulo').innerText = anime.title;
+            document.getElementById('m-sinopsis').innerText = anime.synopsis || "Sin sinopsis disponible.";
+            document.getElementById('m-info-extra').innerHTML = `
+                <b>Episodios:</b> ${anime.episodes || '?'}<br>
+                <b>Estado:</b> ${anime.status}<br>
+                <b>Géneros:</b> ${anime.genres.map(g => g.name).join(', ')}
+            `;
+            
+            document.getElementById('btn-recordar').onclick = () => {
+                const cap = prompt("¿En qué capítulo vas?", "1");
+                if(cap) localStorage.setItem(`cap_${anime.mal_id}`, cap);
+            };
+
+            document.getElementById('modal-detalles').style.display = 'block';
+        }
+
+        function cerrarModal() { document.getElementById('modal-detalles').style.display = 'none'; }
+
+        // 4. CHAT
+        const user = localStorage.getItem('animelol_user') || "User" + Math.floor(Math.random()*99);
         document.getElementById('user-display').innerText = "@" + user;
 
-        // 2. ORÁCULO IA (Lógica)
-        const oracleBtn = document.getElementById('ia-oracle');
-        const resultDiv = document.getElementById('ia-result');
-        const resultText = document.getElementById('ia-text');
-
-        const recomendacionesIA = [
-            "Analizando tu patrón visual... Te recomiendo **'Solo Leveling'**. Es el match perfecto para tu nivel actual.",
-            "Basado en las tendencias de Japón, deberías ver **'Kaiju No. 8'**. La IA detecta un 98% de afinidad.",
-            "Tu perfil sugiere un gusto por la épica. El Oráculo elige: **'Frieren: Beyond Journey's End'**.",
-            "Sincronizando... Deberías probar con **'Mashle: Magic and Muscles'**. Perfecto para relajarse hoy.",
-            "He detectado una anomalía positiva en **'Oshi no Ko'**. Tienes que ver el primer episodio."
-        ];
-
-        oracleBtn.onclick = () => {
-            oracleBtn.innerText = "⚡ PROCESANDO DATOS...";
-            oracleBtn.disabled = true;
-            setTimeout(() => {
-                const random = recomendacionesIA[Math.floor(Math.random() * recomendacionesIA.length)];
-                resultText.innerHTML = random;
-                resultDiv.style.display = 'block';
-                oracleBtn.innerText = "CONSULTAR ORÁCULO IA: ¿QUÉ VER HOY?";
-                oracleBtn.disabled = false;
-                resultDiv.scrollIntoView({ behavior: 'smooth' });
-            }, 1200);
-        };
-
-        // 3. CARGA DE ANIMES + RECORDATORIO
-        function setCap(id, title) {
-            const cap = prompt(`¿En qué capítulo vas de ${title}?`, "1");
-            if(cap) {
-                localStorage.setItem(`cap_${id}`, cap);
-                loadAnimes();
-            }
-        }
-
-        async function loadAnimes() {
-            const feed = document.getElementById('anime-feed');
-            try {
-                const res = await fetch('https://api.jikan.moe/v4/top/anime?filter=airing&limit=12');
-                const json = await res.json();
-                const data = json.data;
-
-                if (data) {
-                    feed.innerHTML = '';
-                    data.forEach(anime => {
-                        const match = Math.floor(Math.random() * 25) + 75;
-                        const savedCap = localStorage.getItem(`cap_${anime.mal_id}`) || "1";
-                        feed.innerHTML += `
-                            <div class="anime-card" onclick="setCap('${anime.mal_id}', '${anime.title}')">
-                                <div class="match-badge">${match}% MATCH</div>
-                                <img src="${anime.images.jpg.large_image_url}" loading="lazy">
-                                <div class="anime-info">
-                                    <div class="anime-title">${anime.title}</div>
-                                    <div class="cap-tag"><i class="fas fa-play-circle"></i> Cap: ${savedCap}</div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                }
-            } catch (e) {
-                feed.innerHTML = "<p>Sincronizando con satélites...</p>";
-            }
-        }
-
-        // 4. CHAT (Local temporal)
-        const chatInput = document.getElementById('chat-input');
-        const sendBtn = document.getElementById('send-btn');
-        const chatRender = document.getElementById('chat-render');
-
-        sendBtn.onclick = () => {
-            if(chatInput.value.trim()){
-                const div = document.createElement('div');
-                div.className = 'message';
-                div.innerHTML = `<b>@${user}:</b> ${chatInput.value}`;
-                chatRender.appendChild(div);
-                chatInput.value = '';
-                chatRender.scrollTop = chatRender.scrollHeight;
+        document.getElementById('chat-btn').onclick = () => {
+            const cin = document.getElementById('chat-in');
+            if(cin.value.trim()){
+                const d = document.createElement('div');
+                d.className = 'message';
+                d.innerHTML = `<b>@${user}:</b> ${cin.value}`;
+                document.getElementById('chat-render').appendChild(d);
+                cin.value = '';
             }
         };
 
-        window.onload = loadAnimes;
+        window.onload = () => buscarAnimes();
     </script>
 </body>
 </html>
