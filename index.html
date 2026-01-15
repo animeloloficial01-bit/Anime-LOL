@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#000000">
-    <title>Anime LOL | IA & Match</title>
+    <title>Anime LOL | IA & Oráculo</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -12,6 +12,7 @@
     <style>
         :root {
             --primary: #47d1e0;
+            --primary-glow: rgba(71, 209, 224, 0.4);
             --bg: #000000;
             --surface: rgba(20, 20, 20, 0.95);
             --glass: rgba(255, 255, 255, 0.05);
@@ -27,6 +28,7 @@
             min-height: 100vh;
         }
 
+        /* --- HEADER --- */
         header {
             padding: 1rem 5%;
             display: flex;
@@ -36,12 +38,12 @@
             border-bottom: 1px solid rgba(71, 209, 224, 0.2);
             position: sticky; top: 0; z-index: 1000;
         }
-
         .logo img { height: 40px; filter: drop-shadow(0 0 5px var(--primary)); }
 
+        /* --- USER PANEL --- */
         .user-panel {
             background: var(--glass);
-            margin: 15px 5%;
+            margin: 15px 5% 5px;
             padding: 15px;
             border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -50,6 +52,35 @@
             align-items: center;
         }
 
+        /* --- BOTÓN ORÁCULO IA --- */
+        .oracle-container { padding: 10px 5% 20px; }
+        #ia-oracle {
+            width: 100%;
+            background: linear-gradient(45deg, #47d1e0, #9b59b6);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            font-weight: 900;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--primary-glow);
+            transition: 0.3s;
+        }
+        #ia-oracle:active { transform: scale(0.98); }
+
+        #ia-result {
+            display: none;
+            margin-top: 15px;
+            padding: 20px;
+            background: rgba(71, 209, 224, 0.1);
+            border: 1px dashed var(--primary);
+            border-radius: 15px;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow { from { box-shadow: 0 0 5px var(--primary-glow); } to { box-shadow: 0 0 20px var(--primary-glow); } }
+
+        /* --- MAIN LAYOUT --- */
         .main-content {
             display: grid;
             grid-template-columns: 1fr 350px;
@@ -69,8 +100,10 @@
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
+            cursor: pointer;
+            transition: 0.3s;
         }
-
+        .anime-card:hover { border-color: var(--primary); transform: translateY(-5px); }
         .anime-card img { width: 100%; height: 220px; object-fit: cover; }
 
         .match-badge {
@@ -78,11 +111,14 @@
             background: rgba(0,0,0,0.8); color: var(--primary);
             padding: 3px 7px; border-radius: 6px;
             font-size: 0.65rem; font-weight: 900; border: 1px solid var(--primary);
+            z-index: 10;
         }
 
         .anime-info { padding: 10px; background: rgba(0,0,0,0.8); }
-        .anime-title { font-size: 0.8rem; font-weight: 700; height: 35px; overflow: hidden; }
+        .anime-title { font-size: 0.8rem; font-weight: 700; height: 35px; overflow: hidden; margin-bottom: 5px; }
+        .cap-tag { font-size: 0.7rem; color: var(--primary); opacity: 0.8; }
 
+        /* --- CHAT --- */
         .chat-box {
             background: var(--surface);
             border-radius: 20px;
@@ -90,13 +126,11 @@
             height: 500px;
             display: flex; flex-direction: column; overflow: hidden;
         }
-
         .chat-msgs { flex-grow: 1; padding: 15px; overflow-y: auto; font-size: 0.85rem; }
-        .message { background: rgba(255,255,255,0.03); padding: 8px; border-radius: 8px; margin-bottom: 8px; border-left: 2px solid var(--primary); }
-
+        .message { background: rgba(255,255,255,0.03); padding: 10px; border-radius: 10px; margin-bottom: 8px; border-left: 3px solid var(--primary); }
         .chat-input-area { padding: 15px; display: flex; gap: 8px; background: #000; }
         input { flex-grow: 1; background: #1a1a1a; border: 1px solid #333; color: white; padding: 10px; border-radius: 10px; }
-        button { background: var(--primary); border: none; padding: 0 15px; border-radius: 10px; font-weight: 900; }
+        button#send-btn { background: var(--primary); border: none; padding: 0 15px; border-radius: 10px; font-weight: 900; }
 
         @media (max-width: 900px) {
             .main-content { grid-template-columns: 1fr; }
@@ -110,33 +144,42 @@
             <img src="1000371388.png" alt="Logo" onerror="this.style.display='none'">
             <span style="color:var(--primary); font-weight:900; margin-left:10px;">ANIME LOL</span>
         </div>
-        <div style="font-size: 0.7rem; color: var(--primary);">● ONLINE</div>
+        <div style="font-size: 0.7rem; color: var(--primary);">● IA CORE ACTIVE</div>
     </header>
 
     <div class="user-panel">
         <div>
-            <span style="color:var(--primary); font-weight:700;" id="user-display">@Invitado</span><br>
-            <small style="opacity:0.5">Sistema de Match Activo</small>
+            <span style="color:var(--primary); font-weight:700;" id="user-display">@Cargando...</span><br>
+            <small style="opacity:0.5">Nivel: Explorador IA</small>
         </div>
-        <i class="fas fa-robot" style="color:var(--primary); font-size:1.5rem;"></i>
+        <i class="fas fa-brain" style="color:var(--primary); font-size:1.5rem;"></i>
+    </div>
+
+    <div class="oracle-container">
+        <button id="ia-oracle">
+            <i class="fas fa-magic"></i> CONSULTAR ORÁCULO IA: ¿QUÉ VER HOY?
+        </button>
+        <div id="ia-result">
+            <h4 style="color: var(--primary); font-size: 0.9rem; margin-bottom: 5px;">✨ RECOMENDACIÓN DE LA IA:</h4>
+            <p id="ia-text" style="font-size: 0.85rem; line-height: 1.4;"></p>
+        </div>
     </div>
 
     <main class="main-content">
         <section>
-            <h3 style="margin-bottom:15px; font-size:0.9rem;">RECOMENDACIONES IA</h3>
+            <h3 style="margin-bottom:15px; font-size:0.9rem; letter-spacing: 1px;"> <i class="fas fa-bolt"></i> TENDENCIAS DE TEMPORADA</h3>
             <div class="anime-grid" id="anime-feed">
-                <p style="padding:20px;">Cargando red neuronal...</p>
-            </div>
+                </div>
         </section>
 
         <aside>
             <div class="chat-box">
-                <div style="padding:15px; text-align:center; border-bottom:1px solid #222; font-weight:900; color:var(--primary); font-size:0.8rem;">CHAT GLOBAL</div>
+                <div style="padding:15px; text-align:center; border-bottom:1px solid #222; font-weight:900; color:var(--primary); font-size:0.8rem;">RED COMUNITARIA</div>
                 <div class="chat-msgs" id="chat-render">
-                    <div class="message"><b>IA:</b> ¡Bienvenido! Los animes de hoy tienen alta afinidad contigo.</div>
+                    <div class="message"><b>SISTEMA:</b> Bienvenido a la red. El Oráculo IA está listo para tus consultas.</div>
                 </div>
                 <div class="chat-input-area">
-                    <input type="text" id="chat-input" placeholder="Escribe algo...">
+                    <input type="text" id="chat-input" placeholder="Comenta un anime...">
                     <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
@@ -144,11 +187,46 @@
     </main>
 
     <script>
-        // 1. Usuario
-        const user = localStorage.getItem('animelol_user') || "User" + Math.floor(Math.random()*999);
+        // 1. GESTIÓN DE USUARIO
+        const user = localStorage.getItem('animelol_user') || "User_" + Math.floor(Math.random()*999);
+        if(!localStorage.getItem('animelol_user')) localStorage.setItem('animelol_user', user);
         document.getElementById('user-display').innerText = "@" + user;
 
-        // 2. Carga de Animes (API TOP para evitar errores de temporada)
+        // 2. ORÁCULO IA (Lógica)
+        const oracleBtn = document.getElementById('ia-oracle');
+        const resultDiv = document.getElementById('ia-result');
+        const resultText = document.getElementById('ia-text');
+
+        const recomendacionesIA = [
+            "Analizando tu patrón visual... Te recomiendo **'Solo Leveling'**. Es el match perfecto para tu nivel actual.",
+            "Basado en las tendencias de Japón, deberías ver **'Kaiju No. 8'**. La IA detecta un 98% de afinidad.",
+            "Tu perfil sugiere un gusto por la épica. El Oráculo elige: **'Frieren: Beyond Journey's End'**.",
+            "Sincronizando... Deberías probar con **'Mashle: Magic and Muscles'**. Perfecto para relajarse hoy.",
+            "He detectado una anomalía positiva en **'Oshi no Ko'**. Tienes que ver el primer episodio."
+        ];
+
+        oracleBtn.onclick = () => {
+            oracleBtn.innerText = "⚡ PROCESANDO DATOS...";
+            oracleBtn.disabled = true;
+            setTimeout(() => {
+                const random = recomendacionesIA[Math.floor(Math.random() * recomendacionesIA.length)];
+                resultText.innerHTML = random;
+                resultDiv.style.display = 'block';
+                oracleBtn.innerText = "CONSULTAR ORÁCULO IA: ¿QUÉ VER HOY?";
+                oracleBtn.disabled = false;
+                resultDiv.scrollIntoView({ behavior: 'smooth' });
+            }, 1200);
+        };
+
+        // 3. CARGA DE ANIMES + RECORDATORIO
+        function setCap(id, title) {
+            const cap = prompt(`¿En qué capítulo vas de ${title}?`, "1");
+            if(cap) {
+                localStorage.setItem(`cap_${id}`, cap);
+                loadAnimes();
+            }
+        }
+
         async function loadAnimes() {
             const feed = document.getElementById('anime-feed');
             try {
@@ -159,40 +237,41 @@
                 if (data) {
                     feed.innerHTML = '';
                     data.forEach(anime => {
-                        const match = Math.floor(Math.random() * 31) + 70;
+                        const match = Math.floor(Math.random() * 25) + 75;
+                        const savedCap = localStorage.getItem(`cap_${anime.mal_id}`) || "1";
                         feed.innerHTML += `
-                            <div class="anime-card">
+                            <div class="anime-card" onclick="setCap('${anime.mal_id}', '${anime.title}')">
                                 <div class="match-badge">${match}% MATCH</div>
                                 <img src="${anime.images.jpg.large_image_url}" loading="lazy">
                                 <div class="anime-info">
                                     <div class="anime-title">${anime.title}</div>
+                                    <div class="cap-tag"><i class="fas fa-play-circle"></i> Cap: ${savedCap}</div>
                                 </div>
                             </div>
                         `;
                     });
                 }
             } catch (e) {
-                feed.innerHTML = "<p>Error al conectar con la API. Refresca la página.</p>";
+                feed.innerHTML = "<p>Sincronizando con satélites...</p>";
             }
         }
 
-        // 3. Chat Local
-        const input = document.getElementById('chat-input');
-        const btn = document.getElementById('send-btn');
-        const render = document.getElementById('chat-render');
+        // 4. CHAT (Local temporal)
+        const chatInput = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('send-btn');
+        const chatRender = document.getElementById('chat-render');
 
-        btn.onclick = () => {
-            if(input.value.trim()){
+        sendBtn.onclick = () => {
+            if(chatInput.value.trim()){
                 const div = document.createElement('div');
                 div.className = 'message';
-                div.innerHTML = `<b>@${user}:</b> ${input.value}`;
-                render.appendChild(div);
-                input.value = '';
-                render.scrollTop = render.scrollHeight;
+                div.innerHTML = `<b>@${user}:</b> ${chatInput.value}`;
+                chatRender.appendChild(div);
+                chatInput.value = '';
+                chatRender.scrollTop = chatRender.scrollHeight;
             }
         };
 
-        // Iniciar
         window.onload = loadAnimes;
     </script>
 </body>
