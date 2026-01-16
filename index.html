@@ -3,389 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anime LOL | Tendencias, Temporada e IA</title>
-    
+    <title>Anime LOL | Powered by GatoNocturno IA</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&family=M+PLUS+Rounded+1c:wght@700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* VARIABLES DE MARCA */
         :root {
-            --primary-turquesa: #40E0D0; 
-            --bg-dark: #0b0b0b;          
-            --card-bg: #1a1a1a;          
-            --text-white: #ffffff;
-            --text-gray: #a0a0a0;
-            --jp-red: #ff3e3e;           
-            --glass: rgba(255, 255, 255, 0.05);
+            --primary-turquesa: #40E0D0; --bg-dark: #0b0b0b; --card-bg: #1a1a1a;
+            --text-white: #ffffff; --text-gray: #a0a0a0; --jp-red: #ff3e3e; --glass: rgba(255, 255, 255, 0.05);
         }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-dark); color: var(--text-white); font-family: 'Noto Sans JP', sans-serif; line-height: 1.6; overflow-x: hidden; scroll-behavior: smooth; }
+        
+        /* NAVBAR */
+        header { background: rgba(11, 11, 11, 0.95); border-bottom: 2px solid var(--primary-turquesa); padding: 1rem 5%; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+        .main-logo { height: 60px; }
+        .user-zone { display: flex; align-items: center; gap: 15px; }
 
-        /* RESET Y BASE */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* AUTH MODAL */
+        #auth-section { background: var(--card-bg); padding: 20px; border-radius: 15px; max-width: 400px; margin: 20px auto; border: 1px solid var(--primary-turquesa); }
+        .input-group { margin-bottom: 15px; }
+        .input-group input { width: 100%; padding: 10px; background: #000; border: 1px solid #333; color: white; border-radius: 8px; }
 
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-white);
-            font-family: 'Noto Sans JP', sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
+        /* SECCIONES PÚBLICAS */
+        .public-content { padding: 40px 5%; }
+        .section-title { font-family: 'M PLUS Rounded 1c', sans-serif; font-size: 1.5rem; margin-bottom: 20px; color: var(--primary-turquesa); border-left: 5px solid var(--jp-red); padding-left: 15px; }
+        
+        .days-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+        .day-card { background: var(--card-bg); padding: 15px; border-radius: 12px; border-bottom: 2px solid var(--jp-red); }
+        .anime-release { font-size: 0.75rem; color: var(--text-gray); display: block; margin-top: 5px; }
 
-        /* NAVEGACIÓN */
-        header {
-            background: rgba(11, 11, 11, 0.95);
-            border-bottom: 2px solid var(--primary-turquesa);
-            padding: 1rem 5%;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
+        /* SECCIONES PRIVADAS (MATCH Y FORO) */
+        .private-lock { position: relative; filter: blur(4px); pointer-events: none; user-select: none; }
+        .lock-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 10; background: rgba(0,0,0,0.4); border-radius: 20px; }
+        .lock-msg { background: var(--bg-dark); padding: 20px; border: 2px solid var(--primary-turquesa); border-radius: 15px; text-align: center; }
 
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        /* GATONOCTURNO IA UI */
+        .gato-nocturno-box { background: linear-gradient(135deg, #1a1a1a 0%, #000 100%); border: 1px solid var(--primary-turquesa); padding: 25px; border-radius: 20px; margin-top: 20px; position: relative; }
+        .gato-nocturno-box::before { content: "🌙 GatoNocturno AI"; position: absolute; top: -12px; left: 20px; background: var(--primary-turquesa); color: #000; padding: 2px 12px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; }
 
-        .main-logo {
-            height: 60px; 
-            display: block;
-            transition: transform 0.3s ease;
-        }
+        button { background: var(--primary-turquesa); color: var(--bg-dark); border: none; padding: 10px 20px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        button:hover { box-shadow: 0 0 15px var(--primary-turquesa); }
+        .btn-ghost { background: transparent; border: 1px solid var(--primary-turquesa); color: var(--primary-turquesa); }
 
-        .main-logo:hover {
-            transform: scale(1.05);
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: var(--text-white);
-            text-decoration: none;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-turquesa);
-        }
-
-        .ia-status {
-            background: var(--glass);
-            padding: 5px 15px;
-            border-radius: 20px;
-            border: 1px solid var(--primary-turquesa);
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .dot {
-            height: 8px;
-            width: 8px;
-            background-color: var(--primary-turquesa);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--primary-turquesa);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.4; }
-            100% { opacity: 1; }
-        }
-
-        /* HERO SECTION */
-        #hero {
-            padding: 100px 5%;
-            text-align: center;
-            background: linear-gradient(180deg, #1a1a1a 0%, #0b0b0b 100%);
-        }
-
-        #hero h1 {
-            font-family: 'M PLUS Rounded 1c', sans-serif;
-            font-size: clamp(2.5rem, 8vw, 4rem);
-            margin-bottom: 1rem;
-        }
-
-        .highlight {
-            color: var(--primary-turquesa);
-            text-shadow: 0 0 20px rgba(64, 224, 208, 0.4);
-        }
-
-        #ia-summary {
-            max-width: 800px;
-            margin: 0 auto;
-            color: var(--text-gray);
-            font-style: italic;
-            border-left: 3px solid var(--jp-red);
-            padding: 15px 25px;
-            background: rgba(255, 62, 62, 0.05);
-            border-radius: 0 15px 15px 0;
-        }
-
-        /* TITULOS DE SECCIÓN */
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 60px 5% 30px;
-            border-bottom: 1px solid var(--glass);
-            padding-bottom: 10px;
-        }
-
-        .section-title {
-            font-family: 'M PLUS Rounded 1c', sans-serif;
-            font-size: 1.8rem;
-            position: relative;
-        }
-
-        .section-title::before {
-            content: "RANKING";
-            position: absolute;
-            top: -20px;
-            left: 0;
-            font-size: 0.7rem;
-            color: var(--jp-red);
-            letter-spacing: 3px;
-        }
-
-        /* GRID DE NOTICIAS */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 0 5% 50px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .news-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .news-card:hover {
-            border-color: var(--primary-turquesa);
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .card-img {
-            width: 100%;
-            height: 220px;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-
-        .card-content {
-            padding: 20px;
-        }
-
-        .card-tag {
-            background: var(--primary-turquesa);
-            color: var(--bg-dark);
-            padding: 3px 12px;
-            font-size: 0.65rem;
-            font-weight: 800;
-            border-radius: 4px;
-            text-transform: uppercase;
-            position: absolute;
-            top: 15px;
-            left: 15px;
-        }
-
-        .news-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            color: var(--primary-turquesa);
-        }
-
-        .news-card p {
-            font-size: 0.9rem;
-            color: var(--text-gray);
-        }
-
-        /* SECCIÓN TEMPORADA */
-        .seasonal-list {
-            display: flex;
-            gap: 20px;
-            overflow-x: auto;
-            padding: 20px 5%;
-            scrollbar-width: none;
-        }
-
-        .anime-mini-card {
-            min-width: 150px;
-            text-align: center;
-        }
-
-        .anime-mini-card img {
-            width: 100%;
-            border-radius: 10px;
-            border: 2px solid transparent;
-            transition: 0.3s;
-        }
-
-        /* FORO */
-        #foro {
-            background: #080808;
-            padding: 80px 5%;
-        }
-
-        .forum-container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px;
-        }
-
-        .post-box {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        textarea {
-            background: var(--bg-dark);
-            border: 1px solid #333;
-            border-radius: 12px;
-            color: white;
-            padding: 15px;
-            font-family: inherit;
-            resize: none;
-            height: 100px;
-        }
-
-        #btn-post {
-            background: var(--primary-turquesa);
-            color: var(--bg-dark);
-            border: none;
-            padding: 15px;
-            border-radius: 12px;
-            font-weight: 800;
-            cursor: pointer;
-        }
-
-        footer {
-            text-align: center;
-            padding: 60px 40px;
-            color: var(--text-gray);
-            font-size: 0.8rem;
-        }
+        footer { text-align: center; padding: 40px; font-size: 0.7rem; opacity: 0.5; }
     </style>
 </head>
 <body>
 
     <header>
         <nav class="navbar">
-            <div class="logo-container">
-                <img src="1000371388.png" alt="Anime LOL" class="main-logo">
-            </div>
-            <ul class="nav-links">
-                <li><a href="#noticias">Tendencias</a></li>
-                <li><a href="#temporada">Temporada</a></li>
-                <li><a href="#foro">Comunidad</a></li>
-            </ul>
-            <div class="ia-status">
-                <span id="ia-dot" class="dot"></span> <span id="ia-text">LOL-Bot Online</span>
+            <div class="logo-container"><img src="1000371388.png" alt="Anime LOL" class="main-logo"></div>
+            <div class="user-zone" id="user-nav">
+                <span id="welcome-msg" style="font-size: 0.8rem; color: var(--primary-turquesa);">Modo Invitado</span>
+                <button class="btn-ghost" onclick="toggleAuth()" id="auth-btn">Crear Cuenta</button>
             </div>
         </nav>
     </header>
 
+    <div id="auth-section" style="display: none;">
+        <h3 style="margin-bottom: 15px; font-size: 1rem;">Únete a Anime LOL</h3>
+        <div class="input-group">
+            <input type="text" id="reg-user" placeholder="Nombre de usuario (Único)">
+        </div>
+        <div class="input-group">
+            <input type="password" id="reg-pass" placeholder="Clave (4-8 caracteres)">
+        </div>
+        <button onclick="handleSignup()" style="width: 100%;">REGISTRARSE</button>
+    </div>
+
     <main>
-        <section id="hero">
-            <h1>ANIME <span class="highlight">LOL</span></h1>
-            <div id="ia-summary">
-                <p id="ia-output">"LOL-Bot está analizando las noticias de Japón... Dame un segundo para darte el mejor resumen."</p>
+        <section class="public-content">
+            <h2 class="section-title">Calendario de Estrenos</h2>
+            <div class="days-grid">
+                <div class="day-card"><h4>Lun</h4><span class="anime-release">🔹 Bleach: TYBW</span></div>
+                <div class="day-card"><h4>Mar</h4><span class="anime-release">🔹 Blue Lock</span></div>
+                <div class="day-card"><h4>Mié</h4><span class="anime-release">🔹 Oshi no Ko</span></div>
+                <div class="day-card"><h4>Jue</h4><span class="anime-release">🔹 Dandadan</span></div>
+                <div class="day-card"><h4>Vie</h4><span class="anime-release">🔹 Solo Leveling</span></div>
             </div>
         </section>
 
-        <section id="temporada">
-            <div class="section-header"><h2 class="section-title">Estrenos de Hoy</h2></div>
-            <div class="seasonal-list">
-                <div class="anime-mini-card">
-                    <img src="https://via.placeholder.com/150x220/111/40E0D0?text=S.Leveling" alt="Anime">
-                    <p>Solo Leveling S2</p>
+        <section class="public-content" id="noticias">
+            <h2 class="section-title">Noticias de Temporada</h2>
+            <div style="background: var(--card-bg); padding: 20px; border-radius: 15px;">
+                <p style="font-size: 0.9rem; color: var(--text-gray);">Último Minuto: GatoNocturno detecta filtraciones del final de One Piece...</p>
+            </div>
+        </section>
+
+        <section style="padding: 40px 5%; position: relative;">
+            <div id="private-overlay-match" class="lock-overlay">
+                <div class="lock-msg">
+                    <p>Crea una cuenta para que <strong>GatoNocturno</strong> te recomiende animes.</p>
                 </div>
-                <div class="anime-mini-card">
-                    <img src="https://via.placeholder.com/150x220/111/40E0D0?text=CSM" alt="Anime">
-                    <p>Chainsaw Man</p>
+            </div>
+            <div class="private-lock" id="match-content">
+                <h2 class="section-title">Tu Match de Hoy</h2>
+                <div class="gato-nocturno-box">
+                    <p id="match-output">"Inicia sesión para que pueda leer tus gustos..."</p>
                 </div>
             </div>
         </section>
 
-        <section id="noticias">
-            <div class="section-header"><h2 class="section-title">Noticias IA</h2></div>
-            <div id="news-grid" class="grid-container">
+        <section style="padding: 40px 5%; position: relative;">
+            <div id="private-overlay-foro" class="lock-overlay">
+                <div class="lock-msg">
+                    <p>Regístrate para interactuar en el foro.</p>
                 </div>
-        </section>
-
-        <section id="foro">
-            <div class="section-header"><h2 class="section-title">Comunidad</h2></div>
-            <div class="forum-container">
-                <div id="forum-posts"></div>
-                <div class="post-box">
-                    <textarea id="user-comment" placeholder="Escribe aquí... la IA moderará tu mensaje."></textarea>
-                    <button id="btn-post">PUBLICAR</button>
+            </div>
+            <div class="private-lock" id="foro-content">
+                <h2 class="section-title">Foro de la Comunidad</h2>
+                <div style="background: var(--card-bg); padding: 20px; border-radius: 15px;">
+                    <textarea placeholder="Cuéntale algo a GatoNocturno..."></textarea>
+                    <button>PUBLICAR</button>
                 </div>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 Anime LOL | Powered by Supabase & AI</p>
+        <p>&copy; 2026 Anime LOL | IA: GatoNocturno (Powered by Gemini)</p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
-        // CONFIGURACIÓN DE SUPABASE (Debes poner tus llaves aquí)
-        const SUPABASE_URL = 'TU_URL_DE_SUPABASE';
-        const SUPABASE_KEY = 'TU_KEY_DE_SUPABASE';
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        let isLoggedIn = false;
 
-        // FUNCIÓN PARA QUE LA IA RESPONDA (Simulación de entrega)
-        async function entregarALaIA(mensaje) {
-            document.getElementById('ia-text').innerText = "LOL-Bot pensando...";
-            
-            // Aquí llamarías a tu API de Vercel que conecta con Gemini/OpenAI
-            // Por ahora, simulamos la respuesta de la IA
-            setTimeout(() => {
-                const response = "¡Súper interesante! He analizado tu comentario y creo que tienes razón sobre ese Shonen.";
-                document.getElementById('ia-output').innerText = `"${response}"`;
-                document.getElementById('ia-text').innerText = "LOL-Bot Online";
-            }, 1500);
+        function toggleAuth() {
+            const section = document.getElementById('auth-section');
+            section.style.display = section.style.display === 'none' ? 'block' : 'none';
         }
 
-        // Evento del botón
-        document.getElementById('btn-post').addEventListener('click', () => {
-            const comment = document.getElementById('user-comment').value;
-            if(comment) {
-                entregarALaIA(comment);
-                document.getElementById('user-comment').value = "";
+        function handleSignup() {
+            const user = document.getElementById('reg-user').value;
+            const pass = document.getElementById('reg-pass').value;
+
+            if(user.length > 0 && pass.length >= 4 && pass.length <= 8) {
+                isLoggedIn = true;
+                unlockContent(user);
+                alert("¡Bienvenido " + user + "! GatoNocturno te estaba esperando.");
+            } else {
+                alert("Usuario requerido y clave entre 4-8 caracteres.");
             }
-        });
+        }
+
+        function unlockContent(username) {
+            // Actualizar Interfaz
+            document.getElementById('welcome-msg').innerText = "Hola, " + username;
+            document.getElementById('auth-btn').style.display = 'none';
+            document.getElementById('auth-section').style.display = 'none';
+
+            // Quitar Bloqueos
+            document.getElementById('private-overlay-match').style.display = 'none';
+            document.getElementById('private-overlay-foro').style.display = 'none';
+            document.getElementById('match-content').classList.remove('private-lock');
+            document.getElementById('foro-content').classList.remove('private-lock');
+
+            // Cargar Match inicial de GatoNocturno
+            document.getElementById('match-output').innerText = "¡Miau! Hola " + username + ". Veo que eres nuevo. Hoy te recomiendo Solo Leveling por su tendencia global.";
+        }
     </script>
 </body>
 </html>
