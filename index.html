@@ -8,14 +8,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&family=M+PLUS+Rounded+1c:wght@700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* VARIABLES DE MARCA - BASADAS EN TU LOGO */
+        /* VARIABLES DE MARCA - BASADAS EN EL LOGO */
         :root {
-            --primary-turquesa: #40E0D0; /* El color de 'LOL' */
-            --bg-dark: #0b0b0b;          /* Negro profundo */
-            --card-bg: #1a1a1a;          /* Gris oscuro para tarjetas */
+            --primary-turquesa: #40E0D0; 
+            --bg-dark: #0b0b0b;          
+            --card-bg: #1a1a1a;          
             --text-white: #ffffff;
             --text-gray: #a0a0a0;
-            --jp-red: #ff3e3e;           /* Acento rojo japonés */
+            --jp-red: #ff3e3e;           
             --glass: rgba(255, 255, 255, 0.05);
         }
 
@@ -34,7 +34,7 @@
             overflow-x: hidden;
         }
 
-        /* NAVEGACIÓN ESTILO MINIMALISTA JAPONÉS */
+        /* NAVEGACIÓN */
         header {
             background: rgba(11, 11, 11, 0.95);
             border-bottom: 2px solid var(--primary-turquesa);
@@ -54,7 +54,8 @@
         }
 
         .main-logo {
-            height: 50px; /* Ajuste según tu imagen 1000200842.png */
+            height: 60px; /* Tamaño optimizado para el logo */
+            display: block;
             transition: transform 0.3s ease;
         }
 
@@ -98,7 +99,6 @@
             width: 8px;
             background-color: var(--primary-turquesa);
             border-radius: 50%;
-            display: inline-block;
             box-shadow: 0 0 10px var(--primary-turquesa);
             animation: pulse 2s infinite;
         }
@@ -134,6 +134,8 @@
             font-style: italic;
             border-left: 3px solid var(--jp-red);
             padding-left: 15px;
+            background: rgba(255, 62, 62, 0.05);
+            padding-block: 10px;
         }
 
         /* GRID DE NOTICIAS */
@@ -170,7 +172,7 @@
         .card-img {
             width: 100%;
             height: 200px;
-            background: #333; /* Placeholder */
+            background: #333;
             object-fit: cover;
         }
 
@@ -235,11 +237,12 @@
             border-radius: 10px;
             font-weight: 800;
             cursor: pointer;
-            transition: opacity 0.3s;
+            transition: all 0.3s;
         }
 
         #btn-post:hover {
-            opacity: 0.9;
+            background: #36c9ba;
+            box-shadow: 0 0 15px var(--primary-turquesa);
         }
 
         footer {
@@ -255,7 +258,7 @@
     <header>
         <nav class="navbar">
             <div class="logo-container">
-                <img src="1000200842.png" alt="Anime LOL" class="main-logo">
+                <img src="1000371388.png" alt="Anime LOL" class="main-logo">
             </div>
             <ul class="nav-links">
                 <li><a href="#noticias">Noticias</a></li>
@@ -272,32 +275,32 @@
         <section id="hero">
             <div class="hero-content">
                 <h1>ANIME <span class="highlight">LOL</span></h1>
-                <p id="ia-summary">"La IA dice: Parece que la temporada de invierno viene cargada de Isekais... ¡Prepara tus snacks!"</p>
+                <p id="ia-summary">"LOL-Bot analizando... ¡Parece que el nuevo tráiler de Chainsaw Man ha roto el internet hoy! ¿Ya lo viste?"</p>
             </div>
         </section>
 
         <section id="noticias">
-            <h2 class="section-title">Tendencias de Temporada</h2>
+            <h2 class="section-title">Noticias en Tendencia</h2>
             <div id="news-grid" class="grid-container">
                 <article class="news-card">
-                    <div class="card-img" style="background: url('https://via.placeholder.com/400x200') center/cover;"></div>
+                    <div class="card-img" style="background: url('https://images.unsplash.com/photo-1578632292335-df3abbb0d586?q=80&w=400&h=200&auto=format&fit=crop') center/cover;"></div>
                     <div class="card-content">
-                        <span class="card-tag">Tendencia</span>
-                        <h3>Título de la noticia generado por IA</h3>
-                        <p>Breve resumen optimizado por la inteligencia artificial para Anime LOL...</p>
+                        <span class="card-tag">Trend</span>
+                        <h3>Resumen IA: Temporada Invierno 2026</h3>
+                        <p>Descubre qué animes están dominando el ranking este mes según nuestro análisis de datos...</p>
                     </div>
                 </article>
             </div>
         </section>
 
         <section id="foro">
-            <h2 class="section-title">Foro de la Comunidad</h2>
+            <h2 class="section-title">Comunidad Anime LOL</h2>
             <div class="forum-container">
                 <div id="forum-posts">
-                    <p style="color: var(--text-gray); text-align: center;">¡Sé el primero en comentar!</p>
+                    <p style="color: var(--text-gray); text-align: center;">Inicia la conversación sobre el anime del momento.</p>
                 </div>
                 <div class="post-box">
-                    <textarea id="user-comment" placeholder="¿Qué anime estás viendo hoy?"></textarea>
+                    <textarea id="user-comment" placeholder="Comparte tu opinión o teoría..."></textarea>
                     <button id="btn-post">PUBLICAR EN EL FORO</button>
                 </div>
             </div>
@@ -305,13 +308,12 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 Anime LOL - Diseñado con Estilo Japonés e IA</p>
+        <p>&copy; 2026 Anime LOL - Noticias & Foro impulsados por IA</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
-        // Aquí irá nuestra lógica de conexión en el siguiente paso
-        console.log("Anime LOL cargado correctamente con estilo Japonés.");
+        console.log("Anime LOL: Interfaz lista con logo 1000371388.png");
     </script>
 </body>
 </html>
