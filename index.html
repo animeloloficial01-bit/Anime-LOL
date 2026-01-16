@@ -1,479 +1,886 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  >
-  <meta name="theme-color" content="#000000">
-  <meta name="description" content="Anime LOL - Sistema de Match IA y Buscador Avanzado">
-  <title>Anime LOL | IA & Global Search</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime LOL - Cyberpunk Anime Hub</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <!-- Manifest PWA -->
-  <link rel="manifest" href="manifest.json">
+        body {
+            background: #000000;
+            color: #ffffff;
+            font-family: 'Orbitron', monospace;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
 
-  <!-- Fuente e iconos -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap"
-    rel="stylesheet"
-  >
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-  >
+        /* Cyberpunk Glow Effects */
+        .glow {
+            text-shadow: 0 0 10px #47d1e0, 0 0 20px #47d1e0, 0 0 30px #47d1e0;
+        }
 
-  <style>
-    :root {
-      --primary: #47d1e0;
-      --primary-glow: rgba(71, 209, 224, 0.4);
-      --bg: #000000;
-      --surface: #0a0a0a;
-      --card-bg: #111111;
-      --text: #ffffff;
-      --danger: #ff4757;
-      --success: #2ed573;
-    }
+        .glow-strong {
+            text-shadow: 0 0 20px #47d1e0, 0 0 40px #47d1e0, 0 0 60px #47d1e0;
+        }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
+        /* Auth Overlay */
+        #auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            backdrop-filter: blur(10px);
+        }
 
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-      background-image: radial-gradient(circle at 50% -10%, #1a3a3d 0%, transparent 40%);
-    }
+        .auth-container {
+            background: rgba(20, 20, 20, 0.9);
+            padding: 3rem;
+            border-radius: 15px;
+            border: 2px solid #47d1e0;
+            box-shadow: 0 0 50px rgba(71, 209, 224, 0.5);
+            text-align: center;
+            min-width: 350px;
+        }
 
-    /* Header */
-    header {
-      padding: 1rem 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(71, 209, 224, 0.2);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(0, 0, 0, 0.9);
-    }
+        .auth-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, #47d1e0, #00f5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+        .auth-input {
+            width: 100%;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: rgba(71, 209, 224, 0.1);
+            border: 1px solid #47d1e0;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-family: inherit;
+        }
 
-    .logo img {
-      height: 35px;
-      filter: drop-shadow(0 0 8px var(--primary));
-    }
+        .auth-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
 
-    .logo span {
-      color: var(--primary);
-      font-weight: 900;
-      letter-spacing: 1.5px;
-      font-size: 1.2rem;
-    }
+        .auth-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(45deg, #47d1e0, #00f5ff);
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
 
-    /* Panel filtros */
-    .filter-panel {
-      padding: 15px 5%;
-      background: rgba(10, 10, 10, 0.8);
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 12px;
-      border-bottom: 1px solid #222;
-    }
+        .auth-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(71, 209, 224, 0.8);
+        }
 
-    select,
-    input[type="number"] {
-      background: #1a1a1a;
-      border: 1px solid #333;
-      color: white;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      outline: none;
-      transition: 0.3s;
-    }
+        /* Header */
+        #header {
+            background: rgba(20, 20, 20, 0.95);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid #47d1e0;
+        }
 
-    select:focus,
-    input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 10px var(--primary-glow);
-    }
+        .logo {
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #47d1e0, #00f5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-    /* Buscador + oráculo */
-    .search-section {
-      padding: 20px 5% 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
 
-    .search-bar {
-      display: flex;
-      gap: 10px;
-    }
+        .user-handle {
+            color: #47d1e0;
+            font-weight: 700;
+        }
 
-    .search-bar input {
-      flex: 1;
-      background: #1a1a1a;
-      border: 1px solid #333;
-      color: white;
-      padding: 12px;
-      border-radius: 12px;
-    }
+        /* Main Layout */
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            min-height: calc(100vh - 80px);
+            gap: 2rem;
+            padding: 2rem;
+        }
 
-    .btn-main {
-      background: var(--primary);
-      color: black;
-      border: none;
-      padding: 0 25px;
-      border-radius: 12px;
-      font-weight: 900;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+        @media (min-width: 1200px) {
+            .main-container {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
 
-    .btn-main:active {
-      transform: scale(0.95);
-    }
+        /* Search Section */
+        .search-section {
+            background: rgba(20, 20, 20, 0.7);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(71, 209, 224, 0.3);
+            backdrop-filter: blur(10px);
+        }
 
-    #btn-oracle {
-      width: 100%;
-      padding: 15px;
-      border-radius: 15px;
-      border: none;
-      background: linear-gradient(45deg, #47d1e0, #9b59b6);
-      color: white;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    }
+        .search-input {
+            width: 100%;
+            padding: 1.2rem;
+            background: rgba(71, 209, 224, 0.1);
+            border: 2px solid rgba(71, 209, 224, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.2rem;
+            font-family: inherit;
+        }
 
-    #oracle-result {
-      display: none;
-      padding: 15px;
-      background: rgba(71, 209, 224, 0.1);
-      border: 1px dashed var(--primary);
-      border-radius: 12px;
-      margin-top: 10px;
-      font-size: 0.9rem;
-    }
+        .search-input:focus {
+            outline: none;
+            border-color: #47d1e0;
+            box-shadow: 0 0 20px rgba(71, 209, 224, 0.5);
+        }
 
-    /* Layout principal */
-    .main-layout {
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 25px;
-      padding: 10px 5% 50px;
-    }
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
 
-    .anime-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 20px;
-    }
+        .filter-select {
+            padding: 0.8rem;
+            background: rgba(71, 209, 224, 0.1);
+            border: 1px solid rgba(71, 209, 224, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-family: inherit;
+        }
 
-    /* Tarjetas de anime */
-    .anime-card {
-      background: var(--card-bg);
-      border-radius: 15px;
-      overflow: hidden;
-      border: 1px solid #222;
-      position: relative;
-      transition: 0.4s;
-      cursor: pointer;
-    }
+        .search-btn, .oracle-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #47d1e0, #00f5ff);
+            border: none;
+            border-radius: 10px;
+            color: #000;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 1rem 0.5rem 0 0;
+        }
 
-    .anime-card:hover {
-      border-color: var(--primary);
-      transform: translateY(-8px);
-    }
+        .search-btn:hover, .oracle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(71, 209, 224, 0.6);
+        }
 
-    .anime-card img {
-      width: 100%;
-      height: 230px;
-      object-fit: cover;
-    }
+        /* Anime Grid */
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
 
-    .badge {
-      position: absolute;
-      top: 10px;
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 0.65rem;
-      font-weight: 900;
-      z-index: 10;
-    }
+        .anime-card {
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(71, 209, 224, 0.3);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+        }
 
-    .badge-match {
-      background: rgba(0, 0, 0, 0.85);
-      color: var(--primary);
-      border: 1px solid var(--primary);
-      left: 10px;
-    }
+        .anime-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(71, 209, 224, 0.4);
+            border-color: #47d1e0;
+        }
 
-    .badge-censura {
-      background: var(--danger);
-      color: white;
-      right: 10px;
-    }
+        .anime-poster {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
 
-    .badge-ok {
-      background: var(--success);
-      color: white;
-      right: 10px;
-    }
+        .anime-info {
+            padding: 1.5rem;
+        }
 
-    .anime-info {
-      padding: 12px;
-    }
+        .anime-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #47d1e0;
+        }
 
-    .anime-title {
-      font-size: 0.85rem;
-      font-weight: 700;
-      height: 38px;
-      overflow: hidden;
-      margin-bottom: 8px;
-      line-height: 1.2;
-    }
+        .match-score {
+            background: linear-gradient(45deg, #ff0080, #ff4d94);
+            color: #000;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
 
-    .anime-meta {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.7rem;
-      color: #888;
-    }
+        .anime-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
 
-    /* Chat */
-    .chat-container {
-      background: var(--surface);
-      border: 1px solid #222;
-      border-radius: 20px;
-      height: 500px;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
+        .censor-tag {
+            background: #ff4757;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
 
-    .chat-header {
-      padding: 15px;
-      border-bottom: 1px solid #222;
-      text-align: center;
-      font-weight: 900;
-      color: var(--primary);
-      font-size: 0.8rem;
-    }
+        /* Modal */
+        #anime-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            backdrop-filter: blur(15px);
+        }
 
-    .chat-messages {
-      flex: 1;
-      padding: 15px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+            background: rgba(20, 20, 20, 0.98);
+            border-radius: 20px;
+            border: 2px solid #47d1e0;
+            overflow: hidden;
+        }
 
-    .msg {
-      background: #1a1a1a;
-      padding: 10px;
-      border-radius: 12px;
-      font-size: 0.8rem;
-      border-left: 3px solid var(--primary);
-    }
+        .modal-header {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(71, 209, 224, 0.3);
+        }
 
-    .chat-input {
-      padding: 15px;
-      background: #000;
-      display: flex;
-      gap: 10px;
-    }
+        .modal-trailer {
+            width: 100%;
+            height: 400px;
+            border: none;
+        }
 
-    .chat-input input {
-      flex: 1;
-      background: #1a1a1a;
-      border: 1px solid #333;
-      color: white;
-      padding: 10px;
-      border-radius: 10px;
-      font-size: 0.8rem;
-      outline: none;
-    }
+        .modal-body {
+            padding: 2rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
 
-    /* Modal */
-    #modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.98);
-      z-index: 2000;
-      padding: 25px;
-      overflow-y: auto;
-    }
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #47d1e0;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
 
-    .modal-content {
-      max-width: 600px;
-      margin: auto;
-    }
+        /* Chat Panel */
+        .chat-panel {
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 15px;
+            border: 1px solid rgba(71, 209, 224, 0.3);
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
+        }
 
-    .modal-img {
-      width: 100%;
-      border-radius: 20px;
-      border: 1px solid #333;
-      margin-bottom: 20px;
-    }
+        .chat-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(71, 209, 224, 0.3);
+            text-align: center;
+        }
 
-    .btn-back {
-      background: var(--primary);
-      color: black;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 10px;
-      font-weight: 900;
-      margin-bottom: 20px;
-      cursor: pointer;
-    }
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            max-height: 60vh;
+        }
 
-    @media (max-width: 900px) {
-      .main-layout {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+        .message {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+
+        .message.user {
+            background: rgba(71, 209, 224, 0.3);
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .message.bot {
+            background: rgba(71, 209, 224, 0.1);
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 1.5rem;
+            border-top: 1px solid rgba(71, 209, 224, 0.3);
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 1rem;
+            background: rgba(71, 209, 224, 0.1);
+            border: 1px solid rgba(71, 209, 224, 0.3);
+            border-radius: 25px;
+            color: #fff;
+            margin-right: 1rem;
+        }
+
+        .chat-send {
+            padding: 1rem 1.5rem;
+            background: #47d1e0;
+            border: none;
+            border-radius: 25px;
+            color: #000;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(71, 209, 224, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #47d1e0, #00f5ff);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1rem;
+                gap: 1rem;
+            }
+            
+            .anime-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(71, 209, 224, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #47d1e0;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="logo">
-      <img src="1000371388.png" alt="Logo" onerror="this.style.opacity='0'">
-      <span>ANIME LOL</span>
-    </div>
-    <div style="font-size: 0.7rem; color: var(--primary); font-weight: 700;">
-      ● IA CORE ACTIVE
-    </div>
-  </header>
-
-  <div class="filter-panel">
-    <select id="f-genre">
-      <option value="">Género (Todos)</option>
-      <option value="1">Acción</option>
-      <option value="2">Aventura</option>
-      <option value="4">Comedia</option>
-      <option value="10">Fantasía</option>
-      <option value="22">Romance</option>
-      <option value="37">Sobrenatural</option>
-      <option value="24">Ciencia Ficción</option>
-    </select>
-
-    <select id="f-type">
-      <option value="">Origen/Tipo</option>
-      <option value="tv">Japón (TV)</option>
-      <option value="ona">Web (China/Corea/ONA)</option>
-      <option value="movie">Películas</option>
-    </select>
-
-    <select id="f-status">
-      <option value="">Estado</option>
-      <option value="airing">En Emisión</option>
-      <option value="complete">Finalizado</option>
-    </select>
-
-    <input
-      type="number"
-      id="f-year"
-      placeholder="Año (Ej: 2024)"
-      min="1990"
-      max="2026"
-    >
-  </div>
-
-  <section class="search-section">
-    <div class="search-bar">
-      <input
-        type="text"
-        id="main-search"
-        placeholder="Escribe el nombre del anime..."
-      >
-      <button class="btn-main" onclick="executeSearch()">BUSCAR</button>
-    </div>
-
-    <button id="btn-oracle" onclick="consultOracle()">
-      🔮 CONSULTAR ORÁCULO IA: ¿QUÉ VER HOY?
-    </button>
-
-    <div id="oracle-result"></div>
-  </section>
-
-  <main class="main-layout">
-    <section>
-      <h3
-        id="feed-title"
-        style="margin-bottom:20px; color:var(--primary); font-size:0.9rem; text-transform:uppercase;"
-      >
-        Recomendaciones de Temporada
-      </h3>
-      <div class="anime-grid" id="anime-feed"></div>
-    </section>
-
-    <aside>
-      <div class="chat-container">
-        <div class="chat-header">RED DE USUARIOS</div>
-        <div class="chat-messages" id="chat-box">
-          <div class="msg">
-            <b>IA:</b> Bienvenido. El sistema está listo para buscar en toda la base de datos.
-          </div>
+    <!-- Auth Overlay -->
+    <div id="auth-overlay">
+        <div class="auth-container">
+            <h1 class="auth-title glow-strong">ANIME LOL</h1>
+            <p class="glow">Acceso Cyberpunk Autorizado</p>
+            <input type="text" id="username" class="auth-input glow" placeholder="Usuario @handle">
+            <input type="password" id="password" class="auth-input glow" placeholder="Contraseña">
+            <button class="auth-btn glow" onclick="login()">ACCEDER AL NEXUS</button>
         </div>
-        <div class="chat-input">
-          <input type="text" id="chat-in" placeholder="Comenta...">
-          <button class="btn-main" id="chat-send" style="padding:0 15px;">
-            <i class="fas fa-paper-plane"></i>
-          </button>
-        </div>
-      </div>
-    </aside>
-  </main>
-
-  <!-- Modal Detalles -->
-  <div id="modal">
-    <div class="modal-content">
-      <button class="btn-back" onclick="closeModal()">
-        <i class="fas fa-chevron-left"></i> VOLVER
-      </button>
-      <img id="m-img" class="modal-img">
-      <h2
-        id="m-title"
-        style="color:var(--primary); margin-bottom:10px; font-size:1.5rem;"
-      ></h2>
-      <div
-        id="m-stats"
-        style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;"
-      ></div>
-      <p
-        id="m-desc"
-        style="line-height:1.7; color:#ccc; background:#111; padding:20px; border-radius:15px; border:1px solid #222; font-size:0.95rem;"
-      ></p>
-      <br>
-      <button
-        id="m-cap-btn"
-        style="width:100%; padding:15px; background:none; border:1px solid var(--primary); color:var(--primary); font-weight:900; border-radius:12px; cursor:pointer;"
-      >
-        MARCAR ÚLTIMO CAPÍTULO
-      </button>
     </div>
-  </div>
 
-  <!-- JS principal (el archivo que ya te di) -->
-  <script src="app.js" defer></script>
+    <!-- Header -->
+    <header id="header" style="display: none;">
+        <div class="logo glow-strong">ANIME LOL</div>
+        <div class="user-info">
+            <span>Sesión Activa:</span>
+            <span id="current-user" class="user-handle glow"></span>
+            <button class="auth-btn" onclick="logout()" style="padding: 0.5rem 1rem; font-size: 0.9rem;">LOGOUT</button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container" id="main-container" style="display: none;">
+        <!-- Left Panel - Search & Grid -->
+        <div>
+            <div class="search-section">
+                <input type="text" id="search-input" class="search-input" placeholder="Busca tu anime cyberpunk...">
+                <div class="filters">
+                    <select id="genre-filter" class="filter-select">
+                        <option value="">Todos los Géneros</option>
+                        <option value="Action">Acción</option>
+                        <option value="Adventure">Aventura</option>
+                        <option value="Comedy">Comedia</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Sci-Fi">Ciencia Ficción</option>
+                    </select>
+                    <select id="origin-filter" class="filter-select">
+                        <option value="">Todos los Orígenes</option>
+                        <option value="JP">Japón</option>
+                        <option value="CN">China</option>
+                        <option value="KR">Corea</option>
+                    </select>
+                    <select id="status-filter" class="filter-select">
+                        <option value="">Todos los Estados</option>
+                        <option value="airing">Emisión</option>
+                        <option value="complete">Finalizado</option>
+                        <option value="upcoming">Próximamente</option>
+                    </select>
+                    <select id="year-filter" class="filter-select">
+                        <option value="">Todos los Años</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                    </select>
+                </div>
+                <button class="search-btn" onclick="searchAnime()">🔍 BUSCAR ANIME</button>
+                <button class="oracle-btn" onclick="oracleRecommendation()">🧠 ORÁCULO IA</button>
+                <div class="progress-bar" id="progress-bar" style="display: none;">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+
+            <div id="anime-grid" class="anime-grid"></div>
+        </div>
+
+        <!-- Right Panel - Chat -->
+        <div class="chat-panel">
+            <div class="chat-header">
+                <h3 class="glow">CHAT GLOBAL CYBERPUNK</h3>
+                <p>Conecta con otakus del nexus</p>
+            </div>
+            <div id="chat-messages" class="chat-messages"></div>
+            <div class="chat-input">
+                <input type="text" id="chat-input" placeholder="Escribe tu mensaje neon...">
+                <button class="chat-send" onclick="sendMessage()">ENVIAR</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Anime Modal -->
+    <div id="anime-modal">
+        <div class="modal-content">
+            <button class="close-btn glow" onclick="closeModal()">&times;</button>
+            <div class="modal-header">
+                <h2 id="modal-title" class="glow-strong"></h2>
+                <div id="modal-match" class="match-score"></div>
+            </div>
+            <iframe id="modal-trailer" class="modal-trailer" allowfullscreen></iframe>
+            <div class="modal-body">
+                <div id="modal-summary"></div>
+                <div style="margin-top: 1.5rem;">
+                    <button class="auth-btn" onclick="markEpisode()" style="width: auto; padding: 0.8rem 1.5rem;">
+                        ✅ Marcar Episodio Visto
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global State
+        let currentUser = null;
+        let animeData = [];
+        let chatMessages = JSON.parse(localStorage.getItem('animeLOL_chat') || '[]');
+
+        // Supabase Config (Ready for integration)
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+        // Jikan API Base URL
+        const JIKAN_API = 'https://api.jikan.moe/v4';
+
+        // Auth Functions
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (username && password) {
+                // Simple auth (demo) - In production use Supabase Auth
+                currentUser = username.startsWith('@') ? username : `@${username}`;
+                localStorage.setItem('animeLOL_user', currentUser);
+                localStorage.setItem('animeLOL_session', btoa(`${username}:${password}`));
+                
+                document.getElementById('current-user').textContent = currentUser;
+                document.getElementById('auth-overlay').style.display = 'none';
+                document.getElementById('header').style.display = 'flex';
+                document.getElementById('main-container').style.display = 'grid';
+                
+                loadChatMessages();
+                return true;
+            }
+            alert('Usuario y contraseña requeridos');
+            return false;
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('animeLOL_user');
+            localStorage.removeItem('animeLOL_session');
+            document.getElementById('header').style.display = 'none';
+            document.getElementById('main-container').style.display = 'none';
+            document.getElementById('auth-overlay').style.display = 'flex';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        // Check session on load
+        window.addEventListener('load', () => {
+            const savedUser = localStorage.getItem('animeLOL_user');
+            if (savedUser) {
+                currentUser = savedUser;
+                document.getElementById('current-user').textContent = currentUser;
+                document.getElementById('header').style.display = 'flex';
+                document.getElementById('main-container').style.display = 'grid';
+                loadChatMessages();
+            }
+        });
+
+        // Enter key support
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                if (document.getElementById('auth-overlay').style.display !== 'none') {
+                    login();
+                } else if (document.activeElement.id === 'search-input') {
+                    searchAnime();
+                } else if (document.activeElement.id === 'chat-input') {
+                    sendMessage();
+                }
+            }
+        });
+
+        // Search & Filter Functions
+        async function searchAnime() {
+            const query = document.getElementById('search-input').value;
+            const genre = document.getElementById('genre-filter').value;
+            const origin = document.getElementById('origin-filter').value;
+            const status = document.getElementById('status-filter').value;
+            const year = document.getElementById('year-filter').value;
+
+            if (!query && !genre && !origin && !status && !year) {
+                showTrending();
+                return;
+            }
+
+            showProgress(true);
+            
+            try {
+                let url = `${JIKAN_API}/anime`;
+                const params = new URLSearchParams();
+                
+                if (query) params.append('q', query);
+                if (genre) params.append('genres', genre);
+                if (status) params.append('status', status);
+                if (year) params.append('year', year);
+                
+                params.append('limit', '40');
+                params.append('order_by', 'score');
+                params.append('sort', 'desc');
+
+                const response = await fetch(`${url}?${params}`);
+                const data = await response.json();
+                
+                animeData = data.data || [];
+                renderAnimeGrid(animeData);
+            } catch (error) {
+                console.error('Search error:', error);
+                renderAnimeGrid([]);
+            } finally {
+                showProgress(false);
+            }
+        }
+
+        async function showTrending() {
+            showProgress(true);
+            try {
+                const response = await fetch(`${JIKAN_API}/top/anime?limit=20`);
+                const data = await response.json();
+                animeData = data.data || [];
+                renderAnimeGrid(animeData);
+            } catch (error) {
+                console.error('Trending error:', error);
+                renderAnimeGrid([]);
+            } finally {
+                showProgress(false);
+            }
+        }
+
+        function renderAnimeGrid(animes) {
+            const grid = document.getElementById('anime-grid');
+            grid.innerHTML = '';
+
+            animes.forEach(anime => {
+                const card = createAnimeCard(anime);
+                grid.appendChild(card);
+            });
+        }
+
+        function createAnimeCard(anime) {
+            const card = document.createElement('div');
+            card.className = 'anime-card';
+            card.onclick = () => openAnimeModal(anime);
+
+            const matchScore = 70 + Math.floor(Math.random() * 30); // IA Match 70-99%
+            const isCensored = ['R+', 'Rx'].includes(anime.rating || '');
+            const origin = anime.demographics?.[0]?.split(' ')[0] || 'JP';
+
+            card.innerHTML = `
+                <img src="${anime.images?.jpg?.large_image_url || anime.images?.jpg?.image_url || 'https://via.placeholder.com/300x400/1a1a1a/47d1e0?text=NO+IMAGE'}" 
+                     alt="${anime.title}" class="anime-poster" loading="lazy">
+                <div class="anime-info">
+                    <h3 class="anime-title">${anime.title}</h3>
+                    <div class="match-score glow">MATCH IA ${matchScore}%</div>
+                    <div class="anime-meta">
+                        <span>⭐ ${anime.score || '?'} | ${anime.episodes || '?'} eps</span>
+                        <span>${anime.year || '?'}</span>
+                    </div>
+                    <div class="anime-meta">
+                        <span>${anime.status?.toUpperCase() || 'DESCONOCIDO'}</span>
+                        ${isCensored ? '<span class="censor-tag">+18</span>' : ''}
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // IA Oracle
+        async function oracleRecommendation() {
+            showProgress(true);
+            
+            // Simulate IA processing
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            const randomAnime = animeData[Math.floor(Math.random() * animeData.length)] || 
+                               { title: 'Anime Misterioso del Nexus', images: {jpg: {image_url: 'https://via.placeholder.com/300x400/1a1a1a/47d1e0?text=ORÁCULO'}}, score: 8.7 };
+            
+            const oracleMatch = 85 + Math.floor(Math.random() * 15);
+            
+            const card = document.createElement('div');
+            card.className = 'anime-card';
+            card.innerHTML = `
+                <img src="${randomAnime.images?.jpg?.image_url || 'https://via.placeholder.com/300x400/1a1a1a/47d1e0?text=ORÁCULO'}" 
+                     alt="${randomAnime.title}" class="anime-poster">
+                <div class="anime-info">
+                    <h3 class="anime-title glow-strong">🔮 RECOMENDACIÓN ORÁCULO</h3>
+                    <div class="match-score glow" style="background: linear-gradient(45deg, #ff0080, #ff4d94);">MATCH DESTINO ${oracleMatch}%</div>
+                    <p style="color: rgba(255,255,255,0.8); margin-top: 1rem;">
+                        El Oráculo IA ha analizado ${Math.floor(Math.random() * 10000)} datos interdimensionales y declara este anime como tu destino neon.
+                    </p>
+                    <button class="auth-btn" onclick="openAnimeModal(${JSON.stringify(randomAnime)})" style="width: 100%; margin-top: 1rem;">
+                        ABRIR PORTAL
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('anime-grid').innerHTML = '';
+            document.getElementById('anime-grid').appendChild(card);
+            
+            showProgress(false);
+        }
+// Modal Functions
+        function openAnimeModal(anime) {
+            document.getElementById('modal-title').textContent = anime.title;
+            document.getElementById('modal-match').textContent = `MATCH IA ${70 + Math.floor(Math.random() * 30)}%`;
+            
+            // Load trailer (YouTube search)
+            const trailerId = getTrailerId(anime.title);
+            document.getElementById('modal-trailer').src = `https://www.youtube.com/embed/${trailerId}?autoplay=1&rel=0`;
+            
+            // IA Summary
+            document.getElementById('modal-summary').innerHTML = generateIASummary(anime);
+            
+            document.getElementById('anime-modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('anime-modal').style.display = 'none';
+            document.getElementById('modal-trailer').src = '';
+        }
+
+        function getTrailerId(title) {
+            // Demo trailer IDs - In production, search YouTube API
+            const trailers = {
+                'One Piece': 'c95KLfMVxY4',
+                'Naruto': '1V_hTapY98I',
+                'Attack on Titan': 'aSnivFi3cj4',
+                'Demon Slayer': 'h7KQY8b7j6M'
+            };
+            return trailers[title.split(' ')[0]] || 'dQw4w9WgXcQ'; // Rickroll fallback ;)
+        }
+
+        function generateIASummary(anime) {
+            const synopsis = anime.synopsis?.substring(0, 300) + '...' || 'Sinopsis no disponible';
+            const genres = anime.genres?.map(g => g.name).join(', ') || 'Géneros desconocidos';
+            const score = anime.score || 'N/A';
+            
+            return `
+                <div class="glow">
+                    <h4>📊 ANÁLISIS IA EJECUTIVO</h4>
+                    <p><strong>Sinopsis Técnica:</strong> ${synopsis}</p>
+                    <p><strong>Géneros:</strong> ${genres}</p>
+                    <p><strong>Score Comunidad:</strong> ${score}/10</p>
+                    <p><strong>Recomendación IA:</strong> 
+                        ${anime.score > 8 ? '🔥 IMPERDIBLE' : anime.score > 7 ? '⭐ RECOMENDADO' : '📺 VALORAR'}
+                    </p>
+                </div>
+            `;
+        }
+
+        function markEpisode() {
+            const animeTitle = document.getElementById('modal-title').textContent;
+            const progress = JSON.parse(localStorage.getItem('animeLOL_progress') || '{}');
+            progress[animeTitle] = (progress[animeTitle] || 0) + 1;
+            localStorage.setItem('animeLOL_progress', JSON.stringify(progress));
+            alert(`✅ Episodio marcado para "${animeTitle}". Progreso: ${progress[animeTitle]} eps`);
+        }
+
+        // Chat Functions
+        function loadChatMessages() {
+            const messagesContainer = document.getElementById('chat-messages');
+            messagesContainer.innerHTML = '';
+            
+            chatMessages.forEach(msg => {
+                const messageEl = document.createElement('div');
+                messageEl.className = `message ${msg.user ? 'user' : 'bot'}`;
+                messageEl.innerHTML = `<strong>${msg.user || 'NexusBot'}:</strong> ${msg.text}`;
+                messagesContainer.appendChild(messageEl);
+            });
+            
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            
+            if (!text || !currentUser) return;
+            
+            // Add user message
+            chatMessages.push({ user: currentUser, text, timestamp: Date.now() });
+            
+            // Bot response
+            setTimeout(() => {
+                const responses = [
+                    '¡Ese anime es puro cyberpunk!',
+                    '🔥 Recomendación recibida en el nexus.',
+                    'Tu gusto neon está registrado.',
+                    '¡Otakus conectados! 🚀',
+                    'Datos transmitidos al servidor central.'
+                ];
+                const botResponse = responses[Math.floor(Math.random() * responses.length)];
+                chatMessages.push({ user: null, text: botResponse, timestamp: Date.now() });
+                saveChatMessages();
+                loadChatMessages();
+            }, 1000);
+            
+            saveChatMessages();
+            loadChatMessages();
+            input.value = '';
+        }
+
+        function saveChatMessages() {
+            localStorage.setItem('animeLOL_chat', JSON.stringify(chatMessages.slice(-100))); // Keep last 100
+        }
+
+        // Progress Bar
+        function showProgress(show) {
+            const progressBar = document.getElementById('progress-bar');
+            const progressFill = document.getElementById('progress-fill');
+            
+            if (show) {
+                progressBar.style.display = 'block';
+                let width = 0;
+                const interval = setInterval(() => {
+                    width += Math.random() * 15;
+                    if (width >= 100) {
+                        width = 100;
+                        clearInterval(interval);
+                    }
+                    progressFill.style.width = width + '%';
+                }, 200);
+            } else {
+                progressBar.style.display = 'none';
+                progressFill.style.width = '0%';
+            }
+        }
+
+        // Close modal on outside click
+        document.getElementById('anime-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'anime-modal') closeModal();
+        });
+    </script>
 </body>
 </html>
