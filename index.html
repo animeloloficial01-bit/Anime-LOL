@@ -2,240 +2,316 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#000000">
-    <link rel="manifest" href="./manifest.json">
-    <title>ANIME LOL | IA CORE V10</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime LOL | Noticias, Tendencias e IA</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&family=M+PLUS+Rounded+1c:wght@700;800&display=swap" rel="stylesheet">
     
     <style>
-        :root { --p: #47d1e0; --bg: #000; --s: #0a0a0a; --t: #fff; --d: #ff4757; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: var(--bg); color: var(--t); min-height: 100vh; overflow-x: hidden; }
+        /* VARIABLES DE MARCA - BASADAS EN TU LOGO */
+        :root {
+            --primary-turquesa: #40E0D0; /* El color de 'LOL' */
+            --bg-dark: #0b0b0b;          /* Negro profundo */
+            --card-bg: #1a1a1a;          /* Gris oscuro para tarjetas */
+            --text-white: #ffffff;
+            --text-gray: #a0a0a0;
+            --jp-red: #ff3e3e;           /* Acento rojo japonés */
+            --glass: rgba(255, 255, 255, 0.05);
+        }
 
-        /* Login */
-        #auth { position: fixed; inset: 0; background: #000; z-index: 5000; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .auth-card { background: var(--s); padding: 35px; border-radius: 25px; border: 1px solid var(--p); width: 100%; max-width: 400px; text-align: center; box-shadow: 0 0 30px rgba(71,209,224,0.2); }
-        .auth-card input { width: 100%; padding: 12px; margin: 10px 0; background: #111; border: 1px solid #333; color: #fff; border-radius: 12px; outline: none; }
-        
-        /* Layout */
-        header { padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; background: rgba(0,0,0,0.95); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); }
-        .app-main { display: grid; grid-template-columns: 1fr 340px; gap: 20px; padding: 20px 5%; }
+        /* RESET Y BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        /* Filtros Pro */
-        .filter-panel { background: var(--s); padding: 15px; border-radius: 15px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; border: 1px solid #222; }
-        select, .in-search { background: #161616; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 8px; font-size: 0.8rem; outline: none; }
-        .btn { background: var(--p); color: #000; border: none; padding: 12px; border-radius: 10px; font-weight: 900; cursor: pointer; transition: 0.3s; }
-        .btn:active { transform: scale(0.95); }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-        /* Grid & Cards */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 15px; }
-        .card { background: #111; border-radius: 15px; overflow: hidden; border: 1px solid #222; position: relative; cursor: pointer; transition: 0.4s; }
-        .card:hover { border-color: var(--p); transform: translateY(-5px); }
-        .card img { width: 100%; height: 220px; object-fit: cover; }
-        .card-body { padding: 10px; }
-        .card-title { font-size: 0.75rem; font-weight: 700; height: 35px; overflow: hidden; }
-        
-        .badge { position: absolute; top: 8px; padding: 4px 8px; border-radius: 6px; font-size: 0.6rem; font-weight: 900; z-index: 10; }
-        .b-match { left: 8px; background: rgba(0,0,0,0.8); color: var(--p); border: 1px solid var(--p); }
-        .b-censura { right: 8px; background: var(--d); color: #fff; }
+        /* NAVEGACIÓN ESTILO MINIMALISTA JAPONÉS */
+        header {
+            background: rgba(11, 11, 11, 0.95);
+            border-bottom: 2px solid var(--primary-turquesa);
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
 
-        /* Chat */
-        .sidebar { background: var(--s); border: 1px solid #222; border-radius: 20px; height: 600px; display: flex; flex-direction: column; position: sticky; top: 90px; }
-        #chat-box { flex: 1; padding: 15px; overflow-y: auto; font-size: 0.8rem; }
-        .msg { background: #161616; padding: 10px; border-radius: 12px; margin-bottom: 8px; border-left: 3px solid var(--p); }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-        /* Modal & Video */
-        #modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 6000; padding: 20px; overflow-y: auto; }
-        .modal-wrap { max-width: 700px; margin: auto; }
-        .vid-box { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 20px; overflow: hidden; background: #000; border: 1px solid #333; }
-        .vid-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .ia-resumen { background: rgba(71,209,224,0.05); border: 1px solid var(--p); padding: 18px; border-radius: 15px; margin: 20px 0; font-size: 0.9rem; line-height: 1.6; }
+        .main-logo {
+            height: 50px; /* Ajuste según tu imagen 1000200842.png */
+            transition: transform 0.3s ease;
+        }
 
-        @media (max-width: 900px) { .app-main { grid-template-columns: 1fr; } }
+        .main-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-turquesa);
+        }
+
+        .ia-status {
+            background: var(--glass);
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--primary-turquesa);
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dot {
+            height: 8px;
+            width: 8px;
+            background-color: var(--primary-turquesa);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px var(--primary-turquesa);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        /* HERO SECTION */
+        #hero {
+            padding: 80px 5%;
+            text-align: center;
+            background: linear-gradient(180deg, #1a1a1a 0%, #0b0b0b 100%);
+        }
+
+        #hero h1 {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .highlight {
+            color: var(--primary-turquesa);
+            text-shadow: 0 0 20px rgba(64, 224, 208, 0.4);
+        }
+
+        #ia-summary {
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--text-gray);
+            font-style: italic;
+            border-left: 3px solid var(--jp-red);
+            padding-left: 15px;
+        }
+
+        /* GRID DE NOTICIAS */
+        .section-title {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            font-size: 2rem;
+            margin: 40px 5% 20px;
+            border-bottom: 4px solid var(--jp-red);
+            display: inline-block;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 0 5% 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .news-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .news-card:hover {
+            border-color: var(--primary-turquesa);
+            transform: translateY(-10px);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            background: #333; /* Placeholder */
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-tag {
+            background: var(--primary-turquesa);
+            color: var(--bg-dark);
+            padding: 2px 10px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        /* FORO */
+        #foro {
+            background: #111;
+            padding: 50px 5%;
+            margin-top: 50px;
+        }
+
+        .forum-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-dark);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid var(--glass);
+        }
+
+        .post-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        textarea {
+            background: var(--card-bg);
+            border: 1px solid #333;
+            border-radius: 10px;
+            color: white;
+            padding: 15px;
+            font-family: inherit;
+            resize: none;
+            height: 100px;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-turquesa);
+        }
+
+        #btn-post {
+            background: var(--primary-turquesa);
+            color: var(--bg-dark);
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        #btn-post:hover {
+            opacity: 0.9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.8rem;
+            color: var(--text-gray);
+        }
     </style>
 </head>
 <body>
 
-    <div id="auth">
-        <div class="auth-card">
-            <img src="1000371388.png" width="60" style="margin-bottom:15px; filter: drop-shadow(0 0 10px var(--p));">
-            <h2 style="color:var(--p); margin-bottom:5px;">ANIME LOL IA</h2>
-            <p style="font-size:0.7rem; color:#666; margin-bottom:20px;">PROTOCOLO DE ACCESO REQUERIDO</p>
-            <input type="text" id="u-in" placeholder="ID de Usuario">
-            <input type="password" id="p-in" placeholder="Clave de Enlace">
-            <button class="btn" style="width:100%;" onclick="startApp()">ACCEDER AL NÚCLEO</button>
-        </div>
-    </div>
-
     <header>
-        <div style="display:flex; align-items:center; gap:10px;">
-            <img src="1000371388.png" height="30" onerror="this.style.display='none'">
-            <span style="color:var(--p); font-weight:900; letter-spacing:1px;">ANIME LOL</span>
-        </div>
-        <div id="u-tag" style="font-size:0.7rem; color:var(--p); font-weight:700;">@OFFLINE</div>
+        <nav class="navbar">
+            <div class="logo-container">
+                <img src="1000200842.png" alt="Anime LOL" class="main-logo">
+            </div>
+            <ul class="nav-links">
+                <li><a href="#noticias">Noticias</a></li>
+                <li><a href="#temporada">Temporada</a></li>
+                <li><a href="#foro">Foro</a></li>
+            </ul>
+            <div class="ia-status">
+                <span class="dot"></span> LOL-Bot Online
+            </div>
+        </nav>
     </header>
 
-    <main class="app-main">
-        <section>
-            <div class="filter-panel">
-                <input type="text" id="f-name" class="in-search" placeholder="Nombre...">
-                <select id="f-genre">
-                    <option value="">Género</option>
-                    <option value="1">Acción</option><option value="10">Fantasía</option><option value="22">Romance</option><option value="4">Comedia</option>
-                </select>
-                <select id="f-type">
-                    <option value="">Origen</option>
-                    <option value="tv">Japón (TV)</option>
-                    <option value="ona">Web (China/Corea)</option>
-                </select>
-                <input type="number" id="f-year" class="in-search" placeholder="Año" min="1990" max="2026">
-                <button class="btn" onclick="fetchAnime()"><i class="fas fa-search"></i></button>
+    <main>
+        <section id="hero">
+            <div class="hero-content">
+                <h1>ANIME <span class="highlight">LOL</span></h1>
+                <p id="ia-summary">"La IA dice: Parece que la temporada de invierno viene cargada de Isekais... ¡Prepara tus snacks!"</p>
             </div>
-
-            <button class="btn" style="width:100%; margin-bottom:20px; background:linear-gradient(45deg, var(--p), #9b59b6); color:#fff;" onclick="oracle()">🔮 CONSULTAR ORÁCULO IA</button>
-
-            <div class="grid" id="main-grid"></div>
         </section>
 
-        <aside>
-            <div class="sidebar">
-                <div style="padding:15px; border-bottom:1px solid #222; font-size:0.7rem; font-weight:900; color:var(--p); text-align:center;">📡 CANAL DE COMUNIDAD GLOBAL</div>
-                <div id="chat-box"></div>
-                <div style="padding:15px; display:flex; gap:8px;">
-                    <input type="text" id="c-input" placeholder="Escribe..." style="flex:1; background:#111; border:1px solid #333; color:#fff; padding:8px; border-radius:8px; font-size:0.8rem;">
-                    <button onclick="sendMsg()" style="background:var(--p); border:none; padding:8px 12px; border-radius:8px;"><i class="fas fa-paper-plane"></i></button>
+        <section id="noticias">
+            <h2 class="section-title">Tendencias de Temporada</h2>
+            <div id="news-grid" class="grid-container">
+                <article class="news-card">
+                    <div class="card-img" style="background: url('https://via.placeholder.com/400x200') center/cover;"></div>
+                    <div class="card-content">
+                        <span class="card-tag">Tendencia</span>
+                        <h3>Título de la noticia generado por IA</h3>
+                        <p>Breve resumen optimizado por la inteligencia artificial para Anime LOL...</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="foro">
+            <h2 class="section-title">Foro de la Comunidad</h2>
+            <div class="forum-container">
+                <div id="forum-posts">
+                    <p style="color: var(--text-gray); text-align: center;">¡Sé el primero en comentar!</p>
+                </div>
+                <div class="post-box">
+                    <textarea id="user-comment" placeholder="¿Qué anime estás viendo hoy?"></textarea>
+                    <button id="btn-post">PUBLICAR EN EL FORO</button>
                 </div>
             </div>
-        </aside>
+        </section>
     </main>
 
-    <div id="modal">
-        <div class="modal-wrap">
-            <button class="btn" style="background:#222; color:#fff; margin-bottom:20px;" onclick="closeM()">✕ CERRAR</button>
-            <div class="vid-box" id="v-box"></div>
-            <h2 id="m-title" style="color:var(--p); margin-top:20px; font-size:1.8rem;"></h2>
-            
-            <div class="ia-resumen">
-                <h4 style="color:var(--p); font-size:0.7rem; margin-bottom:8px; text-transform:uppercase;">💡 Resumen e Inteligencia IA:</h4>
-                <p id="m-desc"></p>
-            </div>
+    <footer>
+        <p>&copy; 2026 Anime LOL - Diseñado con Estilo Japonés e IA</p>
+    </footer>
 
-            <div id="m-meta" style="color:#777; font-size:0.8rem; margin-bottom:20px; display:flex; gap:15px;"></div>
-            <button id="cap-btn" class="btn" style="width:100%; background:none; border:1px solid var(--p); color:var(--p);">MARCAR ÚLTIMO CAPÍTULO</button>
-        </div>
-    </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
-        let currentUser = "";
-
-        function startApp() {
-            const u = document.getElementById('u-in').value;
-            if(u.length < 2) return alert("ID Requerido");
-            currentUser = u;
-            document.getElementById('u-tag').innerText = `@${u.toUpperCase()}`;
-            document.getElementById('auth').style.display = 'none';
-            fetchAnime();
-        }
-
-        async function fetchAnime() {
-            const grid = document.getElementById('main-grid');
-            const name = document.getElementById('f-name').value;
-            const genre = document.getElementById('f-genre').value;
-            const type = document.getElementById('f-type').value;
-            const year = document.getElementById('f-year').value;
-
-            grid.innerHTML = "<p>Iniciando escaneo de red...</p>";
-            
-            // Fix de conexión: HTTPS forzado + Anti-Cache
-            let url = `https://api.jikan.moe/v4/anime?q=${name}&limit=16&genres=${genre}&type=${type}&start_date=${year ? year+'-01-01' : ''}&order_by=score&sort=desc&_=${new Date().getTime()}`;
-            
-            try {
-                const res = await fetch(url);
-                if(!res.ok) throw new Error();
-                const { data } = await res.json();
-                
-                grid.innerHTML = '';
-                data.forEach(a => {
-                    const match = Math.floor(Math.random() * 20) + 79;
-                    const isNSFW = a.rating && (a.rating.includes('R') || a.rating.includes('Rx'));
-                    const myCap = localStorage.getItem(`cap_${a.mal_id}`) || "1";
-
-                    grid.innerHTML += `
-                        <div class="card" onclick='openM(${JSON.stringify(a).replace(/'/g, "&apos;")})'>
-                            <div class="badge b-match">${match}% MATCH</div>
-                            ${isNSFW ? '<div class="badge b-censura">+18</div>' : '<div class="badge" style="background:green; right:8px; color:white;">S/C</div>'}
-                            <img src="${a.images.jpg.large_image_url}" loading="lazy">
-                            <div class="card-body">
-                                <div class="card-title">${a.title}</div>
-                                <div style="font-size:0.6rem; color:#666; margin-top:5px;">Cap. Actual: ${myCap}</div>
-                            </div>
-                        </div>
-                    `;
-                });
-            } catch (e) {
-                grid.innerHTML = "<p style='color:var(--d)'>Error de Enlace: La API está saturada. Espera 5 seg.</p>";
-            }
-        }
-
-        function openM(a) {
-            document.getElementById('m-title').innerText = a.title;
-            
-            // Traductor y Resumen IA
-            let desc = a.synopsis ? a.synopsis : "Sin descripción disponible.";
-            document.getElementById('m-desc').innerText = desc
-                .replace(/is a/g, "es un").replace(/The story/g, "La historia")
-                .substring(0, 300) + "... [Análisis IA: Obra de alta fidelidad tipo " + a.type + "].";
-
-            const vBox = document.getElementById('v-box');
-            if(a.trailer && a.trailer.youtube_id) {
-                vBox.innerHTML = `<iframe src="https://www.youtube.com/embed/${a.trailer.youtube_id}?autoplay=1" allowfullscreen></iframe>`;
-            } else {
-                vBox.innerHTML = "<div style='padding:60px; text-align:center;'>Trailer no disponible</div>";
-            }
-
-            document.getElementById('m-meta').innerHTML = `<span>Año: ${a.year || 'N/A'}</span> <span>Rating: ${a.rating}</span> <span>Score: ★${a.score}</span>`;
-            
-            document.getElementById('cap-btn').onclick = () => {
-                const c = prompt("Número de capítulo:", "1");
-                if(c) {
-                    localStorage.setItem(`cap_${a.mal_id}`, c);
-                    fetchAnime();
-                    alert("Progreso guardado.");
-                }
-            };
-
-            document.getElementById('modal').style.display = 'block';
-        }
-
-        function closeM() {
-            document.getElementById('modal').style.display = 'none';
-            document.getElementById('v-box').innerHTML = '';
-        }
-
-        function sendMsg() {
-            const inpt = document.getElementById('c-input');
-            const box = document.getElementById('chat-box');
-            if(!inpt.value) return;
-            const d = document.createElement('div');
-            d.className = 'msg';
-            d.innerHTML = `<b>@${currentUser}:</b> ${inpt.value}`;
-            box.appendChild(d);
-            inpt.value = '';
-            box.scrollTop = box.scrollHeight;
-        }
-
-        function oracle() {
-            const r = ["Solo Leveling", "Chainsaw Man", "Oshi no Ko", "Frieren", "Bleach TYBW"];
-            alert("🔮 ORÁCULO IA: Basado en tus ondas cerebrales, deberías ver: " + r[Math.floor(Math.random()*r.length)]);
-        }
-
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js').catch(e => console.log(e));
-        }
+        // Aquí irá nuestra lógica de conexión en el siguiente paso
+        console.log("Anime LOL cargado correctamente con estilo Japonés.");
     </script>
 </body>
 </html>
-        
