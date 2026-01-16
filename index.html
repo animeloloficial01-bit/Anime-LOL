@@ -4,260 +4,238 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#000000">
-    <title>Anime LOL | IA Full Platform</title>
+    <link rel="manifest" href="./manifest.json">
+    <title>ANIME LOL | IA CORE V10</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        :root {
-            --primary: #47d1e0;
-            --primary-glow: rgba(71, 209, 224, 0.4);
-            --bg: #000000;
-            --surface: #0a0a0a;
-            --card-bg: #111;
-            --text: #ffffff;
-            --danger: #ff4757;
-        }
-
-        /* --- Estilos Globales --- */
+        :root { --p: #47d1e0; --bg: #000; --s: #0a0a0a; --t: #fff; --d: #ff4757; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+        body { background: var(--bg); color: var(--t); min-height: 100vh; overflow-x: hidden; }
 
-        /* --- Login Overlay --- */
-        #auth-screen {
-            position: fixed; inset: 0; background: #000; z-index: 5000;
-            display: flex; align-items: center; justify-content: center; padding: 20px;
-        }
-        .auth-box {
-            background: #0a0a0a; padding: 40px; border-radius: 20px; border: 1px solid var(--primary);
-            width: 100%; max-width: 400px; text-align: center; box-shadow: 0 0 30px var(--primary-glow);
-        }
-        .auth-box input {
-            width: 100%; padding: 12px; margin: 10px 0; background: #111; border: 1px solid #333;
-            color: white; border-radius: 10px; outline: none;
-        }
-        .btn-action {
-            width: 100%; padding: 15px; background: var(--primary); color: #000;
-            border: none; border-radius: 10px; font-weight: 900; cursor: pointer; transition: 0.3s;
-        }
-
-        /* --- Header --- */
-        header {
-            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid #222; background: rgba(0,0,0,0.9); position: sticky; top: 0; z-index: 1000;
-        }
-        .logo { display: flex; align-items: center; gap: 10px; font-weight: 900; color: var(--primary); }
-
-        /* --- Layout --- */
-        .app-container { display: grid; grid-template-columns: 1fr 350px; gap: 20px; padding: 20px 5%; }
-
-        /* --- Filtros --- */
-        .filter-section { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); 
-            gap: 10px; margin-bottom: 25px; background: #0a0a0a; padding: 15px; border-radius: 12px;
-        }
-        select, .search-in { background: #1a1a1a; border: 1px solid #333; color: white; padding: 10px; border-radius: 8px; outline: none; }
-
-        /* --- Grid de Animes --- */
-        .anime-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
-        .anime-card {
-            background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid #222;
-            position: relative; transition: 0.3s; cursor: pointer;
-        }
-        .anime-card:hover { border-color: var(--primary); transform: translateY(-5px); }
-        .anime-card img { width: 100%; height: 230px; object-fit: cover; }
+        /* Login */
+        #auth { position: fixed; inset: 0; background: #000; z-index: 5000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .auth-card { background: var(--s); padding: 35px; border-radius: 25px; border: 1px solid var(--p); width: 100%; max-width: 400px; text-align: center; box-shadow: 0 0 30px rgba(71,209,224,0.2); }
+        .auth-card input { width: 100%; padding: 12px; margin: 10px 0; background: #111; border: 1px solid #333; color: #fff; border-radius: 12px; outline: none; }
         
-        .badge-match { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.8); color: var(--primary); padding: 4px 8px; border-radius: 5px; font-size: 0.6rem; font-weight: 900; border: 1px solid var(--primary); }
-        .badge-censura { position: absolute; top: 10px; right: 10px; background: var(--danger); padding: 4px 8px; border-radius: 5px; font-size: 0.6rem; font-weight: 900; }
+        /* Layout */
+        header { padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; background: rgba(0,0,0,0.95); position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); }
+        .app-main { display: grid; grid-template-columns: 1fr 340px; gap: 20px; padding: 20px 5%; }
 
-        /* --- Chat Global --- */
-        .chat-sidebar { background: #0a0a0a; border: 1px solid #222; border-radius: 20px; height: 600px; display: flex; flex-direction: column; sticky; top: 90px; }
-        #chat-render { flex: 1; padding: 15px; overflow-y: auto; font-size: 0.8rem; }
-        .chat-msg { background: #161616; padding: 10px; border-radius: 10px; margin-bottom: 8px; border-left: 3px solid var(--primary); }
-        .chat-control { padding: 15px; border-top: 1px solid #222; display: flex; gap: 10px; }
+        /* Filtros Pro */
+        .filter-panel { background: var(--s); padding: 15px; border-radius: 15px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; border: 1px solid #222; }
+        select, .in-search { background: #161616; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 8px; font-size: 0.8rem; outline: none; }
+        .btn { background: var(--p); color: #000; border: none; padding: 12px; border-radius: 10px; font-weight: 900; cursor: pointer; transition: 0.3s; }
+        .btn:active { transform: scale(0.95); }
 
-        /* --- Modal Detalle & Trailer --- */
-        #modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; padding: 20px; overflow-y: auto; }
-        .modal-body { max-width: 700px; margin: auto; padding-bottom: 50px; }
-        .video-box { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 15px; overflow: hidden; background: #000; margin-bottom: 20px; }
-        .video-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        .ai-summary-box { background: rgba(71,209,224,0.1); border: 1px solid var(--primary); padding: 20px; border-radius: 15px; margin: 20px 0; line-height: 1.6; }
+        /* Grid & Cards */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 15px; }
+        .card { background: #111; border-radius: 15px; overflow: hidden; border: 1px solid #222; position: relative; cursor: pointer; transition: 0.4s; }
+        .card:hover { border-color: var(--p); transform: translateY(-5px); }
+        .card img { width: 100%; height: 220px; object-fit: cover; }
+        .card-body { padding: 10px; }
+        .card-title { font-size: 0.75rem; font-weight: 700; height: 35px; overflow: hidden; }
+        
+        .badge { position: absolute; top: 8px; padding: 4px 8px; border-radius: 6px; font-size: 0.6rem; font-weight: 900; z-index: 10; }
+        .b-match { left: 8px; background: rgba(0,0,0,0.8); color: var(--p); border: 1px solid var(--p); }
+        .b-censura { right: 8px; background: var(--d); color: #fff; }
 
-        @media (max-width: 900px) { .app-container { grid-template-columns: 1fr; } }
+        /* Chat */
+        .sidebar { background: var(--s); border: 1px solid #222; border-radius: 20px; height: 600px; display: flex; flex-direction: column; position: sticky; top: 90px; }
+        #chat-box { flex: 1; padding: 15px; overflow-y: auto; font-size: 0.8rem; }
+        .msg { background: #161616; padding: 10px; border-radius: 12px; margin-bottom: 8px; border-left: 3px solid var(--p); }
+
+        /* Modal & Video */
+        #modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 6000; padding: 20px; overflow-y: auto; }
+        .modal-wrap { max-width: 700px; margin: auto; }
+        .vid-box { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 20px; overflow: hidden; background: #000; border: 1px solid #333; }
+        .vid-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        .ia-resumen { background: rgba(71,209,224,0.05); border: 1px solid var(--p); padding: 18px; border-radius: 15px; margin: 20px 0; font-size: 0.9rem; line-height: 1.6; }
+
+        @media (max-width: 900px) { .app-main { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
-    <div id="auth-screen">
-        <div class="auth-box">
-            <img src="1000371388.png" width="60" style="margin-bottom:10px; filter:drop-shadow(0 0 10px var(--primary))">
-            <h2 style="color:var(--primary); margin-bottom:10px;">ANIME LOL IA</h2>
-            <p style="font-size:0.7rem; color:#888; margin-bottom:20px;">INGRESA A LA RED GLOBAL</p>
-            <input type="text" id="login-user" placeholder="Nombre de usuario">
-            <input type="password" id="login-pass" placeholder="Contraseña">
-            <button class="btn-action" onclick="login()">ACCEDER</button>
+    <div id="auth">
+        <div class="auth-card">
+            <img src="1000371388.png" width="60" style="margin-bottom:15px; filter: drop-shadow(0 0 10px var(--p));">
+            <h2 style="color:var(--p); margin-bottom:5px;">ANIME LOL IA</h2>
+            <p style="font-size:0.7rem; color:#666; margin-bottom:20px;">PROTOCOLO DE ACCESO REQUERIDO</p>
+            <input type="text" id="u-in" placeholder="ID de Usuario">
+            <input type="password" id="p-in" placeholder="Clave de Enlace">
+            <button class="btn" style="width:100%;" onclick="startApp()">ACCEDER AL NÚCLEO</button>
         </div>
     </div>
 
     <header>
-        <div class="logo">
+        <div style="display:flex; align-items:center; gap:10px;">
             <img src="1000371388.png" height="30" onerror="this.style.display='none'">
-            <span>ANIME LOL</span>
+            <span style="color:var(--p); font-weight:900; letter-spacing:1px;">ANIME LOL</span>
         </div>
-        <div id="user-display" style="font-size:0.8rem; font-weight:900; color:var(--primary);"></div>
+        <div id="u-tag" style="font-size:0.7rem; color:var(--p); font-weight:700;">@OFFLINE</div>
     </header>
 
-    <main class="app-container">
+    <main class="app-main">
         <section>
-            <div class="filter-section">
-                <input type="text" id="s-name" class="search-in" placeholder="Nombre del anime...">
-                <select id="s-genre">
-                    <option value="">Géneros</option>
+            <div class="filter-panel">
+                <input type="text" id="f-name" class="in-search" placeholder="Nombre...">
+                <select id="f-genre">
+                    <option value="">Género</option>
                     <option value="1">Acción</option><option value="10">Fantasía</option><option value="22">Romance</option><option value="4">Comedia</option>
                 </select>
-                <select id="s-type">
+                <select id="f-type">
                     <option value="">Origen</option>
                     <option value="tv">Japón (TV)</option>
-                    <option value="ona">ONA (China/Corea)</option>
+                    <option value="ona">Web (China/Corea)</option>
                 </select>
-                <input type="number" id="s-year" class="search-in" placeholder="Año" min="1990" max="2026">
-                <button class="btn-action" style="padding:10px;" onclick="runSearch()"><i class="fas fa-search"></i></button>
+                <input type="number" id="f-year" class="in-search" placeholder="Año" min="1990" max="2026">
+                <button class="btn" onclick="fetchAnime()"><i class="fas fa-search"></i></button>
             </div>
 
-            <button id="btn-oracle" class="btn-action" style="margin-bottom:20px; background: linear-gradient(90deg, #47d1e0, #9b59b6); color:white;" onclick="oracleAI()">🔮 CONSULTAR ORÁCULO IA</button>
+            <button class="btn" style="width:100%; margin-bottom:20px; background:linear-gradient(45deg, var(--p), #9b59b6); color:#fff;" onclick="oracle()">🔮 CONSULTAR ORÁCULO IA</button>
 
-            <div class="anime-grid" id="main-grid"></div>
+            <div class="grid" id="main-grid"></div>
         </section>
 
         <aside>
-            <div class="chat-sidebar">
-                <div style="padding:15px; text-align:center; border-bottom:1px solid #222; font-size:0.7rem; font-weight:900;">📡 LIVE CHAT GLOBAL</div>
-                <div id="chat-render"></div>
-                <div class="chat-control">
-                    <input type="text" id="chat-input" placeholder="Escribe algo..." style="flex:1; background:#111; border:1px solid #333; color:white; padding:8px; border-radius:8px;">
-                    <button onclick="sendMessage()" style="background:var(--primary); border:none; padding:10px 15px; border-radius:8px;"><i class="fas fa-paper-plane"></i></button>
+            <div class="sidebar">
+                <div style="padding:15px; border-bottom:1px solid #222; font-size:0.7rem; font-weight:900; color:var(--p); text-align:center;">📡 CANAL DE COMUNIDAD GLOBAL</div>
+                <div id="chat-box"></div>
+                <div style="padding:15px; display:flex; gap:8px;">
+                    <input type="text" id="c-input" placeholder="Escribe..." style="flex:1; background:#111; border:1px solid #333; color:#fff; padding:8px; border-radius:8px; font-size:0.8rem;">
+                    <button onclick="sendMsg()" style="background:var(--p); border:none; padding:8px 12px; border-radius:8px;"><i class="fas fa-paper-plane"></i></button>
                 </div>
             </div>
         </aside>
     </main>
 
     <div id="modal">
-        <div class="modal-body">
-            <button class="btn-action" style="width:auto; margin-bottom:20px;" onclick="closeModal()">✕ VOLVER</button>
-            <div class="video-box" id="trailer-box"></div>
-            <h2 id="m-title" style="color:var(--primary); margin-bottom:10px;"></h2>
+        <div class="modal-wrap">
+            <button class="btn" style="background:#222; color:#fff; margin-bottom:20px;" onclick="closeM()">✕ CERRAR</button>
+            <div class="vid-box" id="v-box"></div>
+            <h2 id="m-title" style="color:var(--p); margin-top:20px; font-size:1.8rem;"></h2>
             
-            <div class="ai-summary-box">
-                <h4 style="font-size:0.8rem; color:var(--primary); margin-bottom:10px;">🧠 RESUMEN E IMPULSIÓN IA:</h4>
-                <p id="m-summary" style="font-size:0.9rem; opacity:0.9;"></p>
+            <div class="ia-resumen">
+                <h4 style="color:var(--p); font-size:0.7rem; margin-bottom:8px; text-transform:uppercase;">💡 Resumen e Inteligencia IA:</h4>
+                <p id="m-desc"></p>
             </div>
 
-            <div id="m-meta" style="font-size:0.8rem; color:#888; display:flex; gap:15px; margin-bottom:20px;"></div>
-            <button class="btn-action" style="background:none; border:1px solid var(--primary); color:var(--primary);" onclick="markCap()">MARCAR CAPÍTULO VISTO</button>
+            <div id="m-meta" style="color:#777; font-size:0.8rem; margin-bottom:20px; display:flex; gap:15px;"></div>
+            <button id="cap-btn" class="btn" style="width:100%; background:none; border:1px solid var(--p); color:var(--p);">MARCAR ÚLTIMO CAPÍTULO</button>
         </div>
     </div>
 
     <script>
-        let userActive = "";
+        let currentUser = "";
 
-        // 1. Login
-        function login() {
-            const u = document.getElementById('login-user').value;
-            const p = document.getElementById('login-pass').value;
-            if(u.length < 3 || p.length < 3) return alert("Completa los datos");
-            userActive = u;
-            document.getElementById('user-display').innerText = `@${u.toUpperCase()}`;
-            document.getElementById('auth-screen').style.display = 'none';
-            runSearch();
+        function startApp() {
+            const u = document.getElementById('u-in').value;
+            if(u.length < 2) return alert("ID Requerido");
+            currentUser = u;
+            document.getElementById('u-tag').innerText = `@${u.toUpperCase()}`;
+            document.getElementById('auth').style.display = 'none';
+            fetchAnime();
         }
 
-        // 2. Buscador Avanzado
-        async function runSearch() {
+        async function fetchAnime() {
             const grid = document.getElementById('main-grid');
-            const name = document.getElementById('s-name').value;
-            const genre = document.getElementById('s-genre').value;
-            const type = document.getElementById('s-type').value;
-            const year = document.getElementById('s-year').value;
+            const name = document.getElementById('f-name').value;
+            const genre = document.getElementById('f-genre').value;
+            const type = document.getElementById('f-type').value;
+            const year = document.getElementById('f-year').value;
 
-            grid.innerHTML = "<p>Iniciando escaneo IA...</p>";
+            grid.innerHTML = "<p>Iniciando escaneo de red...</p>";
             
-            let url = `https://api.jikan.moe/v4/anime?q=${name}&limit=16&genres=${genre}&type=${type}&start_date=${year ? year+'-01-01' : ''}&order_by=score&sort=desc`;
+            // Fix de conexión: HTTPS forzado + Anti-Cache
+            let url = `https://api.jikan.moe/v4/anime?q=${name}&limit=16&genres=${genre}&type=${type}&start_date=${year ? year+'-01-01' : ''}&order_by=score&sort=desc&_=${new Date().getTime()}`;
             
             try {
                 const res = await fetch(url);
+                if(!res.ok) throw new Error();
                 const { data } = await res.json();
+                
                 grid.innerHTML = '';
                 data.forEach(a => {
-                    const match = Math.floor(Math.random() * 20) + 80;
-                    const isAdult = a.rating && a.rating.includes('R');
+                    const match = Math.floor(Math.random() * 20) + 79;
+                    const isNSFW = a.rating && (a.rating.includes('R') || a.rating.includes('Rx'));
+                    const myCap = localStorage.getItem(`cap_${a.mal_id}`) || "1";
+
                     grid.innerHTML += `
-                        <div class="anime-card" onclick='openModal(${JSON.stringify(a).replace(/'/g, "&apos;")})'>
-                            <div class="badge-match">${match}% MATCH IA</div>
-                            ${isAdult ? '<div class="badge-censura">+18</div>' : ''}
+                        <div class="card" onclick='openM(${JSON.stringify(a).replace(/'/g, "&apos;")})'>
+                            <div class="badge b-match">${match}% MATCH</div>
+                            ${isNSFW ? '<div class="badge b-censura">+18</div>' : '<div class="badge" style="background:green; right:8px; color:white;">S/C</div>'}
                             <img src="${a.images.jpg.large_image_url}" loading="lazy">
-                            <div style="padding:10px; font-size:0.75rem; font-weight:700; height:40px; overflow:hidden;">${a.title}</div>
+                            <div class="card-body">
+                                <div class="card-title">${a.title}</div>
+                                <div style="font-size:0.6rem; color:#666; margin-top:5px;">Cap. Actual: ${myCap}</div>
+                            </div>
                         </div>
                     `;
                 });
-            } catch (e) { grid.innerHTML = "Error de conexión."; }
+            } catch (e) {
+                grid.innerHTML = "<p style='color:var(--d)'>Error de Enlace: La API está saturada. Espera 5 seg.</p>";
+            }
         }
 
-        // 3. Modal & Trailers & IA Summary
-        function openModal(a) {
+        function openM(a) {
             document.getElementById('m-title').innerText = a.title;
-            document.getElementById('m-summary').innerText = (a.synopsis || "Sin descripción.")
-                .replace(/is a/g, "es un").replace(/The story/g, "La historia") + 
-                "\n\n[ANÁLISIS IA: Recomendado por su alto impacto visual y narrativa de tipo " + a.type + "].";
             
-            const trailerBox = document.getElementById('trailer-box');
+            // Traductor y Resumen IA
+            let desc = a.synopsis ? a.synopsis : "Sin descripción disponible.";
+            document.getElementById('m-desc').innerText = desc
+                .replace(/is a/g, "es un").replace(/The story/g, "La historia")
+                .substring(0, 300) + "... [Análisis IA: Obra de alta fidelidad tipo " + a.type + "].";
+
+            const vBox = document.getElementById('v-box');
             if(a.trailer && a.trailer.youtube_id) {
-                trailerBox.innerHTML = `<iframe src="https://www.youtube.com/embed/${a.trailer.youtube_id}?autoplay=1" allowfullscreen></iframe>`;
+                vBox.innerHTML = `<iframe src="https://www.youtube.com/embed/${a.trailer.youtube_id}?autoplay=1" allowfullscreen></iframe>`;
             } else {
-                trailerBox.innerHTML = "<div style='padding:60px; text-align:center;'>Trailer no disponible</div>";
+                vBox.innerHTML = "<div style='padding:60px; text-align:center;'>Trailer no disponible</div>";
             }
 
-            document.getElementById('m-meta').innerHTML = `<span>Año: ${a.year || 'N/A'}</span> <span>Rating: ${a.rating}</span>`;
+            document.getElementById('m-meta').innerHTML = `<span>Año: ${a.year || 'N/A'}</span> <span>Rating: ${a.rating}</span> <span>Score: ★${a.score}</span>`;
+            
+            document.getElementById('cap-btn').onclick = () => {
+                const c = prompt("Número de capítulo:", "1");
+                if(c) {
+                    localStorage.setItem(`cap_${a.mal_id}`, c);
+                    fetchAnime();
+                    alert("Progreso guardado.");
+                }
+            };
+
             document.getElementById('modal').style.display = 'block';
         }
 
-        function closeModal() {
+        function closeM() {
             document.getElementById('modal').style.display = 'none';
-            document.getElementById('trailer-box').innerHTML = '';
+            document.getElementById('v-box').innerHTML = '';
         }
 
-        // 4. Chat Global
-        function sendMessage() {
-            const cin = document.getElementById('chat-input');
-            const render = document.getElementById('chat-render');
-            if(!cin.value) return;
-            const msg = document.createElement('div');
-            msg.className = 'chat-msg';
-            msg.innerHTML = `<b>@${userActive}:</b> ${cin.value}`;
-            render.appendChild(msg);
-            cin.value = '';
-            render.scrollTop = render.scrollHeight;
+        function sendMsg() {
+            const inpt = document.getElementById('c-input');
+            const box = document.getElementById('chat-box');
+            if(!inpt.value) return;
+            const d = document.createElement('div');
+            d.className = 'msg';
+            d.innerHTML = `<b>@${currentUser}:</b> ${inpt.value}`;
+            box.appendChild(d);
+            inpt.value = '';
+            box.scrollTop = box.scrollHeight;
         }
 
-        function oracleAI() {
-            alert("🔮 El Oráculo IA predice que hoy deberías ver un anime de Acción. ¡Escanea la lista!");
+        function oracle() {
+            const r = ["Solo Leveling", "Chainsaw Man", "Oshi no Ko", "Frieren", "Bleach TYBW"];
+            alert("🔮 ORÁCULO IA: Basado en tus ondas cerebrales, deberías ver: " + r[Math.floor(Math.random()*r.length)]);
         }
 
-        function markCap() {
-            const cap = prompt("¿En qué capítulo vas?");
-            if(cap) alert("Capítulo " + cap + " guardado en la memoria de la IA.");
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js').catch(e => console.log(e));
         }
     </script>
-
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('IA Core: Service Worker Activo'))
-        .catch(err => console.log('Error en IA Core:', err));
-    });
-  }
-</script>
-    
 </body>
 </html>
+        
