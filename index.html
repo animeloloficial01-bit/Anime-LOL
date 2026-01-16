@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anime LOL | Noticias, Tendencias e IA</title>
+    <title>Anime LOL | Tendencias, Temporada e IA</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&family=M+PLUS+Rounded+1c:wght@700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* VARIABLES DE MARCA - BASADAS EN EL LOGO */
+        /* VARIABLES DE MARCA */
         :root {
             --primary-turquesa: #40E0D0; 
             --bg-dark: #0b0b0b;          
@@ -32,6 +32,7 @@
             font-family: 'Noto Sans JP', sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         /* NAVEGACIÓN */
@@ -54,7 +55,7 @@
         }
 
         .main-logo {
-            height: 60px; /* Tamaño optimizado para el logo */
+            height: 60px; 
             display: block;
             transition: transform 0.3s ease;
         }
@@ -111,14 +112,14 @@
 
         /* HERO SECTION */
         #hero {
-            padding: 80px 5%;
+            padding: 100px 5%;
             text-align: center;
             background: linear-gradient(180deg, #1a1a1a 0%, #0b0b0b 100%);
         }
 
         #hero h1 {
             font-family: 'M PLUS Rounded 1c', sans-serif;
-            font-size: 3.5rem;
+            font-size: clamp(2.5rem, 8vw, 4rem);
             margin-bottom: 1rem;
         }
 
@@ -128,29 +129,47 @@
         }
 
         #ia-summary {
-            max-width: 700px;
+            max-width: 800px;
             margin: 0 auto;
             color: var(--text-gray);
             font-style: italic;
             border-left: 3px solid var(--jp-red);
-            padding-left: 15px;
+            padding: 15px 25px;
             background: rgba(255, 62, 62, 0.05);
-            padding-block: 10px;
+            border-radius: 0 15px 15px 0;
+        }
+
+        /* TITULOS DE SECCIÓN */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 60px 5% 30px;
+            border-bottom: 1px solid var(--glass);
+            padding-bottom: 10px;
+        }
+
+        .section-title {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            font-size: 1.8rem;
+            position: relative;
+        }
+
+        .section-title::before {
+            content: "RANKING";
+            position: absolute;
+            top: -20px;
+            left: 0;
+            font-size: 0.7rem;
+            color: var(--jp-red);
+            letter-spacing: 3px;
         }
 
         /* GRID DE NOTICIAS */
-        .section-title {
-            font-family: 'M PLUS Rounded 1c', sans-serif;
-            font-size: 2rem;
-            margin: 40px 5% 20px;
-            border-bottom: 4px solid var(--jp-red);
-            display: inline-block;
-        }
-
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
+            gap: 30px;
             padding: 0 5% 50px;
             max-width: 1400px;
             margin: 0 auto;
@@ -160,20 +179,22 @@
             background: var(--card-bg);
             border-radius: 15px;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .news-card:hover {
             border-color: var(--primary-turquesa);
             transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .card-img {
             width: 100%;
-            height: 200px;
-            background: #333;
-            object-fit: cover;
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
         }
 
         .card-content {
@@ -183,27 +204,60 @@
         .card-tag {
             background: var(--primary-turquesa);
             color: var(--bg-dark);
-            padding: 2px 10px;
-            font-size: 0.7rem;
+            padding: 3px 12px;
+            font-size: 0.65rem;
             font-weight: 800;
             border-radius: 4px;
             text-transform: uppercase;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+
+        .news-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary-turquesa);
+        }
+
+        .news-card p {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        /* SECCIÓN TEMPORADA */
+        .seasonal-list {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 5%;
+            scrollbar-width: none;
+        }
+
+        .anime-mini-card {
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .anime-mini-card img {
+            width: 100%;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            transition: 0.3s;
         }
 
         /* FORO */
         #foro {
-            background: #111;
-            padding: 50px 5%;
-            margin-top: 50px;
+            background: #080808;
+            padding: 80px 5%;
         }
 
         .forum-container {
             max-width: 900px;
             margin: 0 auto;
-            background: var(--bg-dark);
+            background: var(--card-bg);
             border-radius: 20px;
             padding: 30px;
-            border: 1px solid var(--glass);
         }
 
         .post-box {
@@ -214,9 +268,9 @@
         }
 
         textarea {
-            background: var(--card-bg);
+            background: var(--bg-dark);
             border: 1px solid #333;
-            border-radius: 10px;
+            border-radius: 12px;
             color: white;
             padding: 15px;
             font-family: inherit;
@@ -224,32 +278,21 @@
             height: 100px;
         }
 
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary-turquesa);
-        }
-
         #btn-post {
             background: var(--primary-turquesa);
             color: var(--bg-dark);
             border: none;
-            padding: 12px;
-            border-radius: 10px;
+            padding: 15px;
+            border-radius: 12px;
             font-weight: 800;
             cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        #btn-post:hover {
-            background: #36c9ba;
-            box-shadow: 0 0 15px var(--primary-turquesa);
         }
 
         footer {
             text-align: center;
-            padding: 40px;
-            font-size: 0.8rem;
+            padding: 60px 40px;
             color: var(--text-gray);
+            font-size: 0.8rem;
         }
     </style>
 </head>
@@ -261,59 +304,88 @@
                 <img src="1000371388.png" alt="Anime LOL" class="main-logo">
             </div>
             <ul class="nav-links">
-                <li><a href="#noticias">Noticias</a></li>
+                <li><a href="#noticias">Tendencias</a></li>
                 <li><a href="#temporada">Temporada</a></li>
-                <li><a href="#foro">Foro</a></li>
+                <li><a href="#foro">Comunidad</a></li>
             </ul>
             <div class="ia-status">
-                <span class="dot"></span> LOL-Bot Online
+                <span id="ia-dot" class="dot"></span> <span id="ia-text">LOL-Bot Online</span>
             </div>
         </nav>
     </header>
 
     <main>
         <section id="hero">
-            <div class="hero-content">
-                <h1>ANIME <span class="highlight">LOL</span></h1>
-                <p id="ia-summary">"LOL-Bot analizando... ¡Parece que el nuevo tráiler de Chainsaw Man ha roto el internet hoy! ¿Ya lo viste?"</p>
+            <h1>ANIME <span class="highlight">LOL</span></h1>
+            <div id="ia-summary">
+                <p id="ia-output">"LOL-Bot está analizando las noticias de Japón... Dame un segundo para darte el mejor resumen."</p>
+            </div>
+        </section>
+
+        <section id="temporada">
+            <div class="section-header"><h2 class="section-title">Estrenos de Hoy</h2></div>
+            <div class="seasonal-list">
+                <div class="anime-mini-card">
+                    <img src="https://via.placeholder.com/150x220/111/40E0D0?text=S.Leveling" alt="Anime">
+                    <p>Solo Leveling S2</p>
+                </div>
+                <div class="anime-mini-card">
+                    <img src="https://via.placeholder.com/150x220/111/40E0D0?text=CSM" alt="Anime">
+                    <p>Chainsaw Man</p>
+                </div>
             </div>
         </section>
 
         <section id="noticias">
-            <h2 class="section-title">Noticias en Tendencia</h2>
+            <div class="section-header"><h2 class="section-title">Noticias IA</h2></div>
             <div id="news-grid" class="grid-container">
-                <article class="news-card">
-                    <div class="card-img" style="background: url('https://images.unsplash.com/photo-1578632292335-df3abbb0d586?q=80&w=400&h=200&auto=format&fit=crop') center/cover;"></div>
-                    <div class="card-content">
-                        <span class="card-tag">Trend</span>
-                        <h3>Resumen IA: Temporada Invierno 2026</h3>
-                        <p>Descubre qué animes están dominando el ranking este mes según nuestro análisis de datos...</p>
-                    </div>
-                </article>
-            </div>
+                </div>
         </section>
 
         <section id="foro">
-            <h2 class="section-title">Comunidad Anime LOL</h2>
+            <div class="section-header"><h2 class="section-title">Comunidad</h2></div>
             <div class="forum-container">
-                <div id="forum-posts">
-                    <p style="color: var(--text-gray); text-align: center;">Inicia la conversación sobre el anime del momento.</p>
-                </div>
+                <div id="forum-posts"></div>
                 <div class="post-box">
-                    <textarea id="user-comment" placeholder="Comparte tu opinión o teoría..."></textarea>
-                    <button id="btn-post">PUBLICAR EN EL FORO</button>
+                    <textarea id="user-comment" placeholder="Escribe aquí... la IA moderará tu mensaje."></textarea>
+                    <button id="btn-post">PUBLICAR</button>
                 </div>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 Anime LOL - Noticias & Foro impulsados por IA</p>
+        <p>&copy; 2026 Anime LOL | Powered by Supabase & AI</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
-        console.log("Anime LOL: Interfaz lista con logo 1000371388.png");
+        // CONFIGURACIÓN DE SUPABASE (Debes poner tus llaves aquí)
+        const SUPABASE_URL = 'TU_URL_DE_SUPABASE';
+        const SUPABASE_KEY = 'TU_KEY_DE_SUPABASE';
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // FUNCIÓN PARA QUE LA IA RESPONDA (Simulación de entrega)
+        async function entregarALaIA(mensaje) {
+            document.getElementById('ia-text').innerText = "LOL-Bot pensando...";
+            
+            // Aquí llamarías a tu API de Vercel que conecta con Gemini/OpenAI
+            // Por ahora, simulamos la respuesta de la IA
+            setTimeout(() => {
+                const response = "¡Súper interesante! He analizado tu comentario y creo que tienes razón sobre ese Shonen.";
+                document.getElementById('ia-output').innerText = `"${response}"`;
+                document.getElementById('ia-text').innerText = "LOL-Bot Online";
+            }, 1500);
+        }
+
+        // Evento del botón
+        document.getElementById('btn-post').addEventListener('click', () => {
+            const comment = document.getElementById('user-comment').value;
+            if(comment) {
+                entregarALaIA(comment);
+                document.getElementById('user-comment').value = "";
+            }
+        });
     </script>
 </body>
 </html>
