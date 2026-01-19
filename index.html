@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anime LOL | GatoNocturno IA</title>
+    <title>Anime LOL | Resúmenes de GatoNocturno</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&family=M+PLUS+Rounded+1c:wght@700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -18,33 +18,33 @@
         .navbar { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
         .main-logo { height: 60px; }
         
-        #auth-section { background: var(--card-bg); padding: 20px; border-radius: 15px; max-width: 400px; margin: 20px auto; border: 1px solid var(--primary-turquesa); box-shadow: 0 0 20px rgba(64, 224, 208, 0.1); }
-        .input-group { margin-bottom: 15px; }
-        .input-group input { width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: white; border-radius: 8px; font-family: inherit; }
+        .section-title { font-family: 'M PLUS Rounded 1c', sans-serif; font-size: 1.5rem; margin: 30px 5% 10px; color: var(--primary-turquesa); border-left: 5px solid var(--jp-red); padding-left: 15px; }
+        
+        /* CALENDARIO INTERACTIVO */
+        .days-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; padding: 0 5%; }
+        .day-card { 
+            background: var(--card-bg); 
+            padding: 15px; 
+            border-radius: 12px; 
+            border-bottom: 2px solid var(--jp-red);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .day-card:hover { transform: translateY(-5px); background: #222; border-color: var(--primary-turquesa); }
+        .anime-name { font-weight: 700; color: var(--primary-turquesa); font-size: 0.85rem; display: block; margin-top: 5px; }
 
-        .section-title { font-family: 'M PLUS Rounded 1c', sans-serif; font-size: 1.5rem; margin: 30px 5% 20px; color: var(--primary-turquesa); border-left: 5px solid var(--jp-red); padding-left: 15px; }
-        
-        .days-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; padding: 0 5%; }
-        .day-card { background: var(--card-bg); padding: 15px; border-radius: 12px; border-bottom: 2px solid var(--jp-red); }
-        
         /* GATONOCTURNO UI */
         .gato-box { background: linear-gradient(135deg, #1a1a1a 0%, #000 100%); border: 1px solid var(--primary-turquesa); padding: 25px; border-radius: 20px; margin: 20px 5%; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .gato-box::before { content: "🌙 GatoNocturno AI"; position: absolute; top: -12px; left: 20px; background: var(--primary-turquesa); color: #000; padding: 2px 12px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; }
         
-        #typing-indicator { font-style: italic; color: var(--primary-turquesa); font-size: 0.8rem; margin-top: 10px; display: none; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        #typing-indicator { font-style: italic; color: var(--primary-turquesa); font-size: 0.8rem; margin-top: 10px; display: none; }
 
-        .private-lock { position: relative; filter: blur(6px); pointer-events: none; transition: 0.5s; }
-        .lock-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 10; background: rgba(0,0,0,0.6); border-radius: 20px; }
+        /* ESTADO DE INVITADO */
+        .lock-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 10; background: rgba(0,0,0,0.6); border-radius: 20px; text-align: center; }
+        .private-lock { filter: blur(6px); pointer-events: none; }
 
         button { background: var(--primary-turquesa); color: var(--bg-dark); border: none; padding: 12px 24px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.3s; }
-        button:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--primary-turquesa); }
-        
-        textarea { width: 100%; background: #000; color: white; border: 1px solid #333; padding: 15px; border-radius: 12px; margin-top: 10px; resize: none; font-family: inherit; }
-        textarea:focus { border-color: var(--primary-turquesa); outline: none; }
-
-        #chat-messages { height: 250px; overflow-y: auto; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; margin-bottom: 10px; border: 1px solid var(--glass); }
-        .msg { margin-bottom: 10px; padding: 8px 12px; border-radius: 8px; font-size: 0.9rem; }
+        textarea { width: 100%; background: #000; color: white; border: 1px solid #333; padding: 15px; border-radius: 12px; margin-top: 10px; resize: none; }
     </style>
 </head>
 <body>
@@ -53,112 +53,100 @@
         <nav class="navbar">
             <img src="1000371388.png" alt="Anime LOL" class="main-logo">
             <div id="user-nav">
-                <span id="user-display" style="font-size: 0.8rem; margin-right: 15px; color: var(--text-gray);">Acceso: Invitado</span>
-                <button onclick="toggleAuth()" id="btn-auth-toggle">Crear Cuenta</button>
+                <span id="user-display" style="font-size: 0.8rem; color: var(--text-gray);">Modo Invitado</span>
+                <button onclick="document.getElementById('auth-section').style.display='block'" id="btn-auth">Crear Cuenta</button>
             </div>
         </nav>
     </header>
 
-    <div id="auth-section" style="display: none;">
-        <h3 style="margin-bottom: 15px;">Bienvenido a Anime LOL</h3>
-        <div class="input-group"><input type="text" id="username" placeholder="Tu nombre de usuario"></div>
-        <div class="input-group"><input type="password" id="password" placeholder="Clave (4-8 dígitos)"></div>
-        <button onclick="registrarUsuario()" style="width: 100%;">DESBLOQUEAR GATONOCTURNO</button>
+    <div id="auth-section" style="display: none; position: fixed; top: 20%; left: 50%; transform: translate(-50%, -50%); z-index: 2000; background: var(--card-bg); padding: 30px; border-radius: 15px; border: 1px solid var(--primary-turquesa);">
+        <h3>Únete a la Noche</h3>
+        <input type="text" id="username" placeholder="Usuario" style="width:100%; padding:10px; margin:10px 0; background:#000; color:#fff; border:1px solid #333;">
+        <input type="password" id="password" placeholder="Clave (4-8 car.)" style="width:100%; padding:10px; margin:10px 0; background:#000; color:#fff; border:1px solid #333;">
+        <button onclick="login()" style="width:100%;">DESBLOQUEAR</button>
     </div>
 
     <main>
-        <h2 class="section-title">Calendario Semanal</h2>
+        <h2 class="section-title">Calendario (Toca para Resumen IA)</h2>
         <div class="days-grid">
-            <div class="day-card"><h4>Hoy</h4><p style="font-size: 0.7rem; color: var(--primary-turquesa);">Solo Leveling Ep. 4</p></div>
-            <div class="day-card"><h4>Mañana</h4><p style="font-size: 0.7rem; color: var(--text-gray);">Blue Lock S2</p></div>
+            <div class="day-card" onclick="pedirResumen('Solo Leveling Temporada 2 Episodio 4')">
+                <h4>Hoy</h4>
+                <span class="anime-name">Solo Leveling S2</span>
+            </div>
+            <div class="day-card" onclick="pedirResumen('Blue Lock Temporada 2 Episodio 8')">
+                <h4>Mañana</h4>
+                <span class="anime-name">Blue Lock S2</span>
+            </div>
+            <div class="day-card" onclick="pedirResumen('Dandadan Episodio 5')">
+                <h4>Jueves</h4>
+                <span class="anime-name">Dandadan</span>
+            </div>
         </div>
 
         <section style="position: relative; margin-top: 40px;">
             <div id="lock-gato" class="lock-overlay">
-                <div style="text-align: center;">
-                    <p style="margin-bottom: 15px;">Registrate para recibir tu Match de GatoNocturno</p>
-                    <button onclick="toggleAuth()">UNIRSE AHORA</button>
+                <div>
+                    <p style="margin-bottom: 10px;">Regístrate para ver los análisis de GatoNocturno</p>
+                    <button onclick="document.getElementById('auth-section').style.display='block'">REGISTRARSE</button>
                 </div>
             </div>
             <div id="gato-content" class="private-lock">
                 <div class="gato-box">
-                    <p id="gato-text">"Miau... las sombras me dicen que aún eres un extraño para mí."</p>
-                    <div id="typing-indicator">GatoNocturno está consultando los astros...</div>
+                    <p id="gato-text">"Miau... toca un anime del calendario y te contaré sus secretos."</p>
+                    <div id="typing-indicator">GatoNocturno está leyendo los pergaminos...</div>
                 </div>
             </div>
         </section>
 
-        <section style="position: relative; padding: 20px 5%;">
-            <div id="lock-foro" class="lock-overlay"></div>
-            <div id="foro-content" class="private-lock">
-                <h2 class="section-title" style="margin-left: 0;">Foro Comunitario</h2>
-                <div id="chat-messages"></div>
-                <textarea id="user-input" placeholder="Pregunta a GatoNocturno sobre cualquier anime..."></textarea>
-                <button onclick="preguntarAGato()" style="margin-top: 10px; width: 100%;">ENVIAR MENSAJE</button>
-            </div>
-        </section>
+        <section style="padding: 20px 5%;" id="foro-area">
+             </section>
     </main>
 
     <script>
         let userLogeado = null;
 
-        function toggleAuth() {
-            const s = document.getElementById('auth-section');
-            s.style.display = s.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function registrarUsuario() {
+        function login() {
             const u = document.getElementById('username').value;
             const p = document.getElementById('password').value;
             if(u && p.length >= 4 && p.length <= 8) {
                 userLogeado = u;
-                document.getElementById('user-display').innerText = "Usuario: " + u;
+                document.getElementById('user-display').innerText = "Hola, " + u;
                 document.getElementById('auth-section').style.display = 'none';
-                document.getElementById('btn-auth-toggle').innerText = "Cerrar Sesión";
-                
-                // Desbloqueo visual
                 document.getElementById('lock-gato').style.display = 'none';
-                document.getElementById('lock-foro').style.display = 'none';
                 document.getElementById('gato-content').classList.remove('private-lock');
-                document.getElementById('foro-content').classList.remove('private-lock');
-                
-                document.getElementById('gato-text').innerText = "¡Miau! Hola " + u + ". Mi visión nocturna detecta que eres un gran fan del anime. ¿Qué quieres saber hoy?";
-            } else {
-                alert("Por favor, ingresa un usuario y una clave de 4 a 8 caracteres.");
+                document.getElementById('gato-text').innerText = "¡Miau! Todo listo. Haz clic en cualquier estreno para que te dé mi reporte.";
             }
         }
 
-        async function preguntarAGato() {
-            const input = document.getElementById('user-input');
-            const mensaje = input.value;
-            if(!mensaje) return;
+        async function pedirResumen(anime) {
+            if(!userLogeado) {
+                alert("Debes crear tu cuenta para que GatoNocturno te dé el resumen.");
+                return;
+            }
 
-            // Interfaz de usuario
-            const chat = document.getElementById('chat-messages');
-            chat.innerHTML += `<div class="msg" style="background: var(--glass); border-left: 3px solid var(--primary-turquesa);"><strong>Tú:</strong> ${mensaje}</div>`;
-            input.value = "";
-            chat.scrollTop = chat.scrollHeight;
-
-            // Estado de carga
-            document.getElementById('typing-indicator').style.display = 'block';
+            const gatoDisplay = document.getElementById('gato-text');
+            const loader = document.getElementById('typing-indicator');
             
+            gatoDisplay.style.opacity = "0.5";
+            loader.style.display = "block";
+
             try {
                 const response = await fetch('/api/gato-nocturno', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: mensaje, user: userLogeado })
+                    body: JSON.stringify({ 
+                        prompt: `Haz un resumen místico y breve de lo que pasó o se espera en: ${anime}. Termina con una opinión gatuna.`, 
+                        user: userLogeado 
+                    })
                 });
                 
                 const data = await response.json();
-                
-                document.getElementById('typing-indicator').style.display = 'none';
-                document.getElementById('gato-text').innerText = data.respuesta;
-                chat.innerHTML += `<div class="msg" style="background: rgba(255,255,255,0.05);"><strong>GatoNocturno:</strong> ${data.respuesta}</div>`;
-                chat.scrollTop = chat.scrollHeight;
-
-            } catch (error) {
-                document.getElementById('typing-indicator').style.display = 'none';
-                document.getElementById('gato-text').innerText = "Miau... los servidores están en las sombras. Intenta más tarde.";
+                gatoDisplay.innerText = data.respuesta;
+            } catch (e) {
+                gatoDisplay.innerText = "Miau... se me escapó el ratón de los datos. Intenta de nuevo.";
+            } finally {
+                gatoDisplay.style.opacity = "1";
+                loader.style.display = "none";
             }
         }
     </script>
