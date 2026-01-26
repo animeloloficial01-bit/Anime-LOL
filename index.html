@@ -6,82 +6,280 @@
     <title>Anime LOL | Dashboard Central</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #40E0D0; --bg: #070707; --card: #121212; --text: #eee; }
-        body { background: var(--bg); color: var(--text); font-family: 'Noto Sans JP', sans-serif; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
-        
-        /* HEADER & TABS */
-        header { padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; background: #000; border-bottom: 1px solid #222; }
-        .tabs { display: flex; gap: 20px; padding: 10px 5%; background: #0a0a0a; border-bottom: 1px solid #1a1a1a; }
-        .tab-btn { background: none; border: none; color: #666; cursor: pointer; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; }
-        .tab-btn.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
+        :root {
+            --primary: #40E0D0;
+            --bg: #070707;
+            --card: #121212;
+            --text: #eee;
+        }
 
-        /* VIEWPORT */
-        .viewport { flex: 1; overflow-y: auto; padding: 20px 5%; display: none; }
-        .viewport.active { display: block; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER & TABS */
+        header {
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #000;
+            border-bottom: 1px solid #222;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 20px;
+            padding: 10px 5%;
+            background: #0a0a0a;
+            border-bottom: 1px solid #1a1a1a;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            padding-bottom: 4px;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .tab-btn:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* LAYOUT PRINCIPAL */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .viewport {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 5%;
+            display: none;
+        }
+
+        .viewport.active {
+            display: block;
+        }
 
         /* CALENDARIO MODOS */
-        .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .cal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
-        .cal-card { background: var(--card); padding: 15px; border-radius: 10px; border-left: 3px solid var(--primary); }
+        .cal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
 
-        /* CHAT FLOTANTE */
-        #gato-chat { position: fixed; bottom: 20px; right: 20px; width: 320px; height: 450px; background: #111; border: 1px solid var(--primary); border-radius: 15px; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.8); z-index: 999; }
-        .chat-win { flex: 1; overflow-y: auto; padding: 15px; font-size: 0.8rem; }
-        .chat-in { padding: 10px; border-top: 1px solid #222; }
-        
-        .refresh-btn { background: var(--primary); color: #000; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.7rem; font-weight: bold; }
+        .cal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+        }
+
+        .cal-card {
+            background: var(--card);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 3px solid var(--primary);
+        }
+
+        /* CHAT FLOTANTE / MOBILE-FIRST */
+        #gato-chat {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 50vh;
+            background: #111;
+            border-top: 1px solid var(--primary);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.8);
+            z-index: 999;
+        }
+
+        .chat-header {
+            padding: 10px;
+            border-bottom: 1px solid #222;
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--primary);
+        }
+
+        .chat-win {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            font-size: 0.8rem;
+        }
+
+        .chat-in {
+            padding: 10px;
+            border-top: 1px solid #222;
+        }
+
+        .chat-in textarea {
+            width: 100%;
+            background: #000;
+            color: #fff;
+            border: 1px solid #333;
+            padding: 5px;
+            height: 50px;
+            border-radius: 5px;
+            resize: none;
+            font-family: inherit;
+            font-size: 0.8rem;
+        }
+
+        .chat-in button {
+            width: 100%;
+            background: var(--primary);
+            border: none;
+            padding: 5px;
+            margin-top: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .refresh-btn {
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .refresh-btn:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 2px;
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid #333;
+        }
+
+        /* DESKTOP */
+        @media (min-width: 900px) {
+            #gato-chat {
+                width: 320px;
+                height: 450px;
+                right: 20px;
+                bottom: 20px;
+                left: auto;
+                border-radius: 15px;
+                border: 1px solid var(--primary);
+            }
+
+            main {
+                padding-bottom: 0;
+            }
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <img src="1000371388.png" style="height: 40px;" onerror="this.src='https://via.placeholder.com/150x40?text=ANIME+LOL'">
-    <button class="refresh-btn" onclick="refreshContent()">🔄 ACTUALIZAR TENDENCIAS</button>
+    <img src="1000371388.png"
+         alt="Logo Anime LOL"
+         style="height: 40px;"
+         onerror="this.src='https://via.placeholder.com/150x40?text=ANIME+LOL'">
+    <button class="refresh-btn" type="button" onclick="refreshContent()">
+        🔄 ACTUALIZAR TENDENCIAS
+    </button>
 </header>
 
-<nav class="tabs">
-    <button class="tab-btn active" onclick="openTab('welcome')">🌙 Bienvenida</button>
-    <button class="tab-btn" onclick="openTab('calendar')">📅 Calendario</button>
-    <button class="tab-btn" onclick="openTab('news')">🔥 Noticias</button>
-</nav>
+<main>
+    <nav class="tabs" aria-label="Secciones del dashboard">
+        <button class="tab-btn active" type="button" onclick="openTab('welcome', this)">🌙 Bienvenida</button>
+        <button class="tab-btn" type="button" onclick="openTab('calendar', this)">📅 Calendario</button>
+        <button class="tab-btn" type="button" onclick="openTab('news', this)">🔥 Noticias</button>
+    </nav>
 
-<div id="welcome" class="viewport active">
-    <h1 id="greet">Miau... Cargando tu destino...</h1>
-    <div style="margin-top: 20px; padding: 20px; background: var(--card); border-radius: 15px;">
-        <h3>Match del Día</h3>
-        <p style="color: var(--primary);">GatoNocturno recomienda: <strong>Dandadan</strong></p>
-    </div>
-</div>
+    <section id="welcome" class="viewport active" aria-labelledby="welcome-title">
+        <h1 id="welcome-title">Miau... Cargando tu destino...</h1>
+        <article style="margin-top: 20px; padding: 20px; background: var(--card); border-radius: 15px;">
+            <h3>Match del Día</h3>
+            <p style="color: var(--primary);">GatoNocturno recomienda: <strong>Dandadan</strong></p>
+        </article>
+    </section>
 
-<div id="calendar" class="viewport">
-    <div class="cal-header">
-        <h2>Calendario de Estrenos</h2>
-        <select onchange="changeCalMode(this.value)" style="background: #222; color: #fff; padding: 5px;">
-            <option value="weekly">Vista Semanal</option>
-            <option value="monthly">Vista Mensual / Próximos</option>
-        </select>
-    </div>
-    <div class="cal-grid" id="cal-body">
+    <section id="calendar" class="viewport" aria-labelledby="calendar-title">
+        <div class="cal-header">
+            <h2 id="calendar-title">Calendario de Estrenos</h2>
+            <label for="cal-mode" style="font-size:0.8rem;">
+                <span class="sr-only">Modo de vista del calendario</span>
+                <select id="cal-mode" onchange="changeCalMode(this.value)">
+                    <option value="weekly">Vista Semanal</option>
+                    <option value="monthly">Vista Mensual / Próximos</option>
+                </select>
+            </label>
         </div>
-</div>
+        <div class="cal-grid" id="cal-body">
+            <!-- Aquí irán las tarjetas de calendario dinámicas -->
+        </div>
+    </section>
 
-<div id="gato-chat">
-    <div style="padding: 10px; border-bottom: 1px solid #222; text-align: center; font-size: 0.7rem; color: var(--primary);">ASISTENTE GATONOCTURNO</div>
-    <div class="chat-win" id="chat-win">
+    <section id="news" class="viewport" aria-labelledby="news-title">
+        <h2 id="news-title">Noticias y Tendencias</h2>
+        <p style="margin-top:10px; font-size:0.9rem; color:#aaa;">
+            Próximamente: feed con noticias, trailers y rumores curados por GatoNocturno.
+        </p>
+    </section>
+</main>
+
+<aside id="gato-chat"
+       aria-label="Chat con GatoNocturno"
+       aria-live="polite"
+       aria-atomic="false">
+    <div class="chat-header">ASISTENTE GATONOCTURNO</div>
+    <div class="chat-win" id="chat-win" role="log" aria-live="polite" aria-relevant="additions text">
         <p style="color: var(--primary);"><strong>GatoNocturno:</strong> Miau... ¿en qué puedo ayudarte hoy?</p>
     </div>
     <div class="chat-in">
-        <textarea id="ai-msg" style="width:100%; background:#000; color:#fff; border:1px solid #333; padding:5px; height: 50px; border-radius: 5px;" placeholder="Dime algo..."></textarea>
-        <button onclick="askGato()" style="width:100%; background:var(--primary); border:none; padding:5px; margin-top:5px; font-weight:bold; cursor:pointer;">HABLAR</button>
+        <textarea id="ai-msg"
+                  placeholder="Dime algo..."
+                  aria-label="Mensaje para GatoNocturno"></textarea>
+        <button type="button" onclick="askGato()">HABLAR</button>
     </div>
-</div>
+</aside>
 
 <script>
-    function openTab(id) {
+    function openTab(id, btn) {
         document.querySelectorAll('.viewport').forEach(v => v.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        event.target.classList.add('active');
+        const target = document.getElementById(id);
+        if (target) target.classList.add('active');
+        if (btn) btn.classList.add('active');
     }
 
     function refreshContent() {
@@ -92,24 +290,66 @@
     async function askGato() {
         const input = document.getElementById('ai-msg');
         const win = document.getElementById('chat-win');
-        if(!input.value) return;
+        const msg = input.value.trim();
+        if (!msg) return;
 
-        win.innerHTML += `<p style="text-align:right"><i>${input.value}</i></p>`;
-        
+        win.insertAdjacentHTML(
+            'beforeend',
+            `<p style="text-align:right"><i>${msg}</i></p>`
+        );
+        win.insertAdjacentHTML(
+            'beforeend',
+            `<p id="typing" style="color:gray">GatoNocturno está pensando...</p>`
+        );
+        win.scrollTop = win.scrollHeight;
+
         try {
             const res = await fetch('/api/gato-nocturno', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ prompt: input.value, user: 'Invitado', context: 'Dashboard Principal' })
+                body: JSON.stringify({
+                    prompt: msg,
+                    user: 'Invitado',
+                    context: 'Dashboard Principal'
+                })
             });
+
+            if (!res.ok) {
+                throw new Error(`HTTP ${res.status}`);
+            }
+
             const data = await res.json();
-            win.innerHTML += `<p style="color:var(--primary)"><strong>GatoNocturno:</strong> ${data.respuesta}</p>`;
-            win.scrollTop = win.scrollHeight;
-        } catch(e) {
-            win.innerHTML += `<p>Miau... error de conexión.</p>`;
+            const typingEl = document.getElementById('typing');
+            if (typingEl) typingEl.remove();
+
+            win.insertAdjacentHTML(
+                'beforeend',
+                `<p style="color:var(--primary)"><strong>GatoNocturno:</strong> ${data.respuesta}</p>`
+            );
+        } catch (e) {
+            console.error('Error en askGato:', e);
+            const typingEl = document.getElementById('typing');
+            if (typingEl) typingEl.remove();
+
+            win.insertAdjacentHTML(
+                'beforeend',
+                `<p style="color:tomato">Miau... hubo un problema al conectar (${e.message}). Intenta de nuevo.</p>`
+            );
         }
+
+        win.scrollTop = win.scrollHeight;
         input.value = "";
+        input.focus();
     }
+
+    // Enviar con Enter (Shift+Enter = salto de línea)
+    const textarea = document.getElementById('ai-msg');
+    textarea.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            askGato();
+        }
+    });
 </script>
 </body>
 </html>
