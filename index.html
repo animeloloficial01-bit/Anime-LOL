@@ -1,355 +1,118 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anime LOL | Dashboard Central</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #40E0D0;
-            --bg: #070707;
-            --card: #121212;
-            --text: #eee;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime LOL - GatoNocurno</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { night: '#050816', neon: '#22d3ee', accent: '#f97316' },
+          boxShadow: { glow: '0 0 25px rgba(34,211,238,0.5)' }
         }
-
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Noto Sans JP', sans-serif;
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* HEADER & TABS */
-        header {
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #000;
-            border-bottom: 1px solid #222;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 20px;
-            padding: 10px 5%;
-            background: #0a0a0a;
-            border-bottom: 1px solid #1a1a1a;
-            overflow-x: auto;
-        }
-
-        .tab-btn {
-            background: none;
-            border: none;
-            color: #666;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            padding-bottom: 4px;
-            white-space: nowrap;
-        }
-
-        .tab-btn.active {
-            color: var(--primary);
-            border-bottom: 2px solid var(--primary);
-        }
-
-        .tab-btn:focus-visible {
-            outline: 2px solid var(--primary);
-            outline-offset: 2px;
-        }
-
-        /* LAYOUT PRINCIPAL */
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .viewport {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px 5%;
-            display: none;
-        }
-
-        .viewport.active {
-            display: block;
-        }
-
-        /* CALENDARIO MODOS */
-        .cal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .cal-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 15px;
-        }
-
-        .cal-card {
-            background: var(--card);
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 3px solid var(--primary);
-        }
-
-        /* CHAT FLOTANTE / MOBILE-FIRST */
-        #gato-chat {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            width: 100%;
-            height: 50vh;
-            background: #111;
-            border-top: 1px solid var(--primary);
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.8);
-            z-index: 999;
-        }
-
-        .chat-header {
-            padding: 10px;
-            border-bottom: 1px solid #222;
-            text-align: center;
-            font-size: 0.7rem;
-            color: var(--primary);
-        }
-
-        .chat-win {
-            flex: 1;
-            overflow-y: auto;
-            padding: 15px;
-            font-size: 0.8rem;
-        }
-
-        .chat-in {
-            padding: 10px;
-            border-top: 1px solid #222;
-        }
-
-        .chat-in textarea {
-            width: 100%;
-            background: #000;
-            color: #fff;
-            border: 1px solid #333;
-            padding: 5px;
-            height: 50px;
-            border-radius: 5px;
-            resize: none;
-            font-family: inherit;
-            font-size: 0.8rem;
-        }
-
-        .chat-in button {
-            width: 100%;
-            background: var(--primary);
-            border: none;
-            padding: 5px;
-            margin-top: 5px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .refresh-btn {
-            background: var(--primary);
-            color: #000;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.7rem;
-            font-weight: bold;
-        }
-
-        .refresh-btn:focus-visible {
-            outline: 2px solid #fff;
-            outline-offset: 2px;
-        }
-
-        select {
-            background: #222;
-            color: #fff;
-            padding: 5px;
-            border-radius: 4px;
-            border: 1px solid #333;
-        }
-
-        /* DESKTOP */
-        @media (min-width: 900px) {
-            #gato-chat {
-                width: 320px;
-                height: 450px;
-                right: 20px;
-                bottom: 20px;
-                left: auto;
-                border-radius: 15px;
-                border: 1px solid var(--primary);
-            }
-
-            main {
-                padding-bottom: 0;
-            }
-        }
-    </style>
+      }
+    };
+  </script>
 </head>
-<body>
-
-<header>
-    <img src="1000371388.png"
-         alt="Logo Anime LOL"
-         style="height: 40px;"
-         onerror="this.src='https://via.placeholder.com/150x40?text=ANIME+LOL'">
-    <button class="refresh-btn" type="button" onclick="refreshContent()">
-        🔄 ACTUALIZAR TENDENCIAS
-    </button>
-</header>
-
-<main>
-    <nav class="tabs" aria-label="Secciones del dashboard">
-        <button class="tab-btn active" type="button" onclick="openTab('welcome', this)">🌙 Bienvenida</button>
-        <button class="tab-btn" type="button" onclick="openTab('calendar', this)">📅 Calendario</button>
-        <button class="tab-btn" type="button" onclick="openTab('news', this)">🔥 Noticias</button>
-    </nav>
-
-    <section id="welcome" class="viewport active" aria-labelledby="welcome-title">
-        <h1 id="welcome-title">Miau... Cargando tu destino...</h1>
-        <article style="margin-top: 20px; padding: 20px; background: var(--card); border-radius: 15px;">
-            <h3>Match del Día</h3>
-            <p style="color: var(--primary);">GatoNocturno recomienda: <strong>Dandadan</strong></p>
-        </article>
-    </section>
-
-    <section id="calendar" class="viewport" aria-labelledby="calendar-title">
-        <div class="cal-header">
-            <h2 id="calendar-title">Calendario de Estrenos</h2>
-            <label for="cal-mode" style="font-size:0.8rem;">
-                <span class="sr-only">Modo de vista del calendario</span>
-                <select id="cal-mode" onchange="changeCalMode(this.value)">
-                    <option value="weekly">Vista Semanal</option>
-                    <option value="monthly">Vista Mensual / Próximos</option>
-                </select>
-            </label>
+<body class="bg-gradient-to-b from-black via-night to-black min-h-screen flex items-center justify-center px-4 py-6 text-gray-100">
+  <div class="w-full max-w-3xl bg-gradient-to-b from-black/80 via-night to-black/90 border border-neon/40 rounded-3xl shadow-glow p-6 relative overflow-hidden">
+    <!-- Glow -->
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(34,211,238,0.15),_transparent)] pointer-events-none"></div>
+    <div class="relative z-10 space-y-4">
+      
+      <!-- Header -->
+      <header class="flex items-center gap-3">
+        <div class="relative w-12 h-12 rounded-2xl overflow-hidden border border-neon/60 shadow-glow bg-black">
+          <img src="1000371388.png" alt="Anime LOL" class="w-full h-full object-cover">
         </div>
-        <div class="cal-grid" id="cal-body">
-            <!-- Aquí irán las tarjetas de calendario dinámicas -->
+        <div class="flex-1">
+          <h1 class="text-2xl font-semibold text-neon tracking-wide">Anime LOL</h1>
+          <p class="text-sm text-gray-300">GatoNocurno · Tu asistente personal de anime</p>
         </div>
-    </section>
+        <span class="text-xs px-2 py-1 rounded-full bg-neon/10 text-neon border border-neon/50">Online</span>
+      </header>
 
-    <section id="news" class="viewport" aria-labelledby="news-title">
-        <h2 id="news-title">Noticias y Tendencias</h2>
-        <p style="margin-top:10px; font-size:0.9rem; color:#aaa;">
-            Próximamente: feed con noticias, trailers y rumores curados por GatoNocturno.
-        </p>
-    </section>
-</main>
+      <!-- Descripción -->
+      <section class="text-sm text-gray-300 bg-black/40 border border-gray-700/60 rounded-2xl p-4">
+        <p>No busques qué ver: GatoNocurno conoce tus gustos, filtra por humor, resume y avisa de nuevos capítulos.</p>
+      </section>
 
-<aside id="gato-chat"
-       aria-label="Chat con GatoNocturno"
-       aria-live="polite"
-       aria-atomic="false">
-    <div class="chat-header">ASISTENTE GATONOCTURNO</div>
-    <div class="chat-win" id="chat-win" role="log" aria-live="polite" aria-relevant="additions text">
-        <p style="color: var(--primary);"><strong>GatoNocturno:</strong> Miau... ¿en qué puedo ayudarte hoy?</p>
+      <!-- Chat -->
+      <section class="flex flex-col h-[60vh] bg-black/40 border border-gray-800 rounded-3xl">
+        <div id="messages" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+        <form id="form" class="border-t border-gray-800 px-4 py-3 flex items-center gap-2 bg-black/60">
+          <input id="input" class="flex-1 bg-black/40 border border-gray-700 rounded-2xl px-4 py-2 text-sm focus:outline-none focus:border-neon placeholder:text-gray-500" placeholder="Cuéntame tu humor (shonen, romance, triste...) y te recomiendo.">
+          <button type="submit" id="send" class="text-sm px-4 py-2 rounded-2xl bg-neon text-black font-semibold hover:bg-cyan-300 transition shadow-glow">Enviar</button>
+        </form>
+      </section>
+
+      <footer class="text-xs text-gray-500 text-center">GatoNocurno caza animes perfectos en la noche.</footer>
     </div>
-    <div class="chat-in">
-        <textarea id="ai-msg"
-                  placeholder="Dime algo..."
-                  aria-label="Mensaje para GatoNocturno"></textarea>
-        <button type="button" onclick="askGato()">HABLAR</button>
-    </div>
-</aside>
+  </div>
 
-<script>
-    function openTab(id, btn) {
-        document.querySelectorAll('.viewport').forEach(v => v.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        const target = document.getElementById(id);
-        if (target) target.classList.add('active');
-        if (btn) btn.classList.add('active');
-    }
+  <script>
+    const messagesEl = document.getElementById('messages');
+    const form = document.getElementById('form');
+    const input = document.getElementById('input');
+    const send = document.getElementById('send');
 
-    function refreshContent() {
-        alert("¡Miau! Sincronizando noticias y tendencias con las sombras de hace 24 horas...");
-        // Aquí iría la lógica de fetch a Supabase/API
-    }
+    // Mensaje inicial
+    addMessage('assistant', 'Hola, soy GatoNocurno de Anime LOL. Dime tu humor o gustos y te recomiendo algo perfecto.');
 
-    async function askGato() {
-        const input = document.getElementById('ai-msg');
-        const win = document.getElementById('chat-win');
-        const msg = input.value.trim();
-        if (!msg) return;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
 
-        win.insertAdjacentHTML(
-            'beforeend',
-            `<p style="text-align:right"><i>${msg}</i></p>`
-        );
-        win.insertAdjacentHTML(
-            'beforeend',
-            `<p id="typing" style="color:gray">GatoNocturno está pensando...</p>`
-        );
-        win.scrollTop = win.scrollHeight;
+      addMessage('user', text);
+      input.value = '';
+      send.textContent = 'Pensando...';
+      send.disabled = true;
 
-        try {
-            const res = await fetch('/api/gato-nocturno', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    prompt: msg,
-                    user: 'Invitado',
-                    context: 'Dashboard Principal'
-                })
-            });
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [...getMessages()] })
+      });
 
-            if (!res.ok) {
-                throw new Error(`HTTP ${res.status}`);
-            }
+      const reader = res.body.getReader();
+      const botMsg = addMessage('assistant', '');
+      let fullText = '';
 
-            const data = await res.json();
-            const typingEl = document.getElementById('typing');
-            if (typingEl) typingEl.remove();
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = new TextDecoder().decode(value);
+        fullText += chunk;
+        botMsg.querySelector('p').textContent = fullText;
+      }
 
-            win.insertAdjacentHTML(
-                'beforeend',
-                `<p style="color:var(--primary)"><strong>GatoNocturno:</strong> ${data.respuesta}</p>`
-            );
-        } catch (e) {
-            console.error('Error en askGato:', e);
-            const typingEl = document.getElementById('typing');
-            if (typingEl) typingEl.remove();
-
-            win.insertAdjacentHTML(
-                'beforeend',
-                `<p style="color:tomato">Miau... hubo un problema al conectar (${e.message}). Intenta de nuevo.</p>`
-            );
-        }
-
-        win.scrollTop = win.scrollHeight;
-        input.value = "";
-        input.focus();
-    }
-
-    // Enviar con Enter (Shift+Enter = salto de línea)
-    const textarea = document.getElementById('ai-msg');
-    textarea.addEventListener('keydown', e => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            askGato();
-        }
+      send.textContent = 'Enviar';
+      send.disabled = false;
     });
-</script>
+
+    function addMessage(role, content) {
+      const div = document.createElement('div');
+      div.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'}`;
+      div.innerHTML = `
+        <div class="${role === 'user' ? 'bg-neon text-black rounded-2xl px-4 py-2 max-w-xs shadow-glow text-sm' : 'bg-gray-900/80 border border-neon/40 rounded-2xl px-4 py-2 max-w-xs text-sm'}">
+          ${role === 'assistant' ? '<p class="text-xs uppercase text-neon mb-1">GatoNocurno</p>' : ''}
+          <p>${content}</p>
+        </div>
+      `;
+      messagesEl.appendChild(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+      return role === 'assistant' ? div.querySelector('p:last-child') : null;
+    }
+
+    function getMessages() {
+      return Array.from(messagesEl.children).map(el => {
+        const role = el.classList.contains('justify-end') ? 'user' : 'assistant';
+        return { role, content: el.textContent.trim() };
+      });
+    }
+  </script>
 </body>
 </html>
