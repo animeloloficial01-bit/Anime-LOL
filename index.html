@@ -3,81 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AniméLol - Calendario y Tendencias Anime</title>
-    <link rel="icon" href="1000371388.png">
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <title>AniméLol - Tu Portal Anime Inteligente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <img src="1000371388.png" alt="AniméLol Logo" id="logo">
-                <span>AniméLol</span>
+<body class="bg-gradient-to-br from-purple-900 via-indigo-900 to-pink-900 min-h-screen text-white overflow-x-hidden">
+    
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 shadow-2xl border-b border-purple-500/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-3">
+                    <img src="1000371388.png" alt="AniméLol" class="h-12 w-12 rounded-xl shadow-lg animate-pulse">
+                    <span class="text-2xl font-black bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                        AniméLol
+                    </span>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <button id="loginBtn" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-xl transition-all duration-300 font-semibold">
+                        <i class="fas fa-user mr-2"></i>Entrar
+                    </button>
+                    <button id="userPanelBtn" class="px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 rounded-xl transition-all duration-300 font-semibold hidden">
+                        <i class="fas fa-crown mr-2"></i>Perfil
+                    </button>
+                </div>
+                <button id="mobileMenuBtn" class="md:hidden p-2 rounded-xl hover:bg-white/10">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
             </div>
-            <div class="nav-menu" id="nav-menu">
-                <a href="#trends" class="nav-link">Tendencias</a>
-                <a href="#calendar" class="nav-link">Calendario</a>
-                <a href="#monthly" class="nav-link">Estrenos</a>
-            </div>
-            <div class="nav-toggle" id="nav-toggle">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-            <button id="darkToggle" class="dark-toggle">🌙</button>
         </div>
     </nav>
 
-    <aside class="sidebar" id="sidebar">
-        <h3>Categorías</h3>
-        <button onclick="loadTrends('ongoing')">Ongoing</button>
-        <button onclick="loadTrends('upcoming')">Upcoming</button>
-    </aside>
-
-    <main>
-        <header class="search-header">
-            <input type="text" id="searchInput" placeholder="Buscar anime...">
-        </header>
-
-        <section id="trends">
-            <h2>Tendencias</h2>
-            <div id="trendsList" class="grid"></div>
-        </section>
-
-        <section id="calendar">
-            <h2>Calendario Semanal</h2>
-            <div class="calendar-tabs">
-                <button onclick="loadWeekly('Monday')">Lun</button>
-                <button onclick="loadWeekly('Tuesday')">Mar</button>
-                <button onclick="loadWeekly('Wednesday')">Mie</button>
-                <button onclick="loadWeekly('Thursday')">Jue</button>
-                <button onclick="loadWeekly('Friday')">Vie</button>
-                <button onclick="loadWeekly('Saturday')">Sáb</button>
-                <button onclick="loadWeekly('Sunday')">Dom</button>
-            </div>
-            <div id="weeklyList" class="grid"></div>
-        </section>
-
-        <section id="monthly">
-            <h2>Estrenos Mensuales</h2>
-            <button onclick="loadMonthly()">Temporada Actual</button>
-            <div id="monthlyList" class="grid"></div>
-        </section>
-
-        <section id="searchResults">
-            <h2>Resultados Búsqueda</h2>
-            <div id="searchList" class="grid"></div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 AniméLol. Hecho con ❤️ en Mérida, Yucatán.</p>
-        <div class="social">
-            <a href="#">Twitter</a> | <a href="#">Discord</a> | <a href="#">GitHub</a>
+    <!-- Panel de pestañas principal -->
+    <div class="pt-20 pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Tabs Navigation -->
+        <div class="flex flex-wrap justify-center bg-black/50 backdrop-blur-md rounded-3xl p-2 mb-8 shadow-2xl border border-purple-500/30">
+            <button class="tab-btn px-6 py-3 font-bold rounded-2xl transition-all duration-500 mx-1 tab-active" data-tab="welcome">
+                <i class="fas fa-home mr-2"></i>Inicio
+            </button>
+            <button class="tab-btn px-6 py-3 font-bold rounded-2xl transition-all duration-500 mx-1" data-tab="calendar">
+                <i class="fas fa-calendar mr-2"></i>Calendario
+            </button>
+            <button class="tab-btn px-6 py-3 font-bold rounded-2xl transition-all duration-500 mx-1" data-tab="trends">
+                <i class="fas fa-fire mr-2"></i>Tendencias
+            </button>
+            <button class="tab-btn px-6 py-3 font-bold rounded-2xl transition-all duration-500 mx-1" data-tab="forum" id="forumBtn">
+                <i class="fas fa-comments mr-2"></i>Foro
+            </button>
         </div>
-    </footer>
 
-    <script src="js/script.js"></script>
+        <!-- Contenido de pestañas -->
+        <div id="tab-content">
+            <!-- Welcome Tab -->
+            <div id="welcome" class="tab-content active">
+                <div class="text-center mb-16">
+                    <h1 class="text-6xl md:text-7xl font-black bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent mb-6 animate-float">
+                        Bienvenido a AniméLol
+                    </h1>
+                    <p class="text-xl md:text-2xl text-purple-100 max-w-3xl mx-auto mb-12 opacity-90">
+                        Tu portal inteligente de anime con IA GatoNocturno. Calendarios interactivos, recomendaciones personalizadas y foro comunitario.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+                        <button id="matchDayBtn" class="px-12 py-6 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-xl font-bold rounded-3xl shadow-2xl hover:scale-105 transition-all duration-500">
+                            <i class="fas fa-heart mr-3"></i>Match del Día
+                        </button>
+                        <button id="syncBtn" class="px-12 py-6 border-4 border-purple-500 hover:border-purple-400 text-xl font-bold rounded-3xl shadow-2xl hover:bg-purple-500/20 transition-all duration-500">
+                            <i class="fas fa-sync-alt mr-3 animate-spin-slow"></i>Refresco Místico
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="grid md:grid-cols-4 gap-6 mb-16">
+                    <div class="bg-black/50 backdrop-blur-md rounded-3xl p-8 border border-purple-500/30 hover:scale-105 transition-all duration-500 group">
+                        <div class="text-4xl mb-4"><i class="fas fa-fire text-orange-500"></i></div>
+                        <h3 class="text-2xl font-bold mb-2 group-hover:text-orange-400">47</h3>
+                        <p class="text-purple-300">En tendencia</p>
+                    </div>
+                    <div class="bg-black/50 backdrop-blur-md rounded-3xl p-8 border border-purple-500/30 hover:scale-105 transition-all duration-500 group">
+                        <div class="text-4xl mb-4"><i class="fas fa-calendar-day text-emerald-500"></i></div>
+                        <h3 class="text-2xl font-bold mb-2 group-hover:text-emerald-400">+23</h3>
+                        <p class="text-purple-300">Estrenos hoy</p>
+                    </div>
+                    <div class="bg-black/50 backdrop-blur-md rounded-3xl p-8 border border-purple-500/30 hover:scale-105 transition-all duration-500 group">
+                        <div class="text-4xl mb-4"><i class="fas fa-users text-pink-500"></i></div>
+                        <h3 class="text-2xl font-bold mb-2 group-hover:text-pink-400">1.2K</h3>
+                        <p class="text-purple-300">Usuarios activos</p>
+                    </div>
+                    <div class="bg-black/50 backdrop-blur-md rounded-3xl p-8 border border-purple-500/30 hover:scale-105 transition-all duration-500 group">
+                        <div class="text-4xl mb-4"><i class="fas fa-star text-yellow-400"></i></div>
+                        <h3 class="text-2xl font-bold mb-2 group-hover:text-yellow-300">4.9</h3>
+                        <p class="text-purple-300">Valoración</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar Tab -->
+            <div id="calendar" class="tab-content hidden">
+                <div class="flex gap-4 mb-8">
+                    <button id="weekView" class="flex-1 py-4 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl font-bold shadow-xl hover:scale-105 transition-all duration-500">📅 Semana</button>
+                    <button id="monthView" class="flex-1 py-4 px-6 border-2 border-purple-500 hover:bg-purple-500/20 rounded-2xl font-bold shadow-xl hover:scale-105 transition-all duration-500">📊 Mes/Próximos</button>
+                </div>
+                <div id="calendarContent" class="grid md:grid-cols-2 lg:grid-cols-7 gap-4">
+                    <!-- Calendario se genera dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Trends Tab -->
+            <div id="trends" class="tab-content hidden">
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Noticias dinámicas se generan aquí -->
+                </div>
+            </div>
+
+            <!-- Forum Tab (Solo usuarios registrados) -->
+            <div id="forum" class="tab-content hidden">
+                <div id="forumContent" class="text-center py-20">
+                    <i class="fas fa-lock text-6xl text-yellow-500 mb-8 animate-bounce"></i>
+                    <h2 class="text-4xl font-black mb-4">🔒 Foro Bloqueado</h2>
+                    <p class="text-xl mb-8">Regístrate con una clave de 4-8 dígitos para acceder al foro comunitario</p>
+                    <button id="unlockForum" class="px-12 py-4 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 rounded-3xl text-xl font-bold shadow-2xl hover:scale-105 transition-all duration-500">
+                        <i class="fas fa-key mr-2"></i>Desbloquear
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat IA Flotante - GatoNocturno -->
+    <div id="chatContainer" class="fixed bottom-6 right-6 w-80 h-96 bg-black/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-purple-500/50 z-40 hidden flex flex-col">
+        <div class="p-4 border-b border-purple-500/50 flex justify-between items-center rounded-t-3xl bg-gradient-to-r from-purple-600 to-pink-600">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-gradient-to-r from-orange-400 to-yellow-400 rounded-2xl flex items-center justify-center animate-bounce">
+                    <i class="fas fa-cat text-xl"></i>
+                </div>
+                <div>
+                    <div class="font-bold text-lg">GatoNocturno</div>
+                    <div class="text-xs text-purple-200">IA Autónoma online</div>
+                </div>
+            </div>
+            <button id="closeChat" class="p-2 hover:bg-white/20 rounded-xl transition-all duration-300">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-purple-900/50">
+            <div class="bg-purple-600/50 p-4 rounded-2xl max-w-xs">
+                <div class="font-semibold mb-1">GatoNocturno ✨</div>
+                ¡Hola! Soy tu asistente IA autónomo. Usa comandos como:<br>
+                <code class="bg-black/50 px-2 py-1 rounded text-xs">/filtrar acción</code> <code class="bg-black/50 px-2 py-1 rounded text-xs">/resumen Jujutsu</code>
+            </div>
+        </div>
+        <div class="p-4 border-t border-purple-500/50">
+            <div class="flex space-x-2">
+                <input id="chatInput" type="text" placeholder="Escribe aquí..." class="flex-1 bg-black/50 border border-purple-500/50 rounded-xl px-4 py-3 text-white placeholder-purple-300 focus:outline-none focus:border-purple-400 transition-all duration-300">
+                <button id="sendMessage" class="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-xl flex items-center justify-center transition-all duration-300">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón flotante Chat IA -->
+    <button id="chatToggle" class="fixed bottom-6 right-6 w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-3xl shadow-2xl text-white text-2xl flex items-center justify-center z-50 animate-pulse">
+        <i class="fas fa-comments"></i>
+    </button>
+
+    <!-- Modal Login -->
+    <div id="loginModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-gradient-to-br from-purple-900 to-pink-900 rounded-3xl p-8 max-w-md w-full border border-purple-500/50 shadow-2xl animate-scale-in">
+            <h2 class="text-3xl font-black text-center mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                <i class="fas fa-key mr-3"></i>Acceso AniméLol
+            </h2>
+            <div class="space-y-4">
+                <input id="pinInput" type="password" maxlength="8" placeholder="Clave 4-8 dígitos" class="w-full p-4 bg-black/50 border-2 border-purple-500/50 rounded-2xl text-white placeholder-purple-300 focus:border-purple-400 focus:outline-none transition-all duration-300 text-xl">
+                <div class="text-xs text-purple-300 text-center">¿No tienes clave? Se genera automáticamente al registrarte</div>
+                <button id="submitPin" class="w-full py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 rounded-2xl font-bold text-xl shadow-xl hover:scale-105 transition-all duration-500">
+                    <i class="fas fa-unlock mr-2"></i>Desbloquear
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Bar Component -->
+    <div id="progressTemplate" class="hidden">
+        <div class="w-full bg-gray-700 rounded-full h-3">
+            <div class="bg-gradient-to-r from-green-400 to-emerald-500 h-3 rounded-full transition-all duration-1000" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <script src="supabase.js"></script>
+    <script src="gemini.js"></script>
+    <script src="script.js"></script>
 </body>
-</html>
+                            </html>
