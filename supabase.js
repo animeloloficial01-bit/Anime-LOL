@@ -1,6 +1,6 @@
 // Configuración Supabase GRATUITA - Reemplaza con tus credenciales
-const SUPABASE_URL = 'https://tu-proyecto.supabase.co'; // ← CAMBIA ESTO
-const SUPABASE_ANON_KEY = 'tu-clave-anon-publica'; // ← CAMBIA ESTO
+const SUPABASE_URL = https:fjvqalelednvldlzmpbr.supabase.com; // ← CAMBIA ESTO
+const SUPABASE_ANON_KEY =sb_publishable_YRSl6r_uArdI4viaxzoDBw_vej0RfNm; // ← CAMBIA ESTO
 
 export const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
