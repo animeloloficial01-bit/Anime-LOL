@@ -1,5 +1,5 @@
 // Gemini API GRATUITA - Obtén tu clave en https://aistudio.google.com/app/apikey
-const GEMINI_API_KEY = 'AIzaSyTuClaveDeGeminiGratis'; // ← CAMBIA ESTO
+const GEMINI_API_KEY = AIzaSyDN9KGaVAKsvytkHOE0tByDemX-x4omi_g; // ← CAMBIA ESTO
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
 
 export async function chatWithGatoNocturno(message, context = {}) {
