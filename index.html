@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HUB OFICIAL | CÓDIGO 0 & ANIMELOL</title>
+    <title>Código 0 & animeLol | Hub Oficial</title>
     <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Orbitron:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -12,78 +12,80 @@
             overflow-x: hidden; scroll-behavior: smooth;
         }
 
-        /* --- FONDOS ANIMADOS --- */
-        .bg-layer {
+        /* --- FONDOS ATMOSFÉRICOS --- */
+        .section-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; pointer-events: none; opacity: 0.3;
+            z-index: -1; opacity: 0.2; pointer-events: none;
         }
 
         section {
             position: relative; min-height: 100vh;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 40px 20px; border-bottom: 2px solid rgba(255,255,255,0.05);
+            padding: 40px 20px;
         }
 
-        /* --- SECCIÓN CÓDIGO 0 --- */
-        #codigo0 { background: radial-gradient(circle at center, #1a0000 0%, #000 100%); }
+        /* --- ESTILO CÓDIGO 0 (TERROR) --- */
+        #codigo0 { background: radial-gradient(circle, #1a0000 0%, #000 100%); border-bottom: 2px solid #300; }
         .horror-title { 
-            font-family: 'Creepster', cursive; font-size: clamp(3rem, 15vw, 6rem); 
-            color: #ff0000; text-shadow: 0 0 15px rgba(255, 0, 0, 0.7); 
+            font-family: 'Creepster', cursive; font-size: clamp(3rem, 12vw, 6rem); 
+            color: #ff0000; text-shadow: 0 0 20px rgba(255, 0, 0, 0.7); 
             animation: flicker 4s infinite;
         }
 
-        /* --- SECCIÓN ANIMELOL --- */
-        #animelol { background: radial-gradient(circle at center, #001a33 0%, #000 100%); }
+        /* --- ESTILO ANIMELOL (ANIME) --- */
+        #animelol { background: radial-gradient(circle, #001a33 0%, #000 100%); }
         .anime-title { 
-            font-family: 'Orbitron', sans-serif; font-size: clamp(2rem, 10vw, 4rem); 
+            font-family: 'Orbitron', sans-serif; font-size: clamp(2.5rem, 10vw, 4rem); 
             background: linear-gradient(to right, #00fbff, #ff00ff);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px #00fbff);
+            filter: drop-shadow(0 0 15px #00fbff);
         }
 
         /* --- REPRODUCTOR DE VIDEO --- */
-        .video-box {
-            width: 100%; max-width: 640px; margin: 30px 0;
-            aspect-ratio: 16/9; background: #000;
-            border-radius: 12px; overflow: hidden;
-            box-shadow: 0 0 40px rgba(0,0,0,1);
-            border: 1px solid rgba(255,255,255,0.1);
+        .video-container {
+            width: 100%; max-width: 650px; margin: 30px 0;
+            aspect-ratio: 16/9; position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px; overflow: hidden;
         }
-        .video-box iframe { width: 100%; height: 100%; border: none; }
+        .video-container iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;
+        }
 
         /* --- BOTONES --- */
-        .links { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+        .links { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; z-index: 10; }
         .btn {
-            padding: 14px 28px; border-radius: 6px; text-decoration: none;
+            padding: 15px 30px; border-radius: 5px; text-decoration: none;
             color: white; font-weight: 600; text-transform: uppercase;
-            font-size: 0.8rem; letter-spacing: 1px; transition: 0.3s;
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.8rem; letter-spacing: 2px; transition: 0.3s;
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
             backdrop-filter: blur(10px);
         }
-        .btn-horror:hover { background: #ff0000; color: #000; box-shadow: 0 0 20px #ff0000; }
-        .btn-anime:hover { background: #00fbff; color: #000; box-shadow: 0 0 20px #00fbff; border-radius: 40px; }
+        .btn-horror:hover { background: #ff0000; color: #000; box-shadow: 0 0 25px #ff0000; transform: scale(1.05); }
+        .btn-anime:hover { background: #00fbff; color: #000; box-shadow: 0 0 25px #00fbff; transform: scale(1.05); border-radius: 40px; }
 
         @keyframes flicker {
             0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
-            20%, 22%, 24%, 55% { opacity: 0.3; }
+            20%, 22%, 24%, 55% { opacity: 0.4; }
         }
 
-        [data-aos] { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+        [data-aos] { opacity: 0; transform: translateY(30px); transition: 1s ease-out; }
         .visible { opacity: 1 !important; transform: translateY(0) !important; }
     </style>
 </head>
 <body>
 
     <section id="codigo0">
-        <div class="bg-layer">
-            <iframe src="https://www.youtube.com/embed/Z67Yv8S_fS8?autoplay=1&mute=1&controls=0&loop=1&playlist=Z67Yv8S_fS8&showinfo=0" style="width:100vw; height:100vh; pointer-events:none;"></iframe>
+        <div class="section-bg">
+            <iframe src="https://www.youtube.com/embed/Z67Yv8S_fS8?autoplay=1&mute=1&controls=0&loop=1&playlist=Z67Yv8S_fS8" width="100%" height="100%" frameborder="0"></iframe>
         </div>
 
         <h1 class="horror-title" data-aos>CÓDIGO 0</h1>
-        <p style="color:#555; letter-spacing: 5px; margin-bottom: 10px;">EXPEDIENTES SINIESTROS</p>
+        <p style="color:#666; letter-spacing: 5px; font-size: 0.7rem; margin-bottom: 20px;" data-aos>EXPEDIENTES SINIESTROS</p>
 
-        <div class="video-box" data-aos>
-            <iframe src="https://www.youtube-nocookie.com/embed?listType=user_uploads&list=codigo0-of" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="video-container" data-aos>
+            <iframe src="https://www.youtube.com/embed/5w3-e-3Fm_Y?rel=0" allowfullscreen></iframe>
         </div>
 
         <div class="links" data-aos>
@@ -94,20 +96,22 @@
     </section>
 
     <section id="animelol">
-        <div class="bg-layer" style="opacity: 0.1;">
-            <iframe src="https://www.youtube.com/embed/5U7O0B_q_M4?autoplay=1&mute=1&controls=0&loop=1&playlist=5U7O0B_q_M4&showinfo=0" style="width:100vw; height:100vh; pointer-events:none;"></iframe>
+        <div class="section-bg" style="opacity: 0.1;">
+            <iframe src="https://www.youtube.com/embed/5U7O0B_q_M4?autoplay=1&mute=1&controls=0&loop=1&playlist=5U7O0B_q_M4" width="100%" height="100%" frameborder="0"></iframe>
         </div>
 
         <h1 class="anime-title" data-aos>animeLol</h1>
-        
-        <div class="video-box" data-aos style="border-color: #00fbff;">
-            <iframe src="https://www.youtube-nocookie.com/embed?listType=user_uploads&list=animelolgames01" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <p style="color:#00fbff; letter-spacing: 3px; font-size: 0.7rem; margin-bottom: 20px;" data-aos>ANIME & GAMING</p>
+
+        <div class="video-container" data-aos style="border-color: #00fbff;">
+            <iframe src="https://www.youtube.com/embed/kR22AonX9Yc?rel=0" allowfullscreen></iframe>
         </div>
 
         <div class="links" data-aos>
             <a href="https://www.instagram.com/animelol_01" target="_blank" class="btn btn-anime">Instagram</a>
             <a href="https://www.tiktok.com/@animelol01" target="_blank" class="btn btn-anime">TikTok</a>
             <a href="https://m.youtube.com/%40animelolgames01" target="_blank" class="btn btn-anime">YouTube</a>
+            <a href="https://www.facebook.com/share/1C8XxeBmQW/" target="_blank" class="btn btn-anime">Facebook</a>
         </div>
     </section>
 
@@ -123,4 +127,3 @@
 
 </body>
 </html>
-
