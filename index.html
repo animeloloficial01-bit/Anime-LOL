@@ -6,112 +6,155 @@
     <title>Código 0 & animeLol | Hub Oficial</title>
     <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Orbitron:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --red: #ff0000;
+            --cyan: #00fbff;
+            --pink: #ff00ff;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
             background: #000; font-family: 'Poppins', sans-serif; color: white; 
             overflow-x: hidden; scroll-behavior: smooth;
         }
 
-        /* --- FONDOS ATMOSFÉRICOS --- */
-        .section-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; opacity: 0.2; pointer-events: none;
-        }
-
         section {
             position: relative; min-height: 100vh;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             padding: 40px 20px;
+            perspective: 1000px;
         }
 
-        /* --- ESTILO CÓDIGO 0 (TERROR) --- */
-        #codigo0 { background: radial-gradient(circle, #1a0000 0%, #000 100%); border-bottom: 2px solid #300; }
+        /* --- SECCIÓN CÓDIGO 0 --- */
+        #codigo0 { 
+            background: radial-gradient(circle at center, #1a0000 0%, #000 100%); 
+            overflow: hidden;
+        }
+        
+        /* Efecto de Niebla Animada */
+        .fog {
+            position: absolute; width: 200%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.1; animation: moveFog 60s linear infinite;
+        }
+
         .horror-title { 
-            font-family: 'Creepster', cursive; font-size: clamp(3rem, 12vw, 6rem); 
-            color: #ff0000; text-shadow: 0 0 20px rgba(255, 0, 0, 0.7); 
-            animation: flicker 4s infinite;
+            font-family: 'Creepster', cursive; font-size: clamp(4rem, 15vw, 8rem); 
+            color: var(--red); text-shadow: 0 0 30px rgba(255,0,0,0.8);
+            margin-bottom: 10px; animation: glitch 5s infinite;
         }
 
-        /* --- ESTILO ANIMELOL (ANIME) --- */
-        #animelol { background: radial-gradient(circle, #001a33 0%, #000 100%); }
+        /* --- SECCIÓN ANIMELOL --- */
+        #animelol { 
+            background: radial-gradient(circle at center, #001a33 0%, #000 100%); 
+        }
+
         .anime-title { 
-            font-family: 'Orbitron', sans-serif; font-size: clamp(2.5rem, 10vw, 4rem); 
-            background: linear-gradient(to right, #00fbff, #ff00ff);
+            font-family: 'Orbitron', sans-serif; font-size: clamp(2.5rem, 10vw, 5rem); 
+            background: linear-gradient(to right, var(--cyan), var(--pink));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px #00fbff);
+            filter: drop-shadow(0 0 20px var(--cyan));
         }
 
-        /* --- REPRODUCTOR DE VIDEO --- */
-        .video-container {
-            width: 100%; max-width: 650px; margin: 30px 0;
-            aspect-ratio: 16/9; position: relative;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
-            border: 2px solid rgba(255,255,255,0.1);
-            border-radius: 10px; overflow: hidden;
-        }
-        .video-container iframe {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;
+        /* --- TARJETAS DINÁMICAS --- */
+        .card-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px; width: 100%; max-width: 1000px; margin-top: 40px;
         }
 
-        /* --- BOTONES --- */
-        .links { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; z-index: 10; }
-        .btn {
-            padding: 15px 30px; border-radius: 5px; text-decoration: none;
-            color: white; font-weight: 600; text-transform: uppercase;
-            font-size: 0.8rem; letter-spacing: 2px; transition: 0.3s;
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px; padding: 40px 20px;
+            text-align: center; text-decoration: none; color: white;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             backdrop-filter: blur(10px);
-        }
-        .btn-horror:hover { background: #ff0000; color: #000; box-shadow: 0 0 25px #ff0000; transform: scale(1.05); }
-        .btn-anime:hover { background: #00fbff; color: #000; box-shadow: 0 0 25px #00fbff; transform: scale(1.05); border-radius: 40px; }
-
-        @keyframes flicker {
-            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
-            20%, 22%, 24%, 55% { opacity: 0.4; }
+            position: relative; overflow: hidden;
         }
 
-        [data-aos] { opacity: 0; transform: translateY(30px); transition: 1s ease-out; }
-        .visible { opacity: 1 !important; transform: translateY(0) !important; }
+        /* Efecto Hover para Código 0 */
+        .horror-card:hover {
+            background: rgba(139, 0, 0, 0.2);
+            border-color: var(--red);
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.4);
+            transform: translateY(-10px) rotateX(10deg);
+        }
+
+        /* Efecto Hover para animeLol */
+        .anime-card:hover {
+            background: rgba(0, 251, 255, 0.1);
+            border-color: var(--cyan);
+            box-shadow: 0 0 40px rgba(0, 251, 255, 0.4);
+            transform: translateY(-10px) scale(1.05);
+        }
+
+        .card h3 { font-size: 1.5rem; margin-bottom: 10px; }
+        .card p { font-size: 0.9rem; opacity: 0.6; }
+
+        /* Iconos Brillantes */
+        .icon { font-size: 2rem; margin-bottom: 15px; display: block; }
+
+        /* ANIMACIONES */
+        @keyframes moveFog { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            2% { transform: translate(-5px, 2px); filter: hue-rotate(90deg); }
+            4% { transform: translate(5px, -2px); filter: hue-rotate(0deg); }
+            6% { transform: translate(0); }
+            100% { transform: translate(0); }
+        }
+
+        [data-aos] { opacity: 0; transform: scale(0.9); transition: 1s; }
+        .visible { opacity: 1 !important; transform: scale(1) !important; }
     </style>
 </head>
 <body>
 
     <section id="codigo0">
-        <div class="section-bg">
-            <iframe src="https://www.youtube.com/embed/Z67Yv8S_fS8?autoplay=1&mute=1&controls=0&loop=1&playlist=Z67Yv8S_fS8" width="100%" height="100%" frameborder="0"></iframe>
-        </div>
-
+        <div class="fog"></div>
         <h1 class="horror-title" data-aos>CÓDIGO 0</h1>
-        <p style="color:#666; letter-spacing: 5px; font-size: 0.7rem; margin-bottom: 20px;" data-aos>EXPEDIENTES SINIESTROS</p>
+        <p style="letter-spacing: 10px; color: #444; text-transform: uppercase;">Expedientes Paranormales</p>
 
-        <div class="video-container" data-aos>
-            <iframe src="https://www.youtube.com/embed/5w3-e-3Fm_Y?rel=0" allowfullscreen></iframe>
-        </div>
-
-        <div class="links" data-aos>
-            <a href="https://www.tiktok.com/@codigo_0oficial" target="_blank" class="btn btn-horror">TikTok</a>
-            <a href="https://www.facebook.com/share/1b5mJWb9oY/" target="_blank" class="btn btn-horror">Facebook</a>
-            <a href="https://youtube.com/@codigo0-of" target="_blank" class="btn btn-horror">YouTube</a>
+        <div class="card-container">
+            <a href="https://youtube.com/@codigo0-of" target="_blank" class="card horror-card" data-aos>
+                <span class="icon">🎬</span>
+                <h3>YouTube</h3>
+                <p>Mira los últimos episodios y documentales de terror.</p>
+            </a>
+            <a href="https://www.tiktok.com/@codigo_0oficial" target="_blank" class="card horror-card" data-aos>
+                <span class="icon">💀</span>
+                <h3>TikTok</h3>
+                <p>Relatos cortos y avistamientos en menos de 60 segundos.</p>
+            </a>
+            <a href="https://www.facebook.com/share/1b5mJWb9oY/" target="_blank" class="card horror-card" data-aos>
+                <span class="icon">👥</span>
+                <h3>Comunidad</h3>
+                <p>Únete al grupo de investigación en Facebook.</p>
+            </a>
         </div>
     </section>
 
     <section id="animelol">
-        <div class="section-bg" style="opacity: 0.1;">
-            <iframe src="https://www.youtube.com/embed/5U7O0B_q_M4?autoplay=1&mute=1&controls=0&loop=1&playlist=5U7O0B_q_M4" width="100%" height="100%" frameborder="0"></iframe>
-        </div>
-
         <h1 class="anime-title" data-aos>animeLol</h1>
-        <p style="color:#00fbff; letter-spacing: 3px; font-size: 0.7rem; margin-bottom: 20px;" data-aos>ANIME & GAMING</p>
+        <p style="color: var(--cyan); letter-spacing: 5px; font-size: 0.8rem;">CULTURA ANIME & GAMING</p>
 
-        <div class="video-container" data-aos style="border-color: #00fbff;">
-            <iframe src="https://www.youtube.com/embed/kR22AonX9Yc?rel=0" allowfullscreen></iframe>
-        </div>
-
-        <div class="links" data-aos>
-            <a href="https://www.instagram.com/animelol_01" target="_blank" class="btn btn-anime">Instagram</a>
-            <a href="https://www.tiktok.com/@animelol01" target="_blank" class="btn btn-anime">TikTok</a>
-            <a href="https://m.youtube.com/%40animelolgames01" target="_blank" class="btn btn-anime">YouTube</a>
-            <a href="https://www.facebook.com/share/1C8XxeBmQW/" target="_blank" class="btn btn-anime">Facebook</a>
+        <div class="card-container">
+            <a href="https://m.youtube.com/%40animelolgames01" target="_blank" class="card anime-card" data-aos>
+                <span class="icon">🎮</span>
+                <h3>YouTube</h3>
+                <p>Review de juegos, noticias y directos especiales.</p>
+            </a>
+            <a href="https://www.instagram.com/animelol_01" target="_blank" class="card anime-card" data-aos>
+                <span class="icon">📸</span>
+                <h3>Instagram</h3>
+                <p>Arte, Reels y el detrás de cámaras de animeLol.</p>
+            </a>
+            <a href="https://www.tiktok.com/@animelol01" target="_blank" class="card anime-card" data-aos>
+                <span class="icon">✨</span>
+                <h3>TikTok</h3>
+                <p>Clips virales y tendencias de la temporada.</p>
+            </a>
         </div>
     </section>
 
