@@ -3,170 +3,397 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Código 0 & animeLol | Hub Oficial</title>
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Orbitron:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <title>CÓDIGO 0 & animeLol | Enlaces Oficiales</title>
+    
+    <!-- Meta Open Graph para compartir en redes sociales -->
+    <meta property="title" content="CÓDIGO 0 & animeLol | Expedientes Paranormales y Gaming">
+    <meta property="description" content="Descubre expedientes paranormales, relatos de terror, cultura anime y gaming en un solo lugar.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://anime-lol.vercel.app/">
+    <meta property="og:title" content="CÓDIGO 0 & animeLol">
+    <meta property="og:description" content="Expedientes paranormales, relatos cortos, anime y gaming. ¡Únete a nuestra comunidad!">
+    
+    <!-- Fuentes e Iconos (FontAwesome) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
-            --red: #ff0000;
-            --cyan: #00fbff;
-            --pink: #ff00ff;
+            --bg-dark: #09090b;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover: rgba(255, 255, 255, 0.08);
+            --accent-horror: #ef4444;
+            --accent-anime: #3b82f6;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            background: #000; font-family: 'Poppins', sans-serif; color: white; 
-            overflow-x: hidden; scroll-behavior: smooth;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+            padding: 40px 20px;
+        }
+
+        /* Fondo dinámico sutil con gradiente */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 20%, rgba(139, 0, 0, 0.15), transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(30, 58, 138, 0.15), transparent 50%);
+            z-index: -1;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
         }
 
         section {
-            position: relative; min-height: 100vh;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 40px 20px;
-            perspective: 1000px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        /* --- SECCIÓN CÓDIGO 0 --- */
-        #codigo0 { 
-            background: radial-gradient(circle at center, #1a0000 0%, #000 100%); 
-            overflow: hidden;
-        }
-        
-        /* Efecto de Niebla Animada */
-        .fog {
-            position: absolute; width: 200%; height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/stardust.png');
-            opacity: 0.1; animation: moveFog 60s linear infinite;
+        .section-header {
+            text-align: center;
+            margin-bottom: 5px;
         }
 
-        .horror-title { 
-            font-family: 'Creepster', cursive; font-size: clamp(4rem, 15vw, 8rem); 
-            color: var(--red); text-shadow: 0 0 30px rgba(255,0,0,0.8);
-            margin-bottom: 10px; animation: glitch 5s infinite;
+        .section-header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
-        /* --- SECCIÓN ANIMELOL --- */
-        #animelol { 
-            background: radial-gradient(circle at center, #001a33 0%, #000 100%); 
+        .section-header p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            margin-top: 5px;
         }
 
-        .anime-title { 
-            font-family: 'Orbitron', sans-serif; font-size: clamp(2.5rem, 10vw, 5rem); 
-            background: linear-gradient(to right, var(--cyan), var(--pink));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 20px var(--cyan));
-        }
-
-        /* --- TARJETAS DINÁMICAS --- */
-        .card-container {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px; width: 100%; max-width: 1000px; margin-top: 40px;
+        /* Estilo de Tarjetas con Glassmorphism */
+        .links-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px; padding: 40px 20px;
-            text-align: center; text-decoration: none; color: white;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            backdrop-filter: blur(10px);
-            position: relative; overflow: hidden;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
 
-        /* Efecto Hover para Código 0 */
-        .horror-card:hover {
-            background: rgba(139, 0, 0, 0.2);
-            border-color: var(--red);
-            box-shadow: 0 0 40px rgba(255, 0, 0, 0.4);
-            transform: translateY(-10px) rotateX(10deg);
+        .card:hover {
+            background: var(--card-hover);
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
         }
 
-        /* Efecto Hover para animeLol */
-        .anime-card:hover {
-            background: rgba(0, 251, 255, 0.1);
-            border-color: var(--cyan);
-            box-shadow: 0 0 40px rgba(0, 251, 255, 0.4);
-            transform: translateY(-10px) scale(1.05);
+        .card-icon {
+            font-size: 1.8rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            flex-shrink: 0;
         }
 
-        .card h3 { font-size: 1.5rem; margin-bottom: 10px; }
-        .card p { font-size: 0.9rem; opacity: 0.6; }
-
-        /* Iconos Brillantes */
-        .icon { font-size: 2rem; margin-bottom: 15px; display: block; }
-
-        /* ANIMACIONES */
-        @keyframes moveFog { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            2% { transform: translate(-5px, 2px); filter: hue-rotate(90deg); }
-            4% { transform: translate(5px, -2px); filter: hue-rotate(0deg); }
-            6% { transform: translate(0); }
-            100% { transform: translate(0); }
+        .card-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 3px;
         }
 
-        [data-aos] { opacity: 0; transform: scale(0.9); transition: 1s; }
-        .visible { opacity: 1 !important; transform: scale(1) !important; }
+        .card-content p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Reproductor de Video Destacado */
+        .video-container {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .video-container h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Caja de envío de historias paranormales */
+        .story-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .story-box h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .story-box h3 i {
+            color: var(--accent-horror);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .story-box input, 
+        .story-box textarea {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 12px 15px;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
+            resize: vertical;
+        }
+
+        .story-box input:focus, 
+        .story-box textarea:focus {
+            border-color: var(--accent-horror);
+        }
+
+        .story-box textarea {
+            min-height: 110px;
+        }
+
+        .story-btn {
+            background: linear-gradient(135deg, #ef4444, #991b1b);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: opacity 0.3s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .story-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* Responsivo para móviles */
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 12px;
+            }
+            .container {
+                gap: 35px;
+            }
+            .card {
+                padding: 15px;
+                gap: 15px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <section id="codigo0">
-        <div class="fog"></div>
-        <h1 class="horror-title" data-aos>CÓDIGO 0</h1>
-        <p style="letter-spacing: 10px; color: #444; text-transform: uppercase;">Expedientes Paranormales</p>
+    <div class="container">
+        
+        <!-- SECCIÓN: CÓDIGO 0 (PARANORMAL) -->
+        <section>
+            <div class="section-header" style="color: var(--accent-horror);">
+                <h1>CÓDIGO 0</h1>
+                <p>Expedientes Paranormales</p>
+            </div>
 
-        <div class="card-container">
-            <a href="https://youtube.com/@codigo0-of" target="_blank" class="card horror-card" data-aos>
-                <span class="icon">🎬</span>
-                <h3>YouTube</h3>
-                <p>Mira los últimos episodios y documentales de terror.</p>
-            </a>
-            <a href="https://www.tiktok.com/@codigo_0oficial" target="_blank" class="card horror-card" data-aos>
-                <span class="icon">💀</span>
-                <h3>TikTok</h3>
-                <p>Relatos cortos y avistamientos en menos de 60 segundos.</p>
-            </a>
-            <a href="https://www.facebook.com/share/1b5mJWb9oY/" target="_blank" class="card horror-card" data-aos>
-                <span class="icon">👥</span>
-                <h3>Comunidad</h3>
-                <p>Únete al grupo de investigación en Facebook.</p>
-            </a>
-        </div>
-    </section>
+            <div class="links-grid">
+                <a href="https://youtube.com/@codigo0-of" target="_blank" class="card">
+                    <div class="card-icon"><i class="fa-brands fa-youtube" style="color: #ff0000;"></i></div>
+                    <div class="card-content">
+                        <h3>YouTube</h3>
+                        <p>Mira los últimos episodios y documentales de terror.</p>
+                    </div>
+                </a>
 
-    <section id="animelol">
-        <h1 class="anime-title" data-aos>animeLol</h1>
-        <p style="color: var(--cyan); letter-spacing: 5px; font-size: 0.8rem;">CULTURA ANIME & GAMING</p>
+                <!-- REPRODUCTOR DE VIDEO DESTACADO / ÚLTIMO EPISODIO -->
+                <div class="video-container">
+                    <h3><i class="fa-solid fa-play" style="color: var(--accent-horror);"></i> Último Video Destacado</h3>
+                    <div class="video-wrapper">
+                        <!-- Reemplaza el enlace de embed por la ID del video que quieras mostrar -->
+                        <iframe src= https://youtu.be/tnmxPB4GEPc?si=9PCB1lwb_f1Zye-5 allowfullscreen></iframe>
+                    </div>
+                </div>
 
-        <div class="card-container">
-            <a href="https://m.youtube.com/%40animelolgames01" target="_blank" class="card anime-card" data-aos>
-                <span class="icon">🎮</span>
-                <h3>YouTube</h3>
-                <p>Review de juegos, noticias y directos especiales.</p>
-            </a>
-            <a href="https://www.instagram.com/animelol_01" target="_blank" class="card anime-card" data-aos>
-                <span class="icon">📸</span>
-                <h3>Instagram</h3>
-                <p>Arte, Reels y el detrás de cámaras de animeLol.</p>
-            </a>
-            <a href="https://www.tiktok.com/@animelol01" target="_blank" class="card anime-card" data-aos>
-                <span class="icon">✨</span>
-                <h3>TikTok</h3>
-                <p>Clips virales y tendencias de la temporada.</p>
-            </a>
-        </div>
-    </section>
+                <a href="https://www.tiktok.com/@codigo_0oficial" target="_blank" class="card">
+                    <div class="card-icon"><i class="fa-brands fa-tiktok"></i></div>
+                    <div class="card-content">
+                        <h3>TikTok</h3>
+                        <p>Relatos cortos y avistamientos en menos de 60 segundos.</p>
+                    </div>
+                </a>
 
-    <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, { threshold: 0.1 });
+                <a href="https://www.facebook.com/share/1b5mJWb9oY/" target="_blank" class="card">
+                    <div class="card-icon"><i class="fa-brands fa-facebook" style="color: #1877f2;"></i></div>
+                    <div class="card-content">
+                        <h3>Comunidad</h3>
+                        <p>Únete al grupo de investigación en Facebook.</p>
+                    </div>
+                </a>
+            </div>
 
-        document.querySelectorAll('[data-aos]').forEach((el) => observer.observe(el));
-    </script>
+            <!-- CUADRO DE TEXTO PARA ENVÍO DE HISTORIAS PARANORMALES -->
+            <div class="story-box">
+                <h3><i class="fa-solid fa-ghost"></i> Envía tu Historia Paranormal</h3>
+                
+                <form action="mailto:canalcodigo0oficial001@gmail.com" method="POST" enctype="text/plain" id="storyForm">
+                    
+                    <!-- Campo de Título opcional -->
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label for="storyTitle">Título de tu historia (Opcional):</label>
+                        <input type="text" id="storyTitle" name="Título" placeholder="Ej. El susurro en la madrugada">
+                    </div>
+
+                    <!-- Campo de Nombre o Anónimo opcional -->
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label for="storyAuthor">Tu nombre o firma (Opcional - Déjalo vacío para anónimo):</label>
+                        <input type="text" id="storyAuthor" name="Autor" placeholder="Ej. Carlos M. o Anónimo">
+                    </div>
+
+                    <!-- Cuerpo del Relato -->
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label for="storyContent">Tu relato paranormal:</label>
+                        <textarea id="storyContent" name="Relato" placeholder="Escribe aquí tu experiencia o avistamiento con todo el detalle posible..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="story-btn">
+                        <i class="fa-solid fa-paper-plane"></i> Enviar Historia
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: ANIMELOL (ANIME & GAMING) -->
+        <section>
+            <div class="section-header" style="color: var(--accent-anime);">
+                <h1>animeLol</h1>
+                <p>CULTURA ANIME &amp; GAMING</p>
+            </div>
+
+            <div class="links-grid">
+                <a href="https://m.youtube.com/%40animelolgames01" target="_blank" class="card">
+                    <div class="card-icon"><i class="fa-brands fa-youtube" style="color: #ff0000;"></i></div>
+                    <div class="card-content">
+                        <h3>YouTube</h3>
+                        <p>Review de juegos, noticias y directos especiales.</p>
+                    </div>
+                </a>
+
+                <a href="https://www.instagram.com/animelol_01" target="_blank" class="card">
+                    <div class="card-icon"><i class="fa-brands fa-instagram" style="color: #e4405f;"></i></div>
+                    <div class="card-content">
+                        <h3>Instagram</h3>
+                        <p>Arte, Reels y el detrás de cámaras de animeLol.</p>
+                    </div>
+                </a>
+
+                <a href="https://www.tiktok.com/@animelol01" target="_blank" class="card">
+                    <div class="card-icon"><i class="fa-brands fa-tiktok"></i></div>
+                    <div class="card-content">
+                        <h3>TikTok</h3>
+                        <p>Clips virales y tendencias de la temporada.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+    </div>
 
 </body>
 </html>
