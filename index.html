@@ -6,12 +6,10 @@
     <title>CÓDIGO 0 & animeLol | Enlaces Oficiales</title>
     
     <!-- Meta Open Graph para compartir en redes sociales -->
-    <meta property="title" content="CÓDIGO 0 & animeLol | Expedientes Paranormales y Gaming">
-    <meta property="description" content="Descubre expedientes paranormales, relatos de terror, cultura anime y gaming en un solo lugar.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://anime-lol.vercel.app/">
     <meta property="og:title" content="CÓDIGO 0 & animeLol">
     <meta property="og:description" content="Expedientes paranormales, relatos cortos, anime y gaming. ¡Únete a nuestra comunidad!">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://anime-lol.vercel.app/">
     
     <!-- Fuentes e Iconos (FontAwesome) -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -48,7 +46,7 @@
             padding: 40px 20px;
         }
 
-        /* Fondo dinámico sutil con gradiente */
+        /* Fondo dinámico sutil con gradientes */
         body::before {
             content: '';
             position: absolute;
@@ -91,7 +89,7 @@
             margin-top: 5px;
         }
 
-        /* Estilo de Tarjetas con Glassmorphism */
+        /* Tarjetas de enlaces con Glassmorphism */
         .links-grid {
             display: flex;
             flex-direction: column;
@@ -145,7 +143,7 @@
             line-height: 1.4;
         }
 
-        /* Reproductor de Video Destacado */
+        /* Contenedor del Reproductor de Video */
         .video-container {
             width: 100%;
             background: var(--card-bg);
@@ -153,17 +151,17 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-radius: 16px;
-            padding: 15px;
+            padding: 18px;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .video-container h3 {
             font-size: 0.95rem;
             font-weight: 600;
-            color: var(--text-muted);
+            color: var(--text-main);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -171,10 +169,10 @@
 
         .video-wrapper {
             position: relative;
-            padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+            padding-bottom: 56.25%; /* Relación 16:9 */
             height: 0;
             overflow: hidden;
-            border-radius: 10px;
+            border-radius: 12px;
             background: #000;
         }
 
@@ -187,7 +185,7 @@
             border: 0;
         }
 
-        /* Caja de envío de historias paranormales */
+        /* Cuadro para enviar historias paranormales */
         .story-box {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -267,18 +265,10 @@
             transform: translateY(-2px);
         }
 
-        /* Responsivo para móviles */
         @media (max-width: 480px) {
-            body {
-                padding: 20px 12px;
-            }
-            .container {
-                gap: 35px;
-            }
-            .card {
-                padding: 15px;
-                gap: 15px;
-            }
+            body { padding: 20px 12px; }
+            .container { gap: 35px; }
+            .card { padding: 15px; gap: 15px; }
         }
     </style>
 </head>
@@ -302,12 +292,16 @@
                     </div>
                 </a>
 
-                <!-- REPRODUCTOR DE VIDEO DESTACADO / ÚLTIMO EPISODIO -->
+                <!-- REPRODUCTOR DE VIDEO DESTACADO DE YOUTUBE -->
                 <div class="video-container">
                     <h3><i class="fa-solid fa-play" style="color: var(--accent-horror);"></i> Último Video Destacado</h3>
                     <div class="video-wrapper">
-                        <!-- Reemplaza el enlace de embed por la ID del video que quieras mostrar -->
-                        <iframe src= https://youtu.be/tnmxPB4GEPc?si=9PCB1lwb_f1Zye-5 allowfullscreen></iframe>
+                        <iframe id="featuredVideo" 
+                                src="" 
+                                title="Video Destacado CÓDIGO 0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
                     </div>
                 </div>
 
@@ -328,28 +322,24 @@
                 </a>
             </div>
 
-            <!-- CUADRO DE TEXTO PARA ENVÍO DE HISTORIAS PARANORMALES -->
+            <!-- FORMULARIO DE ENVÍO DE HISTORIAS -->
             <div class="story-box">
                 <h3><i class="fa-solid fa-ghost"></i> Envía tu Historia Paranormal</h3>
                 
                 <form action="mailto:canalcodigo0oficial001@gmail.com" method="POST" enctype="text/plain" id="storyForm">
-                    
-                    <!-- Campo de Título opcional -->
                     <div class="form-group" style="margin-bottom: 12px;">
                         <label for="storyTitle">Título de tu historia (Opcional):</label>
                         <input type="text" id="storyTitle" name="Título" placeholder="Ej. El susurro en la madrugada">
                     </div>
 
-                    <!-- Campo de Nombre o Anónimo opcional -->
                     <div class="form-group" style="margin-bottom: 12px;">
                         <label for="storyAuthor">Tu nombre o firma (Opcional - Déjalo vacío para anónimo):</label>
                         <input type="text" id="storyAuthor" name="Autor" placeholder="Ej. Carlos M. o Anónimo">
                     </div>
 
-                    <!-- Cuerpo del Relato -->
                     <div class="form-group" style="margin-bottom: 15px;">
                         <label for="storyContent">Tu relato paranormal:</label>
-                        <textarea id="storyContent" name="Relato" placeholder="Escribe aquí tu experiencia o avistamiento con todo el detalle posible..." required></textarea>
+                        <textarea id="storyContent" name="Relato" placeholder="Escribe aquí tu experiencia o avistamiento..." required></textarea>
                     </div>
 
                     <button type="submit" class="story-btn">
@@ -395,5 +385,17 @@
 
     </div>
 
+    <!-- SCRIPT PARA CAMBIAR DE VIDEO FÁCILMENTE -->
+    <script>
+        // =========================================================
+        // ⚙️ CONFIGURACIÓN DEL VIDEO DESTACADO
+        // Para cambiar de video en el futuro, solo modifica el ID entre las comillas.
+        // Ejemplo: si la URL es https://youtu.be/tnmxPB4GEPc, el ID es: tnmxPB4GEPc
+        // =========================================================
+        const YOUTUBE_VIDEO_ID = 'tnmxPB4GEPc';
+
+        // Carga automática en el reproductor
+        document.getElementById('featuredVideo').src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}`;
+    </script>
 </body>
 </html>
