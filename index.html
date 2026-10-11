@@ -326,26 +326,34 @@
             <div class="story-box">
                 <h3><i class="fa-solid fa-ghost"></i> Envía tu Historia Paranormal</h3>
                 
-                <form action="mailto:canalcodigo0oficial001@gmail.com" method="POST" enctype="text/plain" id="storyForm">
+                <form id="storyForm">
+                    <!-- Clave única de Web3Forms -->
+                    <input type="hidden" name="access_key" value="7f155daa-de12-49dc-ae3a-1077da40bd2a">
+                    <input type="hidden" name="from_name" value="CÓDIGO 0 - Web">
+                    <input type="hidden" name="subject" value="Nueva Historia Paranormal Recibida">
+
                     <div class="form-group" style="margin-bottom: 12px;">
                         <label for="storyTitle">Título de tu historia (Opcional):</label>
-                        <input type="text" id="storyTitle" name="Título" placeholder="Ej. El susurro en la madrugada">
+                        <input type="text" id="storyTitle" name="Título de la historia" placeholder="Ej. El susurro en la madrugada">
                     </div>
 
                     <div class="form-group" style="margin-bottom: 12px;">
                         <label for="storyAuthor">Tu nombre o firma (Opcional - Déjalo vacío para anónimo):</label>
-                        <input type="text" id="storyAuthor" name="Autor" placeholder="Ej. Carlos M. o Anónimo">
+                        <input type="text" id="storyAuthor" name="Autor o Firma" placeholder="Ej. Carlos M. o Anónimo">
                     </div>
 
                     <div class="form-group" style="margin-bottom: 15px;">
                         <label for="storyContent">Tu relato paranormal:</label>
-                        <textarea id="storyContent" name="Relato" placeholder="Escribe aquí tu experiencia o avistamiento..." required></textarea>
+                        <textarea id="storyContent" name="Relato Paranormal" placeholder="Escribe aquí tu experiencia o avistamiento con todo el detalle posible..." required></textarea>
                     </div>
 
-                    <button type="submit" class="story-btn">
+                    <button type="submit" id="submitBtn" class="story-btn">
                         <i class="fa-solid fa-paper-plane"></i> Enviar Historia
                     </button>
                 </form>
+
+                <!-- Mensaje de estado al enviar -->
+                <div id="responseStatus" style="display: none; text-align: center; padding: 12px; font-size: 0.9rem; border-radius: 10px; margin-top: 10px;"></div>
             </div>
         </section>
 
@@ -385,17 +393,62 @@
 
     </div>
 
-    <!-- SCRIPT PARA CAMBIAR DE VIDEO FÁCILMENTE -->
+    <!-- SCRIPT DE CONTROL Y ENVÍO -->
     <script>
-        // =========================================================
-        // ⚙️ CONFIGURACIÓN DEL VIDEO DESTACADO
-        // Para cambiar de video en el futuro, solo modifica el ID entre las comillas.
-        // Ejemplo: si la URL es https://youtu.be/tnmxPB4GEPc, el ID es: tnmxPB4GEPc
-        // =========================================================
+        // ⚙️ Para cambiar el video en el futuro, solo modifica esta ID
         const YOUTUBE_VIDEO_ID = 'tnmxPB4GEPc';
-
-        // Carga automática en el reproductor
         document.getElementById('featuredVideo').src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}`;
+
+        // Control del envío del formulario en segundo plano
+        const form = document.getElementById('storyForm');
+        const statusDiv = document.getElementById('responseStatus');
+        const submitBtn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';
+
+            const formData = new FormData(form);
+            
+            // Si el usuario deja los campos opcionales vacíos, se colocan valores por defecto
+            if (!formData.get('Título de la historia').trim()) {
+                formData.set('Título de la historia', 'Sin título');
+            }
+            if (!formData.get('Autor o Firma').trim()) {
+                formData.set('Autor o Firma', 'Anónimo');
+            }
+
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    statusDiv.style.display = 'block';
+                    statusDiv.style.background = 'rgba(34, 197, 94, 0.2)';
+                    statusDiv.style.color = '#4ade80';
+                    statusDiv.style.border = '1px solid #22c55e';
+                    statusDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> ¡Historia enviada con éxito! Gracias por compartirla con CÓDIGO 0.';
+                    form.reset();
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (error) {
+                statusDiv.style.display = 'block';
+                statusDiv.style.background = 'rgba(239, 68, 68, 0.2)';
+                statusDiv.style.color = '#f87171';
+                statusDiv.style.border = '1px solid #ef4444';
+                statusDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Hubo un error al enviar. Por favor, inténtalo de nuevo.';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Enviar Historia';
+            }
+        });
     </script>
 </body>
 </html>
