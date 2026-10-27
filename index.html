@@ -3,543 +3,508 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CÓDIGO 0 × animeLol | Hub Oficial</title>
-    
+    <title>CÓDIGO 0 & animeLol | Hub Oficial</title>
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Orbitron:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
-
-    <!-- Tailwind Custom Configuration -->
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        horror: {
-                            base: '#080305',
-                            card: '#12070b',
-                            crimson: '#ff2a2a',
-                            glow: 'rgba(255, 42, 42, 0.4)',
-                            border: '#3a0d14'
-                        },
-                        anime: {
-                            base: '#070510',
-                            card: '#0f0a21',
-                            purple: '#9d4edd',
-                            cyan: '#00f0ff',
-                            glowPurple: 'rgba(157, 78, 221, 0.4)',
-                            glowCyan: 'rgba(0, 240, 255, 0.4)',
-                            border: '#2a1b4e'
+                        brand: {
+                            red: '#ff003c',
+                            neon: '#00f0ff',
+                            purple: '#7000ff',
+                            dark: '#0a0a0c',
+                            cardDark: '#121218',
                         }
                     },
                     fontFamily: {
-                        creep: ['Creepster', 'cursive'],
-                        cyber: ['Orbitron', 'sans-serif'],
-                        body: ['Plus Jakarta Sans', 'sans-serif']
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
                     }
                 }
             }
         }
     </script>
 
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        /* CSS Custom Styles & Cyber Effects */
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #050308;
+            font-family: 'Inter', sans-serif;
+            background-color: #070709;
+            color: #e2e8f0;
             overflow-x: hidden;
-            transition: background-color 0.5s ease;
         }
 
-        /* Scanline Overlay for retro vibe */
-        .scanline {
-            background: linear-gradient(
-                to bottom,
-                rgba(255,255,255,0),
-                rgba(255,255,255,0) 50%,
-                rgba(0, 0, 0, 0.3) 50%,
-                rgba(0, 0, 0, 0.3)
-            );
-            background-size: 100% 4px;
+        /* Estilos de fondo dinámicos */
+        .bg-grid {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
         }
 
-        /* Glowing Effects */
-        .glow-horror {
-            box-shadow: 0 0 25px rgba(255, 42, 42, 0.35);
-        }
-        .glow-horror-btn:hover {
-            box-shadow: 0 0 20px rgba(255, 42, 42, 0.6);
-            border-color: #ff2a2a;
+        .theme-codigo0-bg {
+            background: radial-gradient(circle at top, rgba(255, 0, 60, 0.12) 0%, rgba(7, 7, 9, 1) 70%);
         }
 
-        .glow-anime {
-            box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
-        }
-        .glow-anime-btn:hover {
-            box-shadow: 0 0 20px rgba(157, 78, 221, 0.6);
-            border-color: #00f0ff;
+        .theme-animelol-bg {
+            background: radial-gradient(circle at top, rgba(112, 0, 255, 0.15) 0%, rgba(7, 7, 9, 1) 70%);
         }
 
-        /* Animated Ambient Background Gradients */
-        .bg-horror-theme {
-            background: radial-gradient(circle at 50% 20%, #2b0208 0%, #080305 70%);
-        }
-        .bg-anime-theme {
-            background: radial-gradient(circle at 50% 20%, #1d0936 0%, #070510 70%);
+        /* Efectos Glow */
+        .glow-red {
+            box-shadow: 0 0 25px -5px rgba(255, 0, 60, 0.4);
         }
 
-        /* Tab Transition Animations */
-        .tab-content {
-            display: none;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-        .tab-content.active {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
+        .glow-purple {
+            box-shadow: 0 0 25px -5px rgba(112, 0, 255, 0.4);
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        /* Animación para el efecto flotante de reaccionar */
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-80px) scale(1.4); opacity: 0; }
         }
-        ::-webkit-scrollbar-track {
-            background: #050308;
+
+        .floating-emoji {
+            position: absolute;
+            animation: floatUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) FORWARDS;
+            pointer-events: none;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #2a1b4e;
-            border-radius: 4px;
+
+        /* Transiciones suaves */
+        .tab-transition {
+            transition: all 0.3s ease-in-out;
         }
     </style>
 </head>
-<body id="body-app" class="bg-horror-theme text-gray-100 min-h-screen relative pb-16">
+<body class="min-h-screen bg-grid flex flex-col items-center justify-between p-4 sm:p-6 transition-all duration-500 theme-codigo0-bg" id="app-body">
 
-    <!-- Scanline visual texture overlay -->
-    <div class="pointer-events-none fixed inset-0 z-50 scanline opacity-30"></div>
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="w-full max-w-md mx-auto flex flex-col items-center gap-6 my-auto">
 
-    <!-- MAIN CONTAINER -->
-    <main class="max-w-md mx-auto px-4 pt-8 relative z-10">
+        <!-- NAV / SELECTOR DE PESTAÑAS (DUAL THEME) -->
+        <div class="w-full bg-black/60 backdrop-blur-md p-1.5 rounded-2xl border border-white/10 flex items-center justify-between shadow-2xl relative z-20">
+            <button id="btn-tab-codigo0" onclick="switchTab('codigo0')" 
+                class="w-1/2 py-3 px-4 rounded-xl font-extrabold text-sm flex items-center justify-center gap-2 transition-all duration-300 bg-brand-red text-white shadow-lg shadow-brand-red/30">
+                <i class="fa-solid fa-ghost"></i> CÓDIGO 0
+            </button>
+            <button id="btn-tab-animelol" onclick="switchTab('animelol')" 
+                class="w-1/2 py-3 px-4 rounded-xl font-extrabold text-sm flex items-center justify-center gap-2 transition-all duration-300 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-gamepad"></i> animeLol
+            </button>
+        </div>
 
-        <!-- HEADER SECTION -->
-        <header class="text-center mb-8 flex flex-col items-center">
+        <!-- =================================================================== -->
+        <!-- SECCIÓN 1: CÓDIGO 0 (PARANORMAL & MISTERIO) -->
+        <!-- =================================================================== -->
+        <main id="section-codigo0" class="w-full flex flex-col gap-5 tab-transition">
             
-            <!-- Avatar with dynamic glowing ring -->
-            <div class="relative group cursor-pointer mb-4">
-                <div id="avatar-glow" class="absolute -inset-1 rounded-full bg-gradient-to-r from-red-600 to-red-900 blur opacity-75 group-hover:opacity-100 transition duration-500"></div>
-                <img id="brand-avatar" 
-                     src="https://placehold.co/150x150/12070b/ff2a2a?text=CÓDIGO+0" 
-                     alt="Brand Avatar" 
-                     class="relative w-28 h-28 rounded-full border-2 border-horror-crimson object-cover shadow-2xl transition-all duration-500">
-                <span id="verified-badge" class="absolute bottom-1 right-1 bg-horror-crimson text-white text-xs p-1.5 rounded-full border-2 border-black flex items-center justify-center">
-                    <i class="fa-solid fa-check"></i>
-                </span>
-            </div>
-
-            <!-- Dynamic Brand Title & Tagline -->
-            <h1 id="brand-title" class="text-3xl font-black font-creep tracking-wider text-horror-crimson drop-shadow-[0_2px_10px_rgba(255,42,42,0.5)] transition-all duration-300">
-                CÓDIGO 0
-            </h1>
-            <p id="brand-tagline" class="text-xs tracking-widest text-gray-400 mt-1 uppercase font-semibold transition-all duration-300">
-                💀 Expedientes Paranormales & Misterio
-            </p>
-
-            <!-- DUAL THEME TAB SWITCHER -->
-            <div class="w-full bg-black/60 p-1.5 rounded-2xl border border-white/10 backdrop-blur-md flex items-center justify-between mt-6 shadow-inner">
-                <button id="btn-tab-codigo0" onclick="switchTab('codigo0')" class="w-1/2 py-2.5 px-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300 bg-horror-crimson text-white shadow-lg shadow-red-900/50">
-                    <i class="fa-solid fa-ghost text-sm"></i> CÓDIGO 0
-                </button>
-                <button id="btn-tab-animelol" onclick="switchTab('animelol')" class="w-1/2 py-2.5 px-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300 text-gray-400 hover:text-white">
-                    <i class="fa-solid fa-gamepad text-sm"></i> animeLol
-                </button>
-            </div>
-        </header>
-
-        <!-- ================= TAB 1: CÓDIGO 0 (PARANORMAL) ================= -->
-        <section id="tab-codigo0" class="tab-content active space-y-5">
-            
-            <!-- Social Links Grid -->
-            <div class="space-y-3">
-                <!-- YouTube -->
-                <a href="https://www.youtube.com/@codigo0-of" target="_blank" rel="noopener noreferrer" class="group block w-full bg-horror-card/90 border border-horror-border hover:border-horror-crimson p-3.5 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 glow-horror-btn flex items-center justify-between">
-                    <div class="flex items-center gap-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-red-600/20 text-horror-crimson flex items-center justify-center text-xl border border-red-600/30">
-                            <i class="fa-brands fa-youtube"></i>
-                        </div>
-                        <div class="text-left">
-                            <h3 class="font-bold text-sm text-white group-hover:text-horror-crimson transition-colors">Canal Principal YouTube</h3>
-                            <p class="text-xs text-gray-400">@codigo0-of • Documentales & Terror</p>
+            <!-- Encabezado de Perfil -->
+            <div class="text-center flex flex-col items-center">
+                <div class="relative group">
+                    <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-red-600 to-black p-1 mb-3 glow-red transition-transform group-hover:scale-105">
+                        <div class="w-full h-full bg-black rounded-full flex items-center justify-center border border-white/10">
+                            <i class="fa-solid fa-skull text-4xl text-brand-red"></i>
                         </div>
                     </div>
-                    <i class="fa-solid fa-chevron-right text-xs text-gray-500 group-hover:text-horror-crimson transition-colors"></i>
+                    <span class="absolute bottom-3 right-1 bg-brand-red text-white text-[10px] font-mono px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">LIVE</span>
+                </div>
+                <h1 class="text-2xl font-black tracking-wider text-white uppercase flex items-center gap-2">
+                    CÓDIGO 0
+                </h1>
+                <p class="text-xs font-mono text-red-400/80 tracking-widest uppercase mt-1">Expedientes Paranormales</p>
+            </div>
+
+            <!-- ENLACES DE REDES SOCIALES -->
+            <div class="flex flex-col gap-3">
+                <!-- YouTube -->
+                <a href="https://youtube.com/@codigo0-of" target="_blank" 
+                   class="group w-full bg-stone-900/80 hover:bg-red-950/40 border border-white/10 hover:border-brand-red/50 p-4 rounded-2xl flex items-center justify-between transition-all duration-300 hover:scale-[1.02] shadow-lg">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-red-600/20 flex items-center justify-center text-red-500 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                            <i class="fa-brands fa-youtube text-2xl"></i>
+                        </div>
+                        <div class="text-left">
+                            <h3 class="font-bold text-white text-base">YouTube</h3>
+                            <p class="text-xs text-gray-400">Documentales y episodios de terror</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600 group-hover:text-white transition-colors"></i>
                 </a>
 
                 <!-- TikTok -->
-                <a href="https://www.tiktok.com/@codigo_0oficial" target="_blank" rel="noopener noreferrer" class="group block w-full bg-horror-card/90 border border-horror-border hover:border-horror-crimson p-3.5 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 glow-horror-btn flex items-center justify-between">
-                    <div class="flex items-center gap-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-gray-800/60 text-white flex items-center justify-center text-xl border border-gray-700">
-                            <i class="fa-brands fa-tiktok"></i>
+                <a href="https://www.tiktok.com/@codigo_0oficial" target="_blank" 
+                   class="group w-full bg-stone-900/80 hover:bg-stone-800 border border-white/10 hover:border-white/30 p-4 rounded-2xl flex items-center justify-between transition-all duration-300 hover:scale-[1.02] shadow-lg">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-white group-hover:bg-white group-hover:text-black transition-colors">
+                            <i class="fa-brands fa-tiktok text-2xl"></i>
                         </div>
                         <div class="text-left">
-                            <h3 class="font-bold text-sm text-white group-hover:text-horror-crimson transition-colors">TikTok Oficial</h3>
-                            <p class="text-xs text-gray-400">@codigo_0oficial • Clips Rápidos de Miedo</p>
+                            <h3 class="font-bold text-white text-base">TikTok</h3>
+                            <p class="text-xs text-gray-400">Relatos cortos en menos de 60s</p>
                         </div>
                     </div>
-                    <i class="fa-solid fa-chevron-right text-xs text-gray-500 group-hover:text-horror-crimson transition-colors"></i>
+                    <i class="fa-solid fa-chevron-right text-gray-600 group-hover:text-white transition-colors"></i>
                 </a>
 
-                <!-- Facebook Group / Page -->
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="group block w-full bg-horror-card/90 border border-horror-border hover:border-horror-crimson p-3.5 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 glow-horror-btn flex items-center justify-between">
-                    <div class="flex items-center gap-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-blue-600/20 text-blue-500 flex items-center justify-center text-xl border border-blue-600/30">
-                            <i class="fa-brands fa-facebook-f"></i>
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/share/1b5mJWb9oY/" target="_blank" 
+                   class="group w-full bg-stone-900/80 hover:bg-blue-950/40 border border-white/10 hover:border-blue-500/50 p-4 rounded-2xl flex items-center justify-between transition-all duration-300 hover:scale-[1.02] shadow-lg">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-blue-600/20 flex items-center justify-center text-blue-500 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                            <i class="fa-brands fa-facebook-f text-xl"></i>
                         </div>
                         <div class="text-left">
-                            <h3 class="font-bold text-sm text-white group-hover:text-horror-crimson transition-colors">Comunidad de Facebook</h3>
-                            <p class="text-xs text-gray-400">Debates y Evidencias en Vivo</p>
+                            <h3 class="font-bold text-white text-base">Comunidad Facebook</h3>
+                            <p class="text-xs text-gray-400">Únete al grupo de investigación</p>
                         </div>
                     </div>
-                    <i class="fa-solid fa-chevron-right text-xs text-gray-500 group-hover:text-horror-crimson transition-colors"></i>
+                    <i class="fa-solid fa-chevron-right text-gray-600 group-hover:text-white transition-colors"></i>
                 </a>
             </div>
 
-            <!-- Featured Video Embed Card -->
-            <div class="bg-horror-card/90 border border-horror-border rounded-2xl p-4 shadow-xl relative overflow-hidden">
+            <!-- REPRODUCTOR DE VIDEO DESTACADO -->
+            <div class="bg-stone-900/90 border border-red-900/40 rounded-2xl p-4 shadow-xl">
                 <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs font-bold text-horror-crimson flex items-center gap-1.5 uppercase tracking-wider">
-                        <span class="w-2 h-2 rounded-full bg-horror-crimson animate-ping"></span>
-                        Último Caso Investigado
+                    <span class="text-xs font-mono text-red-500 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+                        ÚLTIMO CASO DESTACADO
                     </span>
-                    <i class="fa-solid fa-skull text-horror-crimson/50"></i>
+                    <i class="fa-solid fa-film text-gray-500"></i>
                 </div>
-                <div class="relative w-full aspect-video rounded-xl overflow-hidden border border-white/10 bg-black">
-                    <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/videoseries?list=PL3KnTfyqS_-mE8T0WlS3uY6C0R5A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <h4 id="codigo0-video-title-display" class="font-bold text-sm text-gray-200 mb-3 line-clamp-1">Cargando video...</h4>
+                
+                <!-- Contenedor del Iframe Responsive -->
+                <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-black border border-white/5">
+                    <iframe id="codigo0-iframe" class="w-full h-full" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                 </div>
             </div>
 
-            <!-- Send Your Paranormal Story CTA Card -->
-            <div class="bg-gradient-to-br from-horror-card to-black border border-horror-crimson/40 rounded-2xl p-5 text-center relative overflow-hidden glow-horror">
-                <div class="absolute top-0 right-0 p-3 opacity-10 text-horror-crimson text-6xl pointer-events-none">
-                    <i class="fa-solid fa-book-dead"></i>
-                </div>
-                <h3 class="font-creep text-xl text-horror-crimson tracking-wide mb-1">¿Tienes una historia real?</h3>
-                <p class="text-xs text-gray-300 mb-4">Envíanos tu relato o metraje paranormal para investigarlo y relatarlo en el canal.</p>
-                <button onclick="toggleModal(true)" class="w-full py-3 bg-horror-crimson hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all duration-300 shadow-lg shadow-red-900/50 flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-paper-plane"></i> Enviar mi Historia Paranormal
+            <!-- WIDGET INTERACTIVO: GENERADOR DE MICRO-RELATOS -->
+            <div class="bg-gradient-to-r from-red-950/30 to-stone-900 border border-red-900/30 rounded-2xl p-4 text-center relative overflow-hidden">
+                <h3 class="font-bold text-sm text-gray-200 mb-2 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-book-skull text-red-500"></i> Micro-Relato de Terror Instantáneo
+                </h3>
+                <p id="terror-quote-display" class="text-xs text-gray-300 italic min-h-[40px] flex items-center justify-center p-2 bg-black/40 rounded-xl mb-3 border border-white/5">
+                    "Presiona el botón para descubrir un misterio oculto..."
+                </p>
+                <button onclick="generateTerrorQuote()" class="bg-red-900/40 hover:bg-red-700/50 text-red-200 border border-red-500/30 text-xs font-bold py-2 px-4 rounded-xl transition-all">
+                    🎲 Generar otro relato
                 </button>
             </div>
 
-        </section>
+            <!-- FORMULARIO 100% ANÓNIMO DE HISTORIAS PARANORMALES -->
+            <div class="bg-stone-900/90 border border-white/10 rounded-2xl p-5 shadow-xl">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-8 h-8 rounded-lg bg-red-500/20 flex items-center justify-center text-red-500">
+                        <i class="fa-solid fa-envelope-open-text"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm text-white">Envía tu Historia Paranormal</h3>
+                        <p class="text-[11px] text-gray-400">Tu relato puede salir en el próximo video</p>
+                    </div>
+                </div>
+
+                <form id="story-form" onsubmit="handleStorySubmit(event)" class="space-y-3">
+                    <div>
+                        <label class="block text-[11px] font-mono text-gray-400 mb-1">NOMBRE O SEUDÓNIMO (OPCIONAL)</label>
+                        <input type="text" id="author-name" placeholder="Déjalo en blanco para ser Anónimo" 
+                               class="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-red-500 transition-colors">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-mono text-gray-400 mb-1">TU RELATO O EXPERIENCIA *</label>
+                        <textarea id="story-text" required rows="4" placeholder="Describe qué sucedió, hora, lugar y los detalles..." 
+                                  class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-red-500 transition-colors resize-none"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-brand-red hover:bg-red-700 text-white font-bold text-xs py-3 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg shadow-brand-red/20">
+                        <i class="fa-solid fa-paper-plane"></i> Enviar Historia
+                    </button>
+                </form>
+
+                <div id="story-success-msg" class="hidden mt-3 p-3 bg-green-950/50 border border-green-500/40 rounded-xl text-center text-xs text-green-400">
+                    <i class="fa-solid fa-circle-check mr-1"></i> ¡Historia enviada exitosamente! Gracias por compartirla.
+                </div>
+            </div>
+
+            <!-- BOTÓN INTERACTIVO DE REACCIÓN RAPIDA -->
+            <div class="flex justify-center my-2">
+                <button onclick="triggerReaction(event, '👻')" class="relative bg-stone-900 border border-red-900/50 hover:bg-red-950/40 text-red-400 font-bold text-xs py-2 px-5 rounded-full transition-all flex items-center gap-2 shadow-md">
+                    <span>😱 Reaccionar con Miedo</span>
+                    <span id="reaction-count-codigo0" class="bg-red-950 text-red-300 px-2 py-0.5 rounded-full text-[10px] font-mono">128</span>
+                </button>
+            </div>
+
+        </main>
 
 
-        <!-- ================= TAB 2: ANIMELOL (ANIME & GAMING) ================= -->
-        <section id="tab-animelol" class="tab-content space-y-5">
+        <!-- =================================================================== -->
+        <!-- SECCIÓN 2: ANIMELOL (GAMING & ANIME) -->
+        <!-- =================================================================== -->
+        <main id="section-animelol" class="w-full flex flex-col gap-5 tab-transition hidden">
             
-            <!-- Social Links Grid -->
-            <div class="space-y-3">
-                <!-- YouTube Gaming -->
-                <a href="https://www.youtube.com/@animelolgames01" target="_blank" rel="noopener noreferrer" class="group block w-full bg-anime-card/90 border border-anime-border hover:border-anime-cyan p-3.5 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 glow-anime-btn flex items-center justify-between">
-                    <div class="flex items-center gap-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-purple-600/20 text-anime-purple flex items-center justify-center text-xl border border-purple-600/30">
-                            <i class="fa-brands fa-youtube"></i>
-                        </div>
-                        <div class="text-left">
-                            <h3 class="font-bold text-sm text-white group-hover:text-anime-cyan transition-colors">YouTube Gaming</h3>
-                            <p class="text-xs text-gray-400">@animelolgames01 • Gameplays & Anime</p>
+            <!-- Encabezado de Perfil -->
+            <div class="text-center flex flex-col items-center">
+                <div class="relative group">
+                    <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-purple-600 to-cyan-400 p-1 mb-3 glow-purple transition-transform group-hover:scale-105">
+                        <div class="w-full h-full bg-black rounded-full flex items-center justify-center border border-white/10">
+                            <i class="fa-solid fa-gamepad text-4xl text-purple-400"></i>
                         </div>
                     </div>
-                    <i class="fa-solid fa-chevron-right text-xs text-gray-500 group-hover:text-anime-cyan transition-colors"></i>
-                </a>
+                    <span class="absolute bottom-3 right-1 bg-purple-600 text-white text-[10px] font-mono px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">GAMER</span>
+                </div>
+                <h1 class="text-2xl font-black tracking-wider text-white uppercase flex items-center gap-2">
+                    animeLol
+                </h1>
+                <p class="text-xs font-mono text-purple-400/80 tracking-widest uppercase mt-1">Cultura Anime & Gaming</p>
+            </div>
 
-                <!-- TikTok Anime -->
-                <a href="https://www.tiktok.com/@animelol01" target="_blank" rel="noopener noreferrer" class="group block w-full bg-anime-card/90 border border-anime-border hover:border-anime-cyan p-3.5 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 glow-anime-btn flex items-center justify-between">
-                    <div class="flex items-center gap-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-cyan-600/20 text-anime-cyan flex items-center justify-center text-xl border border-cyan-600/30">
-                            <i class="fa-brands fa-tiktok"></i>
+            <!-- ENLACES DE REDES SOCIALES (LIMPIO Y SIN VIDEO) -->
+            <div class="flex flex-col gap-3">
+                <!-- YouTube -->
+                <a href="https://m.youtube.com/%40animelolgames01" target="_blank" 
+                   class="group w-full bg-stone-900/80 hover:bg-purple-950/40 border border-white/10 hover:border-purple-500/50 p-4 rounded-2xl flex items-center justify-between transition-all duration-300 hover:scale-[1.02] shadow-lg">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-purple-600/20 flex items-center justify-center text-purple-400 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                            <i class="fa-brands fa-youtube text-2xl"></i>
                         </div>
                         <div class="text-left">
-                            <h3 class="font-bold text-sm text-white group-hover:text-anime-cyan transition-colors">TikTok Anime & Memes</h3>
-                            <p class="text-xs text-gray-400">@animelol01 • Reels & Highlights</p>
+                            <h3 class="font-bold text-white text-base">YouTube Gaming</h3>
+                            <p class="text-xs text-gray-400">Reviews, gameplays y directos</p>
                         </div>
                     </div>
-                    <i class="fa-solid fa-chevron-right text-xs text-gray-500 group-hover:text-anime-cyan transition-colors"></i>
+                    <i class="fa-solid fa-chevron-right text-gray-600 group-hover:text-white transition-colors"></i>
                 </a>
 
                 <!-- Instagram -->
-                <a href="https://www.instagram.com/animelol_01" target="_blank" rel="noopener noreferrer" class="group block w-full bg-anime-card/90 border border-anime-border hover:border-anime-cyan p-3.5 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 glow-anime-btn flex items-center justify-between">
-                    <div class="flex items-center gap-3.5">
-                        <div class="w-10 h-10 rounded-xl bg-pink-600/20 text-pink-400 flex items-center justify-center text-xl border border-pink-600/30">
-                            <i class="fa-brands fa-instagram"></i>
+                <a href="https://www.instagram.com/animelol_01" target="_blank" 
+                   class="group w-full bg-stone-900/80 hover:bg-pink-950/40 border border-white/10 hover:border-pink-500/50 p-4 rounded-2xl flex items-center justify-between transition-all duration-300 hover:scale-[1.02] shadow-lg">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-pink-600/20 flex items-center justify-center text-pink-400 group-hover:bg-pink-600 group-hover:text-white transition-colors">
+                            <i class="fa-brands fa-instagram text-2xl"></i>
                         </div>
                         <div class="text-left">
-                            <h3 class="font-bold text-sm text-white group-hover:text-anime-cyan transition-colors">Instagram Oficial</h3>
-                            <p class="text-xs text-gray-400">@animelol_01 • Fotos, Setup & Otaku Life</p>
+                            <h3 class="font-bold text-white text-base">Instagram</h3>
+                            <p class="text-xs text-gray-400">Arte, Reels y detrás de cámaras</p>
                         </div>
                     </div>
-                    <i class="fa-solid fa-chevron-right text-xs text-gray-500 group-hover:text-anime-cyan transition-colors"></i>
+                    <i class="fa-solid fa-chevron-right text-gray-600 group-hover:text-white transition-colors"></i>
+                </a>
+
+                <!-- TikTok -->
+                <a href="https://www.tiktok.com/@animelol01" target="_blank" 
+                   class="group w-full bg-stone-900/80 hover:bg-cyan-950/40 border border-white/10 hover:border-cyan-500/50 p-4 rounded-2xl flex items-center justify-between transition-all duration-300 hover:scale-[1.02] shadow-lg">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-cyan-600/20 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500 group-hover:text-black transition-colors">
+                            <i class="fa-brands fa-tiktok text-2xl"></i>
+                        </div>
+                        <div class="text-left">
+                            <h3 class="font-bold text-white text-base">TikTok Gaming</h3>
+                            <p class="text-xs text-gray-400">Clips virales y tendencias anime</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-600 group-hover:text-white transition-colors"></i>
                 </a>
             </div>
 
-            <!-- Featured Gaming/Anime Stream Highlight -->
-            <div class="bg-anime-card/90 border border-anime-border rounded-2xl p-4 shadow-xl relative overflow-hidden">
-                <div class="flex items-center justify-between mb-3">
-                    <span class="text-xs font-bold text-anime-cyan flex items-center gap-1.5 uppercase tracking-wider">
-                        <span class="w-2 h-2 rounded-full bg-anime-cyan animate-ping"></span>
-                        Highlight Destacado
-                    </span>
-                    <i class="fa-solid fa-wand-magic-sparkles text-anime-purple"></i>
-                </div>
-                <div class="relative w-full aspect-video rounded-xl overflow-hidden border border-white/10 bg-black">
-                    <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/videoseries?list=PL3KnTfyqS_-mE8T0WlS3uY6C0R5A" title="YouTube Gaming player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <!-- WIDGET INTERACTIVO DE ENCUESTA ANIME/GAMING -->
+            <div class="bg-stone-900/90 border border-purple-900/40 rounded-2xl p-4 shadow-xl text-center">
+                <h3 class="font-bold text-sm text-purple-300 mb-3 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-fire text-purple-400"></i> Encuesta Geek de la Semana
+                </h3>
+                <p class="text-xs text-gray-300 mb-3">¿Cuál es tu género de videojuegos preferido?</p>
+                <div class="space-y-2" id="poll-options">
+                    <button onclick="votePoll(this)" class="w-full bg-black/40 hover:bg-purple-900/40 border border-white/10 p-2.5 rounded-xl text-xs text-gray-200 transition-colors flex justify-between px-4">
+                        <span>RPG / Mundo Abierto</span>
+                        <span class="font-mono text-purple-400 font-bold">45%</span>
+                    </button>
+                    <button onclick="votePoll(this)" class="w-full bg-black/40 hover:bg-purple-900/40 border border-white/10 p-2.5 rounded-xl text-xs text-gray-200 transition-colors flex justify-between px-4">
+                        <span>Shooters / Competitivo</span>
+                        <span class="font-mono text-purple-400 font-bold">35%</span>
+                    </button>
+                    <button onclick="votePoll(this)" class="w-full bg-black/40 hover:bg-purple-900/40 border border-white/10 p-2.5 rounded-xl text-xs text-gray-200 transition-colors flex justify-between px-4">
+                        <span>Lucha / Anime Fighters</span>
+                        <span class="font-mono text-purple-400 font-bold">20%</span>
+                    </button>
                 </div>
             </div>
 
-            <!-- Interactive Anime Quiz / Poll Widget -->
-            <div class="bg-gradient-to-br from-anime-card to-black border border-anime-purple/40 rounded-2xl p-5 text-center relative overflow-hidden glow-anime">
-                <div class="flex items-center justify-between mb-2">
-                    <span class="text-[10px] font-cyber text-anime-cyan uppercase tracking-widest">Encuesta Otaku</span>
-                    <i class="fa-solid fa-fire text-amber-400"></i>
-                </div>
-                <h3 class="font-cyber text-sm font-bold text-white tracking-wide mb-3">¿Tu género de anime favorito?</h3>
-                
-                <div id="poll-options" class="space-y-2 text-left">
-                    <button onclick="votePoll(this, 'Shonen')" class="w-full p-2.5 rounded-xl border border-white/10 bg-black/40 hover:bg-anime-purple/20 text-xs text-gray-200 transition-all flex items-center justify-between group">
-                        <span>🔥 Shonen / Acción</span>
-                        <span class="text-gray-500 text-[10px] group-hover:text-anime-cyan">Votar</span>
-                    </button>
-                    <button onclick="votePoll(this, 'Isekai')" class="w-full p-2.5 rounded-xl border border-white/10 bg-black/40 hover:bg-anime-purple/20 text-xs text-gray-200 transition-all flex items-center justify-between group">
-                        <span>🌀 Isekai / Fantasía</span>
-                        <span class="text-gray-500 text-[10px] group-hover:text-anime-cyan">Votar</span>
-                    </button>
-                    <button onclick="votePoll(this, 'Seinen')" class="w-full p-2.5 rounded-xl border border-white/10 bg-black/40 hover:bg-anime-purple/20 text-xs text-gray-200 transition-all flex items-center justify-between group">
-                        <span>🧠 Seinen / Psicológico</span>
-                        <span class="text-gray-500 text-[10px] group-hover:text-anime-cyan">Votar</span>
-                    </button>
-                </div>
-                <div id="poll-thankyou" class="hidden text-xs text-anime-cyan font-semibold py-2">
-                    ¡Gracias por votar! 🎉 Pronto analizaremos los resultados en vivo.
-                </div>
+            <!-- BOTÓN INTERACTIVO DE REACCIÓN RAPIDA -->
+            <div class="flex justify-center my-2">
+                <button onclick="triggerReaction(event, '🔥')" class="relative bg-stone-900 border border-purple-900/50 hover:bg-purple-950/40 text-purple-400 font-bold text-xs py-2 px-5 rounded-full transition-all flex items-center gap-2 shadow-md">
+                    <span>🔥 Reaccionar Hype</span>
+                    <span id="reaction-count-animelol" class="bg-purple-950 text-purple-300 px-2 py-0.5 rounded-full text-[10px] font-mono">254</span>
+                </button>
             </div>
 
-        </section>
+        </main>
+
+        <!-- BOTÓN COMPARTIR PÁGINA -->
+        <button onclick="shareApp()" class="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 text-xs py-2.5 rounded-xl font-medium transition-colors flex items-center justify-center gap-2">
+            <i class="fa-solid fa-share-nodes"></i> Compartir este Hub
+        </button>
 
         <!-- FOOTER -->
-        <footer class="mt-12 text-center text-xs text-gray-500 font-medium">
-            <p>© <span id="year-copy"></span> CÓDIGO 0 × animeLol</p>
-            <p class="text-[10px] text-gray-600 mt-1">Diseñado para la comunidad • Todos los derechos reservados</p>
+        <footer class="text-center text-[11px] text-gray-500 font-mono mt-2">
+            © 2026 CÓDIGO 0 & animeLol. Todos los derechos reservados.
         </footer>
 
-    </main>
-
-
-    <!-- ================= PARANORMAL STORY MODAL ================= -->
-    <div id="modal-story" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4 transition-all duration-300">
-        <div class="bg-horror-card border border-horror-crimson/50 rounded-2xl w-full max-w-md p-6 relative shadow-2xl glow-horror max-h-[90vh] overflow-y-auto">
-            
-            <!-- Close Button -->
-            <button onclick="toggleModal(false)" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <div class="text-center mb-5">
-                <div class="w-12 h-12 rounded-full bg-red-900/30 text-horror-crimson border border-horror-crimson/50 flex items-center justify-center text-xl mx-auto mb-2">
-                    <i class="fa-solid fa-ghost"></i>
-                </div>
-                <h3 class="font-creep text-2xl text-horror-crimson tracking-wide">Envía tu Historia</h3>
-                <p class="text-xs text-gray-400">Escribe lo que viviste o adjunta tu evidencia</p>
-            </div>
-
-            <!-- Form -->
-            <form id="form-paranormal" onsubmit="submitParanormalStory(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-gray-300 mb-1">Nombre o Apodo</label>
-                    <input type="text" required placeholder="Ej: Anónimo o Juan P." class="w-full bg-black/60 border border-white/10 focus:border-horror-crimson rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none transition">
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-gray-300 mb-1">Correo Electrónico o Teléfono</label>
-                    <input type="text" required placeholder="Para contactarte si la relatamos" class="w-full bg-black/60 border border-white/10 focus:border-horror-crimson rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none transition">
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-gray-300 mb-1">Tu Relato Paranormal</label>
-                    <textarea rows="4" required placeholder="Cuenta los detalles: hora, lugar, qué sentiste u observaste..." class="w-full bg-black/60 border border-white/10 focus:border-horror-crimson rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none transition resize-none"></textarea>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-gray-300 mb-1">Adjuntar Evidencia (Fotos, Audios, Video)</label>
-                    <div class="border-2 border-dashed border-white/10 hover:border-horror-crimson/50 rounded-xl p-4 text-center bg-black/30 cursor-pointer transition">
-                        <i class="fa-solid fa-cloud-arrow-up text-xl text-gray-500 mb-1"></i>
-                        <p class="text-[11px] text-gray-400">Haz clic para subir o arrastra un archivo</p>
-                        <p class="text-[9px] text-gray-600 mt-0.5">MP4, MP3, PNG, JPG (Máx 50MB)</p>
-                        <input type="file" class="hidden" id="file-upload" onchange="updateFileName(this)">
-                    </div>
-                    <span id="file-name" class="text-[10px] text-horror-crimson block mt-1 hidden font-semibold"></span>
-                </div>
-
-                <button type="submit" class="w-full py-3 bg-horror-crimson hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all duration-300 shadow-lg shadow-red-900/50 flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-paper-plane"></i> Enviar Expediente
-                </button>
-            </form>
-        </div>
     </div>
 
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast-notification" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50 bg-gray-900 text-white border border-white/20 px-5 py-3 rounded-2xl shadow-2xl hidden flex items-center gap-3 transition-all duration-300">
-        <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
-        <span id="toast-message" class="text-xs font-semibold">¡Mensaje enviado con éxito!</span>
-    </div>
-
-
-    <!-- ================= LOGIC & JAVASCRIPT ================= -->
+    <!-- SCRIPT DE FUNCIONALIDADES -->
     <script>
-        // Set dynamic copyright year
-        document.getElementById('year-copy').textContent = new Date().getFullYear();
+        /* ==========================================================================
+           1. LÓGICA DE PESTAÑAS (DUAL THEME)
+           ========================================================================== */
+        function switchTab(tabName) {
+            const body = document.getElementById('app-body');
+            const secCodigo0 = document.getElementById('section-codigo0');
+            const secAnimeLol = document.getElementById('section-animelol');
+            const btnCodigo0 = document.getElementById('btn-tab-codigo0');
+            const btnAnimeLol = document.getElementById('btn-tab-animelol');
 
-        // BRAND DATA
-        const brands = {
-            codigo0: {
-                title: "CÓDIGO 0",
-                tagline: "💀 Expedientes Paranormales & Misterio",
-                avatar: "https://placehold.co/150x150/12070b/ff2a2a?text=CÓDIGO+0",
-                titleClass: "font-creep text-horror-crimson drop-shadow-[0_2px_10px_rgba(255,42,42,0.5)]",
-                bodyBg: "bg-horror-theme",
-                avatarBorder: "border-horror-crimson",
-                glowClass: "from-red-600 to-red-900",
-                badgeBg: "bg-horror-crimson"
-            },
-            animelol: {
-                title: "animeLol",
-                tagline: "🎮 Gaming, Anime & Cultura Geek",
-                avatar: "https://placehold.co/150x150/0f0a21/00f0ff?text=animeLol",
-                titleClass: "font-cyber text-transparent bg-clip-text bg-gradient-to-r from-anime-purple to-anime-cyan drop-shadow-[0_2px_10px_rgba(0,240,255,0.4)]",
-                bodyBg: "bg-anime-theme",
-                avatarBorder: "border-anime-cyan",
-                glowClass: "from-purple-600 to-cyan-500",
-                badgeBg: "bg-anime-cyan"
+            if (tabName === 'codigo0') {
+                secCodigo0.classList.remove('hidden');
+                secAnimeLol.classList.add('hidden');
+
+                body.className = "min-h-screen bg-grid flex flex-col items-center justify-between p-4 sm:p-6 transition-all duration-500 theme-codigo0-bg";
+
+                btnCodigo0.className = "w-1/2 py-3 px-4 rounded-xl font-extrabold text-sm flex items-center justify-center gap-2 transition-all duration-300 bg-brand-red text-white shadow-lg shadow-brand-red/30";
+                btnAnimeLol.className = "w-1/2 py-3 px-4 rounded-xl font-extrabold text-sm flex items-center justify-center gap-2 transition-all duration-300 text-gray-400 hover:text-white";
+            } else {
+                secCodigo0.classList.add('hidden');
+                secAnimeLol.classList.remove('hidden');
+
+                body.className = "min-h-screen bg-grid flex flex-col items-center justify-between p-4 sm:p-6 transition-all duration-500 theme-animelol-bg";
+
+                btnAnimeLol.className = "w-1/2 py-3 px-4 rounded-xl font-extrabold text-sm flex items-center justify-center gap-2 transition-all duration-300 bg-purple-600 text-white shadow-lg shadow-purple-600/30";
+                btnCodigo0.className = "w-1/2 py-3 px-4 rounded-xl font-extrabold text-sm flex items-center justify-center gap-2 transition-all duration-300 text-gray-400 hover:text-white";
             }
+        }
+
+        /* ==========================================================================
+           2. GENERADOR DE MICRO-RELATOS DE TERROR
+           ========================================================================== */
+        const terrorQuotes = [
+            '"Escuché a mi madre llamarme desde la cocina. Mientras bajaba, una mano me jaló desde el armario gritando: No bajes, yo también la escuché."',
+            '"Llevo horas viendo a alguien dormido en mi cama. La policía dice que el cuerpo no tiene signos vitales, pero yo sigo despierto aquí."',
+            '"Mi teléfono tomó una foto automática con flash a las 3:00 AM. Al ver la galería, se ve algo sonriendo al lado de mi almohada."',
+            '"El sensor de movimiento de la sala se activa todas las noches a la misma hora. Hoy me armé de valor y vi cómo la sombra saludaba a la cámara."',
+            '"Trabajo limpiando un espejo antiguo. No me molesta el polvo, sino que el reflejo parpadee un segundo después que yo."'
+        ];
+
+        function generateTerrorQuote() {
+            const display = document.getElementById('terror-quote-display');
+            const randomIndex = Math.floor(Math.random() * terrorQuotes.length);
+            display.style.opacity = 0;
+            setTimeout(() => {
+                display.innerText = terrorQuotes[randomIndex];
+                display.style.opacity = 1;
+            }, 200);
+        }
+
+        /* ==========================================================================
+           3. MANEJO DEL FORMULARIO DE HISTORIAS (ANÓNIMO)
+           ========================================================================== */
+        function handleStorySubmit(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('author-name').value.trim();
+            const storyInput = document.getElementById('story-text').value.trim();
+            const author = nameInput === "" ? "Anónimo" : nameInput;
+
+            console.log("Nueva Historia Recibida:", { autor: author, relato: storyInput });
+
+            document.getElementById('story-form').reset();
+            const msg = document.getElementById('story-success-msg');
+            msg.classList.remove('hidden');
+            setTimeout(() => {
+                msg.classList.add('hidden');
+            }, 4000);
+        }
+
+        /* ==========================================================================
+           4. REACCIONES CON EMOJIS FLOTANTES
+           ========================================================================== */
+        function triggerReaction(event, emoji) {
+            const btn = event.currentTarget;
+            const countSpan = btn.querySelector('span:last-child');
+            let currentCount = parseInt(countSpan.innerText);
+            countSpan.innerText = currentCount + 1;
+
+            const floatingElem = document.createElement('span');
+            floatingElem.innerText = emoji;
+            floatingElem.className = 'floating-emoji text-2xl';
+            
+            const rect = btn.getBoundingClientRect();
+            floatingElem.style.left = (rect.left + rect.width / 2 - 10) + 'px';
+            floatingElem.style.top = (rect.top - 10) + 'px';
+
+            document.body.appendChild(floatingElem);
+            setTimeout(() => floatingElem.remove(), 1200);
+        }
+
+        /* ==========================================================================
+           5. VOTACIÓN INTERACTIVA
+           ========================================================================== */
+        function votePoll(btn) {
+            alert('¡Gracias por tu voto!');
+        }
+
+        /* ==========================================================================
+           6. COMPARTIR PÁGINA
+           ========================================================================== */
+        function shareApp() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'CÓDIGO 0 & animeLol',
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('¡Enlace copiado al portapapeles!');
+            }
+        }
+
+        /* ==========================================================================
+           7. CÁMBIA EL ENLACE DEL VIDEO DE YOUTUBE AQUÍ ABAJO
+           ========================================================================== */
+        const YOUTUBE_CONFIG = {
+            // 1. Pega aquí el link completo de tu video de YouTube para CÓDIGO 0:
+            codigo0_video_url: "youtu.be/j9D4uoKCfoI?si=beyLtu1WRjYrf2LM"
+            
+            // 2. Título de la historia o video que aparecerá en pantalla:
+            codigo0_video_title: "Temporada 2 "
         };
 
-        // TAB SWITCHING FUNCTION
-        function switchTab(tab) {
-            const body = document.getElementById('body-app');
-            const btnCodigo = document.getElementById('btn-tab-codigo0');
-            const btnAnime = document.getElementById('btn-tab-animelol');
-            const tabCodigo = document.getElementById('tab-codigo0');
-            const tabAnime = document.getElementById('tab-animelol');
-
-            const brandTitle = document.getElementById('brand-title');
-            const brandTagline = document.getElementById('brand-tagline');
-            const brandAvatar = document.getElementById('brand-avatar');
-            const avatarGlow = document.getElementById('avatar-glow');
-            const verifiedBadge = document.getElementById('verified-badge');
-
-            if (tab === 'codigo0') {
-                // Toggle Tab Buttons Styling
-                btnCodigo.className = "w-1/2 py-2.5 px-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300 bg-horror-crimson text-white shadow-lg shadow-red-900/50";
-                btnAnime.className = "w-1/2 py-2.5 px-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300 text-gray-400 hover:text-white";
-
-                // Tab Content Visibility
-                tabAnime.classList.remove('active');
-                setTimeout(() => {
-                    tabAnime.style.display = 'none';
-                    tabCodigo.style.display = 'block';
-                    setTimeout(() => tabCodigo.classList.add('active'), 50);
-                }, 300);
-
-                // Update Theme & Header
-                body.className = brands.codigo0.bodyBg + " text-gray-100 min-h-screen relative pb-16";
-                brandTitle.textContent = brands.codigo0.title;
-                brandTitle.className = "text-3xl font-black transition-all duration-300 " + brands.codigo0.titleClass;
-                brandTagline.textContent = brands.codigo0.tagline;
-                brandAvatar.src = brands.codigo0.avatar;
-                brandAvatar.className = "relative w-28 h-28 rounded-full border-2 object-cover shadow-2xl transition-all duration-500 " + brands.codigo0.avatarBorder;
-                avatarGlow.className = "absolute -inset-1 rounded-full bg-gradient-to-r blur opacity-75 group-hover:opacity-100 transition duration-500 " + brands.codigo0.glowClass;
-                verifiedBadge.className = "absolute bottom-1 right-1 text-white text-xs p-1.5 rounded-full border-2 border-black flex items-center justify-center " + brands.codigo0.badgeBg;
-
-            } else {
-                // Toggle Tab Buttons Styling
-                btnAnime.className = "w-1/2 py-2.5 px-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300 bg-gradient-to-r from-anime-purple to-anime-cyan text-black font-black shadow-lg shadow-cyan-900/50";
-                btnCodigo.className = "w-1/2 py-2.5 px-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300 text-gray-400 hover:text-white";
-
-                // Tab Content Visibility
-                tabCodigo.classList.remove('active');
-                setTimeout(() => {
-                    tabCodigo.style.display = 'none';
-                    tabAnime.style.display = 'block';
-                    setTimeout(() => tabAnime.classList.add('active'), 50);
-                }, 300);
-
-                // Update Theme & Header
-                body.className = brands.animelol.bodyBg + " text-gray-100 min-h-screen relative pb-16";
-                brandTitle.textContent = brands.animelol.title;
-                brandTitle.className = "text-3xl font-black transition-all duration-300 " + brands.animelol.titleClass;
-                brandTagline.textContent = brands.animelol.tagline;
-                brandAvatar.src = brands.animelol.avatar;
-                brandAvatar.className = "relative w-28 h-28 rounded-full border-2 object-cover shadow-2xl transition-all duration-500 " + brands.animelol.avatarBorder;
-                avatarGlow.className = "absolute -inset-1 rounded-full bg-gradient-to-r blur opacity-75 group-hover:opacity-100 transition duration-500 " + brands.animelol.glowClass;
-                verifiedBadge.className = "absolute bottom-1 right-1 text-black text-xs p-1.5 rounded-full border-2 border-black flex items-center justify-center " + brands.animelol.badgeBg;
+        // Función para convertir URLs normales de YouTube en links Embed compatibles
+        function getEmbedUrl(url) {
+            let videoId = "";
+            if (url.includes("v=")) {
+                videoId = url.split("v=")[1].split("&")[0];
+            } else if (url.includes("youtu.be/")) {
+                videoId = url.split("youtu.be/")[1].split("?")[0];
             }
+            return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
         }
 
-        // MODAL TOGGLE
-        function toggleModal(show) {
-            const modal = document.getElementById('modal-story');
-            if (show) {
-                modal.classList.remove('hidden');
-            } else {
-                modal.classList.add('hidden');
+        // Carga automática del video al iniciar la página
+        window.addEventListener('DOMContentLoaded', () => {
+            const iframe = document.getElementById('codigo0-iframe');
+            const titleDisplay = document.getElementById('codigo0-video-title-display');
+            
+            if (iframe && YOUTUBE_CONFIG.codigo0_video_url) {
+                iframe.src = getEmbedUrl(YOUTUBE_CONFIG.codigo0_video_url);
             }
-        }
-
-        // FILE NAME DISPLAY
-        function updateFileName(input) {
-            const fileNameDisplay = document.getElementById('file-name');
-            if (input.files && input.files[0]) {
-                fileNameDisplay.textContent = "📁 Archivo listo: " + input.files[0].name;
-                fileNameDisplay.classList.remove('hidden');
+            if (titleDisplay && YOUTUBE_CONFIG.codigo0_video_title) {
+                titleDisplay.innerText = YOUTUBE_CONFIG.codigo0_video_title;
             }
-        }
-
-        // FORM SUBMISSION MOCKUP
-        function submitParanormalStory(event) {
-            event.preventDefault();
-            toggleModal(false);
-            showToast("👁️ Historia recibida. La analizaremos detenidamente.", "fa-ghost", "text-horror-crimson");
-            document.getElementById('form-paranormal').reset();
-            document.getElementById('file-name').classList.add('hidden');
-        }
-
-        // POLL VOTE MOCKUP
-        function votePoll(btn, option) {
-            document.getElementById('poll-options').style.display = 'none';
-            document.getElementById('poll-thankyou').classList.remove('hidden');
-            showToast(`🎉 ¡Voto registrado por ${option}!`, "fa-fire", "text-amber-400");
-        }
-
-        // TOAST NOTIFICATION UTILITY
-        function showToast(msg, iconClass, colorClass) {
-            const toast = document.getElementById('toast-notification');
-            const toastMsg = document.getElementById('toast-message');
-            const toastIcon = document.getElementById('toast-icon');
-
-            toastMsg.textContent = msg;
-            toastIcon.className = `fa-solid ${iconClass} ${colorClass}`;
-
-            toast.classList.remove('hidden');
-            setTimeout(() => {
-                toast.classList.add('hidden');
-            }, 3500);
-        }
+        });
     </script>
 </body>
 </html>
