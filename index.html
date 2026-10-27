@@ -1,454 +1,545 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CÓDIGO 0 & animeLol | Enlaces Oficiales</title>
+    <title>CÓDIGO 0 × animeLol | Hub Oficial</title>
     
-    <!-- Meta Open Graph para compartir en redes sociales -->
-    <meta property="og:title" content="CÓDIGO 0 & animeLol">
-    <meta property="og:description" content="Expedientes paranormales, relatos cortos, anime y gaming. ¡Únete a nuestra comunidad!">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://anime-lol.vercel.app/">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Fuentes e Iconos (FontAwesome) -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Orbitron:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Custom Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        horror: {
+                            base: '#080305',
+                            card: '#12070b',
+                            crimson: '#ff2a2a',
+                            glow: 'rgba(255, 42, 42, 0.4)',
+                            border: '#3a0d14'
+                        },
+                        anime: {
+                            base: '#070510',
+                            card: '#0f0a21',
+                            purple: '#9d4edd',
+                            cyan: '#00f0ff',
+                            glowPurple: 'rgba(157, 78, 221, 0.4)',
+                            glowCyan: 'rgba(0, 240, 255, 0.4)',
+                            border: '#2a1b4e'
+                        }
+                    },
+                    fontFamily: {
+                        creep: ['Creepster', 'cursive'],
+                        cyber: ['Orbitron', 'sans-serif'],
+                        body: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
-        :root {
-            --bg-dark: #09090b;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --card-hover: rgba(255, 255, 255, 0.08);
-            --accent-horror: #ef4444;
-            --accent-anime: #3b82f6;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-        }
-
+        /* CSS Custom Styles & Cyber Effects */
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #050308;
             overflow-x: hidden;
-            padding: 40px 20px;
+            transition: background-color 0.5s ease;
         }
 
-        /* Fondo dinámico sutil con gradientes */
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 20%, rgba(139, 0, 0, 0.15), transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(30, 58, 138, 0.15), transparent 50%);
-            z-index: -1;
+        /* Scanline Overlay for retro vibe */
+        .scanline {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0, 0, 0, 0.3) 50%,
+                rgba(0, 0, 0, 0.3)
+            );
+            background-size: 100% 4px;
         }
 
-        .container {
-            width: 100%;
-            max-width: 600px;
-            display: flex;
-            flex-direction: column;
-            gap: 50px;
+        /* Glowing Effects */
+        .glow-horror {
+            box-shadow: 0 0 25px rgba(255, 42, 42, 0.35);
+        }
+        .glow-horror-btn:hover {
+            box-shadow: 0 0 20px rgba(255, 42, 42, 0.6);
+            border-color: #ff2a2a;
         }
 
-        section {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+        .glow-anime {
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
+        }
+        .glow-anime-btn:hover {
+            box-shadow: 0 0 20px rgba(157, 78, 221, 0.6);
+            border-color: #00f0ff;
         }
 
-        .section-header {
-            text-align: center;
-            margin-bottom: 5px;
+        /* Animated Ambient Background Gradients */
+        .bg-horror-theme {
+            background: radial-gradient(circle at 50% 20%, #2b0208 0%, #080305 70%);
+        }
+        .bg-anime-theme {
+            background: radial-gradient(circle at 50% 20%, #1d0936 0%, #070510 70%);
         }
 
-        .section-header h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+        /* Tab Transition Animations */
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .section-header p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            letter-spacing: 2px;
-            margin-top: 5px;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-
-        /* Tarjetas de enlaces con Glassmorphism */
-        .links-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        ::-webkit-scrollbar-track {
+            background: #050308;
         }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 16px;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            text-decoration: none;
-            color: var(--text-main);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .card:hover {
-            background: var(--card-hover);
-            transform: translateY(-4px);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-icon {
-            font-size: 1.8rem;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            flex-shrink: 0;
-        }
-
-        .card-content h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 3px;
-        }
-
-        .card-content p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.4;
-        }
-
-        /* Contenedor del Reproductor de Video */
-        .video-container {
-            width: 100%;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 16px;
-            padding: 18px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .video-container h3 {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%; /* Relación 16:9 */
-            height: 0;
-            overflow: hidden;
-            border-radius: 12px;
-            background: #000;
-        }
-
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-
-        /* Cuadro para enviar historias paranormales */
-        .story-box {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 16px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .story-box h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .story-box h3 i {
-            color: var(--accent-horror);
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .form-group label {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .story-box input, 
-        .story-box textarea {
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--card-border);
-            border-radius: 10px;
-            padding: 12px 15px;
-            color: var(--text-main);
-            font-size: 0.9rem;
-            outline: none;
-            transition: border-color 0.3s;
-            resize: vertical;
-        }
-
-        .story-box input:focus, 
-        .story-box textarea:focus {
-            border-color: var(--accent-horror);
-        }
-
-        .story-box textarea {
-            min-height: 110px;
-        }
-
-        .story-btn {
-            background: linear-gradient(135deg, #ef4444, #991b1b);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 12px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: opacity 0.3s, transform 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .story-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-
-        @media (max-width: 480px) {
-            body { padding: 20px 12px; }
-            .container { gap: 35px; }
-            .card { padding: 15px; gap: 15px; }
+        ::-webkit-scrollbar-thumb {
+            background: #2a1b4e;
+            border-radius: 4px;
         }
     </style>
 </head>
-<body>
+<body id="body-app" class="bg-horror-theme text-gray-100 min-h-screen relative pb-16">
 
-    <div class="container">
-        
-        <!-- SECCIÓN: CÓDIGO 0 (PARANORMAL) -->
-        <section>
-            <div class="section-header" style="color: var(--accent-horror);">
-                <h1>CÓDIGO 0</h1>
-                <p>Expedientes Paranormales</p>
+    <!-- Scanline visual texture overlay -->
+    <div class="pointer-events-none fixed inset-0 z-50 scanline opacity-30"></div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-md mx-auto px-4 pt-8 relative z-10">
+
+        <!-- HEADER SECTION -->
+        <header class="text-center mb-8 flex flex-col items-center">
+            
+            <!-- Avatar with dynamic glowing ring -->
+            <div class="relative group cursor-pointer mb-4">
+                <div id="avatar-glow" class="absolute -inset-1 rounded-full bg-gradient-to-r from-red-600 to-red-900 blur opacity-75 group-hover:opacity-100 transition duration-500"></div>
+                <img id="brand-avatar" 
+                     src="https://placehold.co/150x150/12070b/ff2a2a?text=CÓDIGO+0" 
+                     alt="Brand Avatar" 
+                     class="relative w-28 h-28 rounded-full border-2 border-horror-crimson object-cover shadow-2xl transition-all duration-500">
+                <span id="verified-badge" class="absolute bottom-1 right-1 bg-horror-crimson text-white text-xs p-1.5 rounded-full border-2 border-black flex items-center justify-center">
+                    <i class="fa-solid fa-check"></i>
+                </span>
             </div>
 
-            <div class="links-grid">
-                <a href="https://youtube.com/@codigo0-of" target="_blank" class="card">
-                    <div class="card-icon"><i class="fa-brands fa-youtube" style="color: #ff0000;"></i></div>
-                    <div class="card-content">
-                        <h3>YouTube</h3>
-                        <p>Mira los últimos episodios y documentales de terror.</p>
+            <!-- Dynamic Brand Title & Tagline -->
+            <h1 id="brand-title" class="text-3xl font-black font-creep tracking-wider text-horror-crimson drop-shadow-[0_2px_10px_rgba(255,42,42,0.5)] transition-all duration-300">
+                CÓDIGO 0
+            </h1>
+            <p id="brand-tagline" class="text-xs tracking-widest text-gray-400 mt-1 uppercase font-semibold transition-all duration-300">
+                💀 Expedientes Paranormales & Misterio
+            </p>
+
+            <!-- DUAL THEME TAB SWITCHER -->
+            <div class="w-full bg-black/60 p-1.5 rounded-2xl border border-white/10 backdrop-blur-md flex items-center justify-between mt-6 shadow-inner">
+                <button id="btn-tab-codigo0" onclick="switchTab('codigo0')" class="w-1/2 py-2.5 px-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300 bg-horror-crimson text-white shadow-lg shadow-red-900/50">
+                    <i class="fa-solid fa-ghost text-sm"></i> CÓDIGO 0
+                </button>
+                <button id="btn-tab-animelol" onclick="switchTab('animelol')" class="w-1/2 py-2.5 px-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300 text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-gamepad text-sm"></i> animeLol
+                </button>
+            </div>
+        </header>
+
+        <!-- ================= TAB 1: CÓDIGO 0 (PARANORMAL) ================= -->
+        <section id="tab-codigo0" class="tab-content active space-y-5">
+            
+            <!-- Social Links Grid -->
+            <div class="space-y-3">
+                <!-- YouTube -->
+                <a href="https://www.youtube.com/@codigo0-of" target="_blank" rel="noopener noreferrer" class="group block w-full bg-horror-card/90 border border-horror-border hover:border-horror-crimson p-3.5 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 glow-horror-btn flex items-center justify-between">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-red-600/20 text-horror-crimson flex items-center justify-center text-xl border border-red-600/30">
+                            <i class="fa-brands fa-youtube"></i>
+                        </div>
+                        <div class="text-left">
+                            <h3 class="font-bold text-sm text-white group-hover:text-horror-crimson transition-colors">Canal Principal YouTube</h3>
+                            <p class="text-xs text-gray-400">@codigo0-of • Documentales & Terror</p>
+                        </div>
                     </div>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-500 group-hover:text-horror-crimson transition-colors"></i>
                 </a>
 
-                <!-- REPRODUCTOR DE VIDEO DESTACADO DE YOUTUBE -->
-                <div class="video-container">
-                    <h3><i class="fa-solid fa-play" style="color: var(--accent-horror);"></i> Último Video Destacado</h3>
-                    <div class="video-wrapper">
-                        <iframe id="featuredVideo" 
-                                src="" 
-                                title="Video Destacado CÓDIGO 0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                        </iframe>
+                <!-- TikTok -->
+                <a href="https://www.tiktok.com/@codigo_0oficial" target="_blank" rel="noopener noreferrer" class="group block w-full bg-horror-card/90 border border-horror-border hover:border-horror-crimson p-3.5 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 glow-horror-btn flex items-center justify-between">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-gray-800/60 text-white flex items-center justify-center text-xl border border-gray-700">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </div>
+                        <div class="text-left">
+                            <h3 class="font-bold text-sm text-white group-hover:text-horror-crimson transition-colors">TikTok Oficial</h3>
+                            <p class="text-xs text-gray-400">@codigo_0oficial • Clips Rápidos de Miedo</p>
+                        </div>
                     </div>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-500 group-hover:text-horror-crimson transition-colors"></i>
+                </a>
+
+                <!-- Facebook Group / Page -->
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="group block w-full bg-horror-card/90 border border-horror-border hover:border-horror-crimson p-3.5 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 glow-horror-btn flex items-center justify-between">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-blue-600/20 text-blue-500 flex items-center justify-center text-xl border border-blue-600/30">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </div>
+                        <div class="text-left">
+                            <h3 class="font-bold text-sm text-white group-hover:text-horror-crimson transition-colors">Comunidad de Facebook</h3>
+                            <p class="text-xs text-gray-400">Debates y Evidencias en Vivo</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-500 group-hover:text-horror-crimson transition-colors"></i>
+                </a>
+            </div>
+
+            <!-- Featured Video Embed Card -->
+            <div class="bg-horror-card/90 border border-horror-border rounded-2xl p-4 shadow-xl relative overflow-hidden">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-bold text-horror-crimson flex items-center gap-1.5 uppercase tracking-wider">
+                        <span class="w-2 h-2 rounded-full bg-horror-crimson animate-ping"></span>
+                        Último Caso Investigado
+                    </span>
+                    <i class="fa-solid fa-skull text-horror-crimson/50"></i>
+                </div>
+                <div class="relative w-full aspect-video rounded-xl overflow-hidden border border-white/10 bg-black">
+                    <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/videoseries?list=PL3KnTfyqS_-mE8T0WlS3uY6C0R5A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <!-- Send Your Paranormal Story CTA Card -->
+            <div class="bg-gradient-to-br from-horror-card to-black border border-horror-crimson/40 rounded-2xl p-5 text-center relative overflow-hidden glow-horror">
+                <div class="absolute top-0 right-0 p-3 opacity-10 text-horror-crimson text-6xl pointer-events-none">
+                    <i class="fa-solid fa-book-dead"></i>
+                </div>
+                <h3 class="font-creep text-xl text-horror-crimson tracking-wide mb-1">¿Tienes una historia real?</h3>
+                <p class="text-xs text-gray-300 mb-4">Envíanos tu relato o metraje paranormal para investigarlo y relatarlo en el canal.</p>
+                <button onclick="toggleModal(true)" class="w-full py-3 bg-horror-crimson hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all duration-300 shadow-lg shadow-red-900/50 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Enviar mi Historia Paranormal
+                </button>
+            </div>
+
+        </section>
+
+
+        <!-- ================= TAB 2: ANIMELOL (ANIME & GAMING) ================= -->
+        <section id="tab-animelol" class="tab-content space-y-5">
+            
+            <!-- Social Links Grid -->
+            <div class="space-y-3">
+                <!-- YouTube Gaming -->
+                <a href="https://www.youtube.com/@animelolgames01" target="_blank" rel="noopener noreferrer" class="group block w-full bg-anime-card/90 border border-anime-border hover:border-anime-cyan p-3.5 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 glow-anime-btn flex items-center justify-between">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-purple-600/20 text-anime-purple flex items-center justify-center text-xl border border-purple-600/30">
+                            <i class="fa-brands fa-youtube"></i>
+                        </div>
+                        <div class="text-left">
+                            <h3 class="font-bold text-sm text-white group-hover:text-anime-cyan transition-colors">YouTube Gaming</h3>
+                            <p class="text-xs text-gray-400">@animelolgames01 • Gameplays & Anime</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-500 group-hover:text-anime-cyan transition-colors"></i>
+                </a>
+
+                <!-- TikTok Anime -->
+                <a href="https://www.tiktok.com/@animelol01" target="_blank" rel="noopener noreferrer" class="group block w-full bg-anime-card/90 border border-anime-border hover:border-anime-cyan p-3.5 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 glow-anime-btn flex items-center justify-between">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-cyan-600/20 text-anime-cyan flex items-center justify-center text-xl border border-cyan-600/30">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </div>
+                        <div class="text-left">
+                            <h3 class="font-bold text-sm text-white group-hover:text-anime-cyan transition-colors">TikTok Anime & Memes</h3>
+                            <p class="text-xs text-gray-400">@animelol01 • Reels & Highlights</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-500 group-hover:text-anime-cyan transition-colors"></i>
+                </a>
+
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/animelol_01" target="_blank" rel="noopener noreferrer" class="group block w-full bg-anime-card/90 border border-anime-border hover:border-anime-cyan p-3.5 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 glow-anime-btn flex items-center justify-between">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-pink-600/20 text-pink-400 flex items-center justify-center text-xl border border-pink-600/30">
+                            <i class="fa-brands fa-instagram"></i>
+                        </div>
+                        <div class="text-left">
+                            <h3 class="font-bold text-sm text-white group-hover:text-anime-cyan transition-colors">Instagram Oficial</h3>
+                            <p class="text-xs text-gray-400">@animelol_01 • Fotos, Setup & Otaku Life</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-500 group-hover:text-anime-cyan transition-colors"></i>
+                </a>
+            </div>
+
+            <!-- Featured Gaming/Anime Stream Highlight -->
+            <div class="bg-anime-card/90 border border-anime-border rounded-2xl p-4 shadow-xl relative overflow-hidden">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-bold text-anime-cyan flex items-center gap-1.5 uppercase tracking-wider">
+                        <span class="w-2 h-2 rounded-full bg-anime-cyan animate-ping"></span>
+                        Highlight Destacado
+                    </span>
+                    <i class="fa-solid fa-wand-magic-sparkles text-anime-purple"></i>
+                </div>
+                <div class="relative w-full aspect-video rounded-xl overflow-hidden border border-white/10 bg-black">
+                    <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/videoseries?list=PL3KnTfyqS_-mE8T0WlS3uY6C0R5A" title="YouTube Gaming player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <!-- Interactive Anime Quiz / Poll Widget -->
+            <div class="bg-gradient-to-br from-anime-card to-black border border-anime-purple/40 rounded-2xl p-5 text-center relative overflow-hidden glow-anime">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[10px] font-cyber text-anime-cyan uppercase tracking-widest">Encuesta Otaku</span>
+                    <i class="fa-solid fa-fire text-amber-400"></i>
+                </div>
+                <h3 class="font-cyber text-sm font-bold text-white tracking-wide mb-3">¿Tu género de anime favorito?</h3>
+                
+                <div id="poll-options" class="space-y-2 text-left">
+                    <button onclick="votePoll(this, 'Shonen')" class="w-full p-2.5 rounded-xl border border-white/10 bg-black/40 hover:bg-anime-purple/20 text-xs text-gray-200 transition-all flex items-center justify-between group">
+                        <span>🔥 Shonen / Acción</span>
+                        <span class="text-gray-500 text-[10px] group-hover:text-anime-cyan">Votar</span>
+                    </button>
+                    <button onclick="votePoll(this, 'Isekai')" class="w-full p-2.5 rounded-xl border border-white/10 bg-black/40 hover:bg-anime-purple/20 text-xs text-gray-200 transition-all flex items-center justify-between group">
+                        <span>🌀 Isekai / Fantasía</span>
+                        <span class="text-gray-500 text-[10px] group-hover:text-anime-cyan">Votar</span>
+                    </button>
+                    <button onclick="votePoll(this, 'Seinen')" class="w-full p-2.5 rounded-xl border border-white/10 bg-black/40 hover:bg-anime-purple/20 text-xs text-gray-200 transition-all flex items-center justify-between group">
+                        <span>🧠 Seinen / Psicológico</span>
+                        <span class="text-gray-500 text-[10px] group-hover:text-anime-cyan">Votar</span>
+                    </button>
+                </div>
+                <div id="poll-thankyou" class="hidden text-xs text-anime-cyan font-semibold py-2">
+                    ¡Gracias por votar! 🎉 Pronto analizaremos los resultados en vivo.
+                </div>
+            </div>
+
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="mt-12 text-center text-xs text-gray-500 font-medium">
+            <p>© <span id="year-copy"></span> CÓDIGO 0 × animeLol</p>
+            <p class="text-[10px] text-gray-600 mt-1">Diseñado para la comunidad • Todos los derechos reservados</p>
+        </footer>
+
+    </main>
+
+
+    <!-- ================= PARANORMAL STORY MODAL ================= -->
+    <div id="modal-story" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4 transition-all duration-300">
+        <div class="bg-horror-card border border-horror-crimson/50 rounded-2xl w-full max-w-md p-6 relative shadow-2xl glow-horror max-h-[90vh] overflow-y-auto">
+            
+            <!-- Close Button -->
+            <button onclick="toggleModal(false)" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center mb-5">
+                <div class="w-12 h-12 rounded-full bg-red-900/30 text-horror-crimson border border-horror-crimson/50 flex items-center justify-center text-xl mx-auto mb-2">
+                    <i class="fa-solid fa-ghost"></i>
+                </div>
+                <h3 class="font-creep text-2xl text-horror-crimson tracking-wide">Envía tu Historia</h3>
+                <p class="text-xs text-gray-400">Escribe lo que viviste o adjunta tu evidencia</p>
+            </div>
+
+            <!-- Form -->
+            <form id="form-paranormal" onsubmit="submitParanormalStory(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Nombre o Apodo</label>
+                    <input type="text" required placeholder="Ej: Anónimo o Juan P." class="w-full bg-black/60 border border-white/10 focus:border-horror-crimson rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none transition">
                 </div>
 
-                <a href="https://www.tiktok.com/@codigo_0oficial" target="_blank" class="card">
-                    <div class="card-icon"><i class="fa-brands fa-tiktok"></i></div>
-                    <div class="card-content">
-                        <h3>TikTok</h3>
-                        <p>Relatos cortos y avistamientos en menos de 60 segundos.</p>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Correo Electrónico o Teléfono</label>
+                    <input type="text" required placeholder="Para contactarte si la relatamos" class="w-full bg-black/60 border border-white/10 focus:border-horror-crimson rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none transition">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Tu Relato Paranormal</label>
+                    <textarea rows="4" required placeholder="Cuenta los detalles: hora, lugar, qué sentiste u observaste..." class="w-full bg-black/60 border border-white/10 focus:border-horror-crimson rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none transition resize-none"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Adjuntar Evidencia (Fotos, Audios, Video)</label>
+                    <div class="border-2 border-dashed border-white/10 hover:border-horror-crimson/50 rounded-xl p-4 text-center bg-black/30 cursor-pointer transition">
+                        <i class="fa-solid fa-cloud-arrow-up text-xl text-gray-500 mb-1"></i>
+                        <p class="text-[11px] text-gray-400">Haz clic para subir o arrastra un archivo</p>
+                        <p class="text-[9px] text-gray-600 mt-0.5">MP4, MP3, PNG, JPG (Máx 50MB)</p>
+                        <input type="file" class="hidden" id="file-upload" onchange="updateFileName(this)">
                     </div>
-                </a>
+                    <span id="file-name" class="text-[10px] text-horror-crimson block mt-1 hidden font-semibold"></span>
+                </div>
 
-                <a href="https://www.facebook.com/share/1b5mJWb9oY/" target="_blank" class="card">
-                    <div class="card-icon"><i class="fa-brands fa-facebook" style="color: #1877f2;"></i></div>
-                    <div class="card-content">
-                        <h3>Comunidad</h3>
-                        <p>Únete al grupo de investigación en Facebook.</p>
-                    </div>
-                </a>
-            </div>
-
-            <!-- FORMULARIO DE ENVÍO DE HISTORIAS -->
-            <div class="story-box">
-                <h3><i class="fa-solid fa-ghost"></i> Envía tu Historia Paranormal</h3>
-                
-                <form id="storyForm">
-                    <!-- Clave única de Web3Forms -->
-                    <input type="hidden" name="access_key" value="7f155daa-de12-49dc-ae3a-1077da40bd2a">
-                    <input type="hidden" name="from_name" value="CÓDIGO 0 - Web">
-                    <input type="hidden" name="subject" value="Nueva Historia Paranormal Recibida">
-
-                    <div class="form-group" style="margin-bottom: 12px;">
-                        <label for="storyTitle">Título de tu historia (Opcional):</label>
-                        <input type="text" id="storyTitle" name="Título de la historia" placeholder="Ej. El susurro en la madrugada">
-                    </div>
-
-                    <div class="form-group" style="margin-bottom: 12px;">
-                        <label for="storyAuthor">Tu nombre o firma (Opcional - Déjalo vacío para anónimo):</label>
-                        <input type="text" id="storyAuthor" name="Autor o Firma" placeholder="Ej. Carlos M. o Anónimo">
-                    </div>
-
-                    <div class="form-group" style="margin-bottom: 15px;">
-                        <label for="storyContent">Tu relato paranormal:</label>
-                        <textarea id="storyContent" name="Relato Paranormal" placeholder="Escribe aquí tu experiencia o avistamiento con todo el detalle posible..." required></textarea>
-                    </div>
-
-                    <button type="submit" id="submitBtn" class="story-btn">
-                        <i class="fa-solid fa-paper-plane"></i> Enviar Historia
-                    </button>
-                </form>
-
-                <!-- Mensaje de estado al enviar -->
-                <div id="responseStatus" style="display: none; text-align: center; padding: 12px; font-size: 0.9rem; border-radius: 10px; margin-top: 10px;"></div>
-            </div>
-        </section>
-
-        <!-- SECCIÓN: ANIMELOL (ANIME & GAMING) -->
-        <section>
-            <div class="section-header" style="color: var(--accent-anime);">
-                <h1>animeLol</h1>
-                <p>CULTURA ANIME &amp; GAMING</p>
-            </div>
-
-            <div class="links-grid">
-                <a href="https://m.youtube.com/%40animelolgames01" target="_blank" class="card">
-                    <div class="card-icon"><i class="fa-brands fa-youtube" style="color: #ff0000;"></i></div>
-                    <div class="card-content">
-                        <h3>YouTube</h3>
-                        <p>Review de juegos, noticias y directos especiales.</p>
-                    </div>
-                </a>
-
-                <a href="https://www.instagram.com/animelol_01" target="_blank" class="card">
-                    <div class="card-icon"><i class="fa-brands fa-instagram" style="color: #e4405f;"></i></div>
-                    <div class="card-content">
-                        <h3>Instagram</h3>
-                        <p>Arte, Reels y el detrás de cámaras de animeLol.</p>
-                    </div>
-                </a>
-
-                <a href="https://www.tiktok.com/@animelol01" target="_blank" class="card">
-                    <div class="card-icon"><i class="fa-brands fa-tiktok"></i></div>
-                    <div class="card-content">
-                        <h3>TikTok</h3>
-                        <p>Clips virales y tendencias de la temporada.</p>
-                    </div>
-                </a>
-            </div>
-        </section>
-
+                <button type="submit" class="w-full py-3 bg-horror-crimson hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all duration-300 shadow-lg shadow-red-900/50 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Enviar Expediente
+                </button>
+            </form>
+        </div>
     </div>
 
-    <!-- SCRIPT DE CONTROL Y ENVÍO -->
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast-notification" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 z-50 bg-gray-900 text-white border border-white/20 px-5 py-3 rounded-2xl shadow-2xl hidden flex items-center gap-3 transition-all duration-300">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="toast-message" class="text-xs font-semibold">¡Mensaje enviado con éxito!</span>
+    </div>
+
+
+    <!-- ================= LOGIC & JAVASCRIPT ================= -->
     <script>
-        // ⚙️ Para cambiar el video en el futuro, solo modifica esta ID
-        const YOUTUBE_VIDEO_ID = 'tnmxPB4GEPc';
-        document.getElementById('featuredVideo').src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}`;
+        // Set dynamic copyright year
+        document.getElementById('year-copy').textContent = new Date().getFullYear();
 
-        // Control del envío del formulario en segundo plano
-        const form = document.getElementById('storyForm');
-        const statusDiv = document.getElementById('responseStatus');
-        const submitBtn = document.getElementById('submitBtn');
-
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';
-
-            const formData = new FormData(form);
-            
-            // Si el usuario deja los campos opcionales vacíos, se colocan valores por defecto
-            if (!formData.get('Título de la historia').trim()) {
-                formData.set('Título de la historia', 'Sin título');
+        // BRAND DATA
+        const brands = {
+            codigo0: {
+                title: "CÓDIGO 0",
+                tagline: "💀 Expedientes Paranormales & Misterio",
+                avatar: "https://placehold.co/150x150/12070b/ff2a2a?text=CÓDIGO+0",
+                titleClass: "font-creep text-horror-crimson drop-shadow-[0_2px_10px_rgba(255,42,42,0.5)]",
+                bodyBg: "bg-horror-theme",
+                avatarBorder: "border-horror-crimson",
+                glowClass: "from-red-600 to-red-900",
+                badgeBg: "bg-horror-crimson"
+            },
+            animelol: {
+                title: "animeLol",
+                tagline: "🎮 Gaming, Anime & Cultura Geek",
+                avatar: "https://placehold.co/150x150/0f0a21/00f0ff?text=animeLol",
+                titleClass: "font-cyber text-transparent bg-clip-text bg-gradient-to-r from-anime-purple to-anime-cyan drop-shadow-[0_2px_10px_rgba(0,240,255,0.4)]",
+                bodyBg: "bg-anime-theme",
+                avatarBorder: "border-anime-cyan",
+                glowClass: "from-purple-600 to-cyan-500",
+                badgeBg: "bg-anime-cyan"
             }
-            if (!formData.get('Autor o Firma').trim()) {
-                formData.set('Autor o Firma', 'Anónimo');
+        };
+
+        // TAB SWITCHING FUNCTION
+        function switchTab(tab) {
+            const body = document.getElementById('body-app');
+            const btnCodigo = document.getElementById('btn-tab-codigo0');
+            const btnAnime = document.getElementById('btn-tab-animelol');
+            const tabCodigo = document.getElementById('tab-codigo0');
+            const tabAnime = document.getElementById('tab-animelol');
+
+            const brandTitle = document.getElementById('brand-title');
+            const brandTagline = document.getElementById('brand-tagline');
+            const brandAvatar = document.getElementById('brand-avatar');
+            const avatarGlow = document.getElementById('avatar-glow');
+            const verifiedBadge = document.getElementById('verified-badge');
+
+            if (tab === 'codigo0') {
+                // Toggle Tab Buttons Styling
+                btnCodigo.className = "w-1/2 py-2.5 px-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300 bg-horror-crimson text-white shadow-lg shadow-red-900/50";
+                btnAnime.className = "w-1/2 py-2.5 px-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300 text-gray-400 hover:text-white";
+
+                // Tab Content Visibility
+                tabAnime.classList.remove('active');
+                setTimeout(() => {
+                    tabAnime.style.display = 'none';
+                    tabCodigo.style.display = 'block';
+                    setTimeout(() => tabCodigo.classList.add('active'), 50);
+                }, 300);
+
+                // Update Theme & Header
+                body.className = brands.codigo0.bodyBg + " text-gray-100 min-h-screen relative pb-16";
+                brandTitle.textContent = brands.codigo0.title;
+                brandTitle.className = "text-3xl font-black transition-all duration-300 " + brands.codigo0.titleClass;
+                brandTagline.textContent = brands.codigo0.tagline;
+                brandAvatar.src = brands.codigo0.avatar;
+                brandAvatar.className = "relative w-28 h-28 rounded-full border-2 object-cover shadow-2xl transition-all duration-500 " + brands.codigo0.avatarBorder;
+                avatarGlow.className = "absolute -inset-1 rounded-full bg-gradient-to-r blur opacity-75 group-hover:opacity-100 transition duration-500 " + brands.codigo0.glowClass;
+                verifiedBadge.className = "absolute bottom-1 right-1 text-white text-xs p-1.5 rounded-full border-2 border-black flex items-center justify-center " + brands.codigo0.badgeBg;
+
+            } else {
+                // Toggle Tab Buttons Styling
+                btnAnime.className = "w-1/2 py-2.5 px-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300 bg-gradient-to-r from-anime-purple to-anime-cyan text-black font-black shadow-lg shadow-cyan-900/50";
+                btnCodigo.className = "w-1/2 py-2.5 px-3 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300 text-gray-400 hover:text-white";
+
+                // Tab Content Visibility
+                tabCodigo.classList.remove('active');
+                setTimeout(() => {
+                    tabCodigo.style.display = 'none';
+                    tabAnime.style.display = 'block';
+                    setTimeout(() => tabAnime.classList.add('active'), 50);
+                }, 300);
+
+                // Update Theme & Header
+                body.className = brands.animelol.bodyBg + " text-gray-100 min-h-screen relative pb-16";
+                brandTitle.textContent = brands.animelol.title;
+                brandTitle.className = "text-3xl font-black transition-all duration-300 " + brands.animelol.titleClass;
+                brandTagline.textContent = brands.animelol.tagline;
+                brandAvatar.src = brands.animelol.avatar;
+                brandAvatar.className = "relative w-28 h-28 rounded-full border-2 object-cover shadow-2xl transition-all duration-500 " + brands.animelol.avatarBorder;
+                avatarGlow.className = "absolute -inset-1 rounded-full bg-gradient-to-r blur opacity-75 group-hover:opacity-100 transition duration-500 " + brands.animelol.glowClass;
+                verifiedBadge.className = "absolute bottom-1 right-1 text-black text-xs p-1.5 rounded-full border-2 border-black flex items-center justify-center " + brands.animelol.badgeBg;
             }
+        }
 
-            try {
-                const response = await fetch('https://api.web3forms.com/submit', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    statusDiv.style.display = 'block';
-                    statusDiv.style.background = 'rgba(34, 197, 94, 0.2)';
-                    statusDiv.style.color = '#4ade80';
-                    statusDiv.style.border = '1px solid #22c55e';
-                    statusDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> ¡Historia enviada con éxito! Gracias por compartirla con CÓDIGO 0.';
-                    form.reset();
-                } else {
-                    throw new Error(result.message);
-                }
-            } catch (error) {
-                statusDiv.style.display = 'block';
-                statusDiv.style.background = 'rgba(239, 68, 68, 0.2)';
-                statusDiv.style.color = '#f87171';
-                statusDiv.style.border = '1px solid #ef4444';
-                statusDiv.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Hubo un error al enviar. Por favor, inténtalo de nuevo.';
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Enviar Historia';
+        // MODAL TOGGLE
+        function toggleModal(show) {
+            const modal = document.getElementById('modal-story');
+            if (show) {
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
             }
-        });
+        }
+
+        // FILE NAME DISPLAY
+        function updateFileName(input) {
+            const fileNameDisplay = document.getElementById('file-name');
+            if (input.files && input.files[0]) {
+                fileNameDisplay.textContent = "📁 Archivo listo: " + input.files[0].name;
+                fileNameDisplay.classList.remove('hidden');
+            }
+        }
+
+        // FORM SUBMISSION MOCKUP
+        function submitParanormalStory(event) {
+            event.preventDefault();
+            toggleModal(false);
+            showToast("👁️ Historia recibida. La analizaremos detenidamente.", "fa-ghost", "text-horror-crimson");
+            document.getElementById('form-paranormal').reset();
+            document.getElementById('file-name').classList.add('hidden');
+        }
+
+        // POLL VOTE MOCKUP
+        function votePoll(btn, option) {
+            document.getElementById('poll-options').style.display = 'none';
+            document.getElementById('poll-thankyou').classList.remove('hidden');
+            showToast(`🎉 ¡Voto registrado por ${option}!`, "fa-fire", "text-amber-400");
+        }
+
+        // TOAST NOTIFICATION UTILITY
+        function showToast(msg, iconClass, colorClass) {
+            const toast = document.getElementById('toast-notification');
+            const toastMsg = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastMsg.textContent = msg;
+            toastIcon.className = `fa-solid ${iconClass} ${colorClass}`;
+
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3500);
+        }
     </script>
 </body>
 </html>
